@@ -58,11 +58,6 @@ const CatalogoFlores = () => {
   };
 
   
-
-  
-
-
-
   //--> Indicar estado de la flor
   const getSeverity = (flor) => {
     switch (flor.estatus) {
@@ -102,8 +97,7 @@ const CatalogoFlores = () => {
                   <span className="font-semibold">{flor.categoria}</span>
                 </span>
               </div>
-             
-                
+  
             </div>
             
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
