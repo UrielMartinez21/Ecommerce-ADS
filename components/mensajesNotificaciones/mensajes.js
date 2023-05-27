@@ -8,4 +8,4 @@ export const passwordsInValidas = "Las contraseñas no coinciden."
 //--> Token
 export const tokenInvalido = "Token invalido."
 
-// Esto es una prueba de conexion
+
