@@ -1,8 +1,9 @@
 import Layout from "@/layout/layout"
 import { Button } from 'primereact/button';
 import { Avatar } from 'primereact/avatar';
-
+import { useRouter } from 'next/router';
 const Perfil = () => {
+  const router = useRouter();
   return (
     <Layout
       title="Perfil"
@@ -32,7 +33,7 @@ const Perfil = () => {
               </div>
               <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-star flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
-                <Button label="Favoritos" text className="flex align-items-center justify-content-center m-2" />
+                <Button label="Favoritos"  onClick={() => { router.push('/pages/usuario/favoritos') }}  text className="flex align-items-center justify-content-center m-2" />
               </div>
               <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-clock flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
