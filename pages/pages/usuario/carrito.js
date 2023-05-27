@@ -5,9 +5,9 @@ import { Button } from 'primereact/button';
 import { Image } from 'primereact/image';
 import { Tag } from 'primereact/tag';
 
-
+import { useRouter } from 'next/router';
 const CarritoCompras = () => {
-
+  const router = useRouter();
   const [flores, setFlores] = useState([])
 
   useEffect(() => {
@@ -21,6 +21,14 @@ const CarritoCompras = () => {
     ]
     setFlores(datosFlores)
   }, [])
+
+
+  const IrComprar = () => {
+    //--> Redireccionar
+    router.push('/pages/usuario/RealizarPago/realizarpago')
+
+    
+  }
 
   const getSeverity = (flor) => {
     switch (flor.estatus) {
@@ -128,7 +136,7 @@ const CarritoCompras = () => {
               <h2>Total: ${getTotalPrice()}</h2>
             </div>
             <div className="flex align-items-left">
-              <Button label="Pagar" severity="success" />
+              <Button label="Pagar" onClick={IrComprar} severity="success" />
             </div>
           </div>
         </div>
