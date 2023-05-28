@@ -12,8 +12,7 @@ const miCuenta = () => {
   return (
     <Layout
       title="Perfil"
-      description="Mi Cuenta"
-    >
+      description="Mi Cuenta">
       <div className="grid">
         <div className="col-12">
           <div className="card">
@@ -26,10 +25,6 @@ const miCuenta = () => {
               <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-user-edit flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
                 <Button label="Nombre Elegido" text className="flex align-items-center justify-content-center m-2" onClick={() => { router.push('/pages/usuario/modifDatos/modifNom')}} />
-              </div>
-              <div className="flex align-items-center flex-wrap my-2">
-                <i className="pi pi-envelope flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
-                <Button label="E-mail" text className="flex align-items-center justify-content-center m-2" onClick={() => { router.push('/pages/usuario/modifDatos/modifEmail')}} />
               </div>
               <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-lock align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>

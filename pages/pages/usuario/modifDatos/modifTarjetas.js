@@ -24,18 +24,17 @@ const cards = () => {
   const {nombre, terminacion, tipo, delRow, index} = props
   return (
     
-    <tr>  
-      <div className="mt-3">
+    <tr className="mt-5">  
+      
       <td>
       <Button size="small"  icon="pi pi-trash"  rounded  severity="danger" onClick={ () => {delRow(index)}} /> 
       </td> 
-      <td >
+      <td>
       <i className="pi pi-credit-card align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
       </td>
       <td className="text-2 font-bold text-900" >
         {nombre}{terminacion} <br />{tipo}
         </td>
-        </div>
     </tr>
     
   )

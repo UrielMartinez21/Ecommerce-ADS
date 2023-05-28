@@ -66,8 +66,6 @@ const ChangeLocation = () => {
         setEstiloCPostal('')
         setEstiloCalleUno('')
       }
-      //--> Validar password
-   
   
 
     //--> Limpiar campos
@@ -111,7 +109,7 @@ const ChangeLocation = () => {
       <div className="grid ">
         <div className="col-12">
           <div className="card">
-            <h3 textAlignCenter>Modificar mi dirección</h3>
+            <h3 >Modificar mi dirección</h3>
 
             <div className='flex align-items-rigth flex-wrap'> 
             <div className='field'> 
@@ -125,9 +123,7 @@ const ChangeLocation = () => {
               <Avatar label="O" size="xlarge" shape="circle" className="flex align-items-center justify-content-center m-2" />
               <p className="flex align-items-center justify-content-center m-2">Hola  <span className="underline">Omarcito</span></p>
             </div>
-
-        
-              
+    
               <div className="p-fluid grid">
                 <div className='field col-18 md:col-6'>
                 <label className="block text-900 text-xl font-medium mb-4">Calle:</label>
@@ -207,7 +203,7 @@ const ChangeLocation = () => {
                  
                 <label className="block text-900 text-xl font-medium mb-5">Ingrese otras especificaciones: </label>
                 <InputTextarea id="especificaciones" value={indicaciones}
-                 onChange={(e) => setIndicaciones(e.value)} rows={4} className="p-invalid" />
+                 onChange={(e) => setIndicaciones(e.value)} rows={4} className="p-invalid"/>
                   
                    </div> 
                    </div>
