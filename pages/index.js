@@ -3,7 +3,8 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
 import AppConfig from '@/layout/AppConfig';
-// import { Checkbox } from 'primereact/checkbox';
+
+import axios from 'axios';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { Password } from 'primereact/password';
@@ -17,7 +18,7 @@ import myImage from '../imagenes/login/loto.jpg';
 import myImage1 from '../imagenes/login/flower1.jpeg';
 import loto from '../imagenes/login/principal1.png';
 import styles from '../styles/styles.module.css';
-import { restablecerPass } from '@/components/mensajesNotificaciones/notificaciones';
+import { logueado, restablecerPass } from '@/components/mensajesNotificaciones/notificaciones';
 
 
 
@@ -45,7 +46,7 @@ export default function Home() {
 
   const validarEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/
   //--> Envio de datos
-  const validarEnvio = () => {
+  const validarEnvio = async () => {
     if ([email, password].includes('')) {
       setEstiloEmail('p-invalid')
       setEstiloPassword('p-invalid')
@@ -69,8 +70,18 @@ export default function Home() {
       return
     } else { setEstiloPassword('') }
     setMensajeAdvertencia('')
-    console.log("Envio exitoso")
-    router.push('/pages/dashboard')
+    //--> Validar envio a back-end
+    try {
+      const respuesta = await axios.post("http://localhost:4000/api/usuarios/login", { email: email, password: password })
+      if (respuesta.status === 200) {
+        toast.current.show({ severity: 'success', summary: `${logueado.titulo}`, life: 3000 });
+        setTimeout(() => { router.push('/pages/dashboard') }, 1000)
+      }
+    } catch (error) {
+      toast.current.show({
+        severity: 'error', summary: "Lo sentimos", detail: "Ocurrio un error", life: 3000
+      });
+    }
   }
 
 
