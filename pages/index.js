@@ -70,18 +70,19 @@ export default function Home() {
       return
     } else { setEstiloPassword('') }
     setMensajeAdvertencia('')
+    router.push('/pages/dashboard')
     //--> Validar envio a back-end
-    try {
-      const respuesta = await axios.post("http://localhost:4000/api/usuarios/login", { email: email, password: password })
-      if (respuesta.status === 200) {
-        toast.current.show({ severity: 'success', summary: `${logueado.titulo}`, life: 3000 });
-        setTimeout(() => { router.push('/pages/dashboard') }, 1000)
-      }
-    } catch (error) {
-      toast.current.show({
-        severity: 'error', summary: "Lo sentimos", detail: "Ocurrio un error", life: 3000
-      });
-    }
+    // try {
+    //   const respuesta = await axios.post("http://localhost:4000/api/usuarios/login", { email: email, password: password })
+    //   if (respuesta.status === 200) {
+    //     toast.current.show({ severity: 'success', summary: `${logueado.titulo}`, life: 3000 });
+    //     setTimeout(() => { router.push('/pages/dashboard') }, 1000)
+    //   }
+    // } catch (error) {
+    //   toast.current.show({
+    //     severity: 'error', summary: "Lo sentimos", detail: "Ocurrio un error", life: 3000
+    //   });
+    // }
   }
 
 

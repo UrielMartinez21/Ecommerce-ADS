@@ -14,39 +14,39 @@ const CatalogoFlores = () => {
   //-->Detalles de flor
   const [detallesFlor, setDetallesFlor] = useState({})
   const [mostrarDialog, setMostrarDialog] = useState(false)
+  //--> Buscador
+  const [buscador, setBuscador] = useState('')
 
   //--> Ejecucion en segundo plano
-  useEffect(() => {
-    const datosFlores = [
-      {
-        nombre: "Rosa", precio: 5.90, categoria: "primavera", estatus: "disponible",
-        imagen: "https://png.pngtree.com/png-vector/20210710/ourmid/pngtree-close-up-of-rose-simulation-growth-png-image_3580749.jpg", descripcion: "Descripcion de rosa"
-      },
-      {
-        nombre: "Tulipan", precio: 6.20, categoria: "otoño", estatus: "agotado",
-        imagen: "https://w7.pngwing.com/pngs/666/928/png-transparent-tulip-free-content-flower-georgia-bulldogs-leaf-heart-computer-wallpaper.png",
-        descripcion: "Descripcion de tulipan"
-      },
-      {
-        nombre: "Girasol", precio: 3.50, categoria: "invierno", estatus: "pocos",
-        imagen: "https://media.admagazine.com/photos/61eb22cb9b19d943aa117b30/master/w_1600%2Cc_limit/Girasol.jpg",
-        descripcion: "Descripcion de girasol"
-      },
-      {
-        nombre: "Setosa", precio: 25.23, categoria: "primavera", estatus: "pocos",
-        imagen: "https://img1.freepng.es/20180314/vbq/kisspng-bird-echeveria-agavoides-echeveria-setosa-graptope-lotus-design-material-5aa973bd8fb253.3676960215210546535886.jpg", descripcion: "Descripcion de setosa"
-      },
-      {
-        nombre: "Gardenia", precio: 78.60, categoria: "verano", estatus: "disponible",
-        imagen: "https://us.123rf.com/450wm/rprongjai/rprongjai1910/rprongjai191000001/131915934-flores-de-gardenia-sobre-fondo-blanco.jpg?ver=6", descripcion: "Descripcion de gardenia"
-      },
-      {
-        nombre: "Versicolor", precio: 84.69, categoria: "verano", estatus: "agotado",
-        imagen: "https://img2.freepng.es/20180409/wce/kisspng-cut-flowers-iris-versicolor-iris-5acb7fdb4bc3d7.6318569115232859793103.jpg", descripcion: "Descripcion de versicolor"
-      },
-    ]
-    setFlores(datosFlores)
-  }, [])
+  const datosFlores = [
+    {
+      nombre: "Rosa", precio: 5.90, categoria: "primavera", estatus: "disponible",
+      imagen: "https://png.pngtree.com/png-vector/20210710/ourmid/pngtree-close-up-of-rose-simulation-growth-png-image_3580749.jpg", descripcion: "Descripcion de rosa"
+    },
+    {
+      nombre: "Tulipan", precio: 6.20, categoria: "otoño", estatus: "agotado",
+      imagen: "https://w7.pngwing.com/pngs/666/928/png-transparent-tulip-free-content-flower-georgia-bulldogs-leaf-heart-computer-wallpaper.png",
+      descripcion: "Descripcion de tulipan"
+    },
+    {
+      nombre: "Girasol", precio: 3.50, categoria: "invierno", estatus: "pocos",
+      imagen: "https://media.admagazine.com/photos/61eb22cb9b19d943aa117b30/master/w_1600%2Cc_limit/Girasol.jpg",
+      descripcion: "Descripcion de girasol"
+    },
+    {
+      nombre: "Setosa", precio: 25.23, categoria: "primavera", estatus: "pocos",
+      imagen: "https://img1.freepng.es/20180314/vbq/kisspng-bird-echeveria-agavoides-echeveria-setosa-graptope-lotus-design-material-5aa973bd8fb253.3676960215210546535886.jpg", descripcion: "Descripcion de setosa"
+    },
+    {
+      nombre: "Gardenia", precio: 78.60, categoria: "verano", estatus: "disponible",
+      imagen: "https://us.123rf.com/450wm/rprongjai/rprongjai1910/rprongjai191000001/131915934-flores-de-gardenia-sobre-fondo-blanco.jpg?ver=6", descripcion: "Descripcion de gardenia"
+    },
+    {
+      nombre: "Versicolor", precio: 84.69, categoria: "verano", estatus: "agotado",
+      imagen: "https://img2.freepng.es/20180409/wce/kisspng-cut-flowers-iris-versicolor-iris-5acb7fdb4bc3d7.6318569115232859793103.jpg", descripcion: "Descripcion de versicolor"
+    },
+  ]
+  useEffect(() => { setFlores(datosFlores) }, [])
 
   //--> Indicar estado de la flor
   const getSeverity = (flor) => {
@@ -86,7 +86,7 @@ const CatalogoFlores = () => {
               <span className="text-2xl font-semibold mt-8">${flor.precio}</span>
             </div>
 
-            <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2">
+            <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2 mt-6">
               <Button label="Favoritos" icon="pi pi-heart" rounded severity="help"
                 aria-label="Favorite" className="p-button-rounded" />
               <Button label="Agregar" icon="pi pi-shopping-cart" className="p-button-rounded"
@@ -141,15 +141,28 @@ const CatalogoFlores = () => {
     else if (layout === 'grid') return gridItem(flor);
   };
 
+  const iniciarBusqueda = () => {
+    let floresFiltradas
+    floresFiltradas = datosFlores.filter(flor => buscador == flor.nombre)
+    if (floresFiltradas.length === 0) { floresFiltradas = datosFlores.filter(flor => buscador == flor.categoria) }
+    if (floresFiltradas.length === 0) { floresFiltradas = datosFlores.filter(flor => buscador == flor.estatus) }
+    setFlores(floresFiltradas)
+  }
+
+  const limpiarBusqueda = () => {
+    setBuscador("")
+    setFlores(datosFlores)
+  }
+
   //--> Barra para cambiar modo de vista
   const header = () => {
     return (
       <div className="flex justify-content-between">
-        <span className="p-input-icon-left pr-2">
-          <i className="pi pi-search" />
-          <Button icon="pi pi-search" className="p-button-warning" />
-          <InputText placeholder="Buscar" />
-        </span>
+        <div className="p-inputgroup w-4">
+          <Button icon="pi pi-search" onClick={iniciarBusqueda} />
+          <InputText placeholder="Buscar por categoria" value={buscador} onChange={e => setBuscador(e.target.value)} />
+          <Button icon="pi pi-times" onClick={limpiarBusqueda} disabled={buscador ? false : true} />
+        </div>
 
         <DataViewLayoutOptions layout={layout} onChange={(e) => setLayout(e.value)} />
       </div>
@@ -187,15 +200,17 @@ const CatalogoFlores = () => {
             <Dialog
               header={`Detalles de ${detallesFlor.nombre}`}
               visible={mostrarDialog} onHide={cerrarDialogo}
-              footer={botonesDialogo} style={{ width: '50vw' }}
+              footer={botonesDialogo} style={{ width: '35vw' }}
             >
-              <div className="mx-auto">
+              <div className="flex justify-content-center">
                 <img src={detallesFlor.imagen} style={{ width: '200px', height: '200px' }} />
-                <p className="m-0">Nombre:{detallesFlor.nombre}</p>
-                <p className="m-0">Precio:{detallesFlor.precio}</p>
-                <p className="m-0">Categoria:{detallesFlor.categoria}</p>
-                <p className="m-0">Estatus: {detallesFlor.estatus}</p>
-                <p className="m-0">Descripcion: {detallesFlor.descripcion}</p>
+              </div>
+              <div className="mt-5">
+                <p className="my-2"><span className="font-semibold text-lg">Nombre: </span>{detallesFlor.nombre}</p>
+                <p className="my-2"><span className="font-semibold text-lg">Precio: </span>${detallesFlor.precio}</p>
+                <p className="my-2"><span className="font-semibold text-lg">Categoria: </span>{detallesFlor.categoria}</p>
+                <p className="my-2"><span className="font-semibold text-lg">Estatus: </span>{detallesFlor.estatus}</p>
+                <p className="my-2"><span className="font-semibold text-lg">Descripcion: </span>{detallesFlor.descripcion}</p>
               </div>
             </Dialog>
 
