@@ -24,10 +24,8 @@ const AppMenu = () => {
       label: 'Usuario',
       items: [
         { label: 'Personalizar arreglo', icon: 'pi pi-fw pi-gift', to: '/pages/usuario/personalizararreglo' },
-        { label: 'Carrito de compras', icon: 'pi pi-fw pi-shopping-cart', to: '/pages/usuario/carrito' },
         { label: 'Mis Compras', icon: 'pi pi-fw pi-shopping-bag', to: '/pages/usuario/miscompras' },
         { label: 'Atención al cliente', icon: 'pi pi-fw pi-comments', to: '/pages/usuario/atencionclientes' },
-        // { label: 'Configuración', icon: 'pi pi-fw pi-cog', to: '/pages/usuario/perfil' },
       ]
     }
     // {
