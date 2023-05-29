@@ -144,8 +144,9 @@ const CatalogoFlores = () => {
   const iniciarBusqueda = () => {
     let floresFiltradas
     floresFiltradas = datosFlores.filter(flor => buscador == flor.nombre)
-    if (floresFiltradas.length === 0) { floresFiltradas = datosFlores.filter(flor => buscador == flor.categoria) }
-    if (floresFiltradas.length === 0) { floresFiltradas = datosFlores.filter(flor => buscador == flor.estatus) }
+    if (floresFiltradas.length === 0) { floresFiltradas = datosFlores.filter(flor => buscador === flor.categoria) }
+    if (floresFiltradas.length === 0) { floresFiltradas = datosFlores.filter(flor => buscador === flor.estatus) }
+    if (floresFiltradas.length === 0) { floresFiltradas = datosFlores.filter(flor => buscador == flor.precio) }
     setFlores(floresFiltradas)
   }
 

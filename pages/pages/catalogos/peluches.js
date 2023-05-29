@@ -147,8 +147,9 @@ const CatalogoFlores = () => {
   const iniciarBusqueda = () => {
     let peluchesFiltrados
     peluchesFiltrados = datosPeluches.filter(peluche => buscador == peluche.nombre)
-    if (peluchesFiltrados.length === 0) { peluchesFiltrados = datosPeluches.filter(peluche => buscador == peluche.categoria) }
-    if (peluchesFiltrados.length === 0) { peluchesFiltrados = datosPeluches.filter(peluche => buscador == peluche.estatus) }
+    if (peluchesFiltrados.length === 0) { peluchesFiltrados = datosPeluches.filter(peluche => buscador === peluche.categoria) }
+    if (peluchesFiltrados.length === 0) { peluchesFiltrados = datosPeluches.filter(peluche => buscador === peluche.estatus) }
+    if (peluchesFiltrados.length === 0) { peluchesFiltrados = datosPeluches.filter(peluche => buscador == peluche.precio) }
     setPeluches(peluchesFiltrados)
   }
 
