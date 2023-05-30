@@ -43,8 +43,8 @@ const AppTopbar = forwardRef((props, ref) => {
     <div className="layout-topbar">
       <ConfirmDialog />
       <Link href="/pages/dashboard" className="layout-topbar-logo">
-        <img src={`/layout/images/logo-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
-        <span>Jardin del Eden</span>
+        <img src={`/principal2.svg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
+        <span>Jardín del Edén</span>
       </Link>
 
       <button ref={menubuttonRef} type="button" className="p-link layout-menu-button layout-topbar-button" onClick={onMenuToggle}>
