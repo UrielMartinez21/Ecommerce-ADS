@@ -1,16 +1,14 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import Head from 'next/head';
 import AppConfig from '@/layout/AppConfig';
 
 import axios from 'axios';
-import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
+import { Message } from 'primereact/message';
 import { Password } from 'primereact/password';
 import { InputText } from 'primereact/inputtext';
-import { classNames } from 'primereact/utils';
-import { LayoutContext } from '@/layout/context/layoutcontext';
 
 import * as components from './components';
 import Image from 'next/image';
@@ -18,17 +16,14 @@ import myImage from '../imagenes/login/loto.jpg';
 import myImage1 from '../imagenes/login/flower1.jpeg';
 import loto from '../imagenes/login/principal1.png';
 import styles from '../styles/styles.module.css';
-import { logueado, restablecerPass } from '@/components/mensajesNotificaciones/notificaciones';
+import { iniciarSesion, resetearPassword } from '@/components/mensajesNotificaciones/links';
+import {
+  campoVacio, camposVacios, emailInvalido, passwordInvalido, resetearExitoso
+} from '@/components/mensajesNotificaciones/mensajes';
 
 
 
 export default function Home() {
-  //--> Uso de contexto
-  const { layoutConfig } = useContext(LayoutContext);
-
-  //--> Mensajes y notificaciones
-  const toast = useRef(null);
-
   //----------------| Lista de variables |----------------
   const [signIn, toggle] = useState(true);
   // --> Campos de entrada
@@ -39,19 +34,22 @@ export default function Home() {
   const [estiloEmail, setEstiloEmail] = useState('')
   const [estiloPassword, setEstiloPassword] = useState('')
   const [estiloEmailRec, setEstiloEmailRec] = useState('')
-  const [mensajeAdvertencia, setMensajeAdvertencia] = useState('')
+  const [estiloRespuesta, setEstiloRespuesta] = useState('')
+  //--> Mensaje de respuesta
+  const [mensajeRespuesta, setMensajeRespuesta] = useState('')
 
   const router = useRouter();
-  const containerClassName = classNames('surface-ground flex align-items-center justify-content-center min-h-screen min-w-screen overflow-hidden', { 'p-input-filled': layoutConfig.inputStyle === 'filled' });
 
   const validarEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/
+
   //--> Envio de datos
   const validarEnvio = async () => {
     if ([email, password].includes('')) {
       setEstiloEmail('p-invalid')
       setEstiloPassword('p-invalid')
-      setMensajeAdvertencia("Todos los campos son obligatorios")
-      setTimeout(() => { setMensajeAdvertencia('') }, 3000)
+      setEstiloRespuesta('error')
+      setMensajeRespuesta(camposVacios)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000)
       return
     } else {
       setEstiloEmail('')
@@ -59,53 +57,69 @@ export default function Home() {
     }
     if (!validarEmail.test(email)) {
       setEstiloEmail('p-invalid')
-      setMensajeAdvertencia("El email no es valido")
-      setTimeout(() => { setMensajeAdvertencia('') }, 3000)
+      setMensajeRespuesta(emailInvalido)
+      setEstiloRespuesta('error')
+      setTimeout(() => { setMensajeRespuesta('') }, 3000)
       return
     } else { setEstiloEmail('') }
     if (password.length < 6) {
       setEstiloPassword('p-invalid')
-      setMensajeAdvertencia("La contraseña es muy corta")
-      setTimeout(() => { setMensajeAdvertencia('') }, 3000)
+      setMensajeRespuesta(passwordInvalido)
+      setEstiloRespuesta('error')
+      setTimeout(() => { setMensajeRespuesta('') }, 3000)
       return
     } else { setEstiloPassword('') }
-    setMensajeAdvertencia('')
-    router.push('/pages/dashboard')
+    setMensajeRespuesta('')
     //--> Validar envio a back-end
-    // try {
-    //   const respuesta = await axios.post("http://localhost:4000/api/usuarios/login", { email: email, password: password })
-    //   if (respuesta.status === 200) {
-    //     toast.current.show({ severity: 'success', summary: `${logueado.titulo}`, life: 3000 });
-    //     setTimeout(() => { router.push('/pages/dashboard') }, 1000)
-    //   }
-    // } catch (error) {
-    //   toast.current.show({
-    //     severity: 'error', summary: "Lo sentimos", detail: "Ocurrio un error", life: 3000
-    //   });
-    // }
+    try {
+      const respuesta = await axios.post(iniciarSesion, { emailCliente: email, passwordCliente: password })
+      if (respuesta.status === 200) { setTimeout(() => { router.push('/pages/dashboard') }, 1000) }
+    } catch (error) {
+      setMensajeRespuesta(error.response.data.msg)
+      setEstiloRespuesta('error')
+      setEstiloEmail('p-invalid')
+      setEstiloPassword('p-invalid')
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
+    }
   }
 
-
-  const validarEnvio2 = () => {
+  const recuperarPassword = async () => {
+    console.log("recuperar password")
     if ([emailrecuperar].includes('')) {
       setEstiloEmailRec('p-invalid')
-      setMensajeAdvertencia("Todos los campos son obligatorios")
-      setTimeout(() => { setMensajeAdvertencia('') }, 3000)
+      setMensajeRespuesta(campoVacio)
+      setEstiloRespuesta('error')
+      setTimeout(() => { setMensajeRespuesta('') }, 3000)
       return
     } else { setEstiloEmailRec('') }
+
     if (!validarEmail.test(emailrecuperar)) {
       setEstiloEmailRec('p-invalid')
-      setMensajeAdvertencia("El email no es valido")
-      setTimeout(() => { setMensajeAdvertencia('') }, 3000)
+      setMensajeRespuesta(emailInvalido)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000)
       return
     } else { setEstiloEmailRec('') }
-    // --> Limpiar variables
-    setMensajeAdvertencia('')
-    setEmailrecuperar('')
-    // --> Informar estatus 
-    toast.current.show({
-      severity: 'success', summary: `${restablecerPass.titulo}`, detail: `${restablecerPass.contenido}`, life: 3000
-    });
+
+    try {
+      const respuesta = await axios.post(resetearPassword, { emailCliente: emailrecuperar })
+      if (respuesta.status === 200) {
+        // --> Limpiar variables
+        setEmailrecuperar('')
+
+        //--> Mostrar estado de la peticion
+        setEstiloRespuesta('success')
+        setMensajeRespuesta(resetearExitoso)
+
+        //--> Redireccionar
+        setTimeout(() => { router.push('/pages/pantallainicio/tokenresetear') }, 1000)
+      }
+    } catch (error) {
+      setEstiloEmailRec('p-invalid')
+      setMensajeRespuesta(error.response.data.msg)
+      setEstiloRespuesta('error')
+
+      setTimeout(() => { setMensajeRespuesta('') }, 3000)
+    }
   }
 
 
@@ -129,7 +143,6 @@ export default function Home() {
 
 
       <components.Container className={`card m-auto mt-8 ${styles.card}`} >
-        <Toast ref={toast} />
         <components.SignUpContainer className={`card ${styles.card}`} signinIn={signIn}>
           <components.Form  >
 
@@ -141,9 +154,14 @@ export default function Home() {
               inputid="email1" value={emailrecuperar} onChange={(e) => setEmailrecuperar(e.target.value)}
               type="text" placeholder="Email address" className={`block text-900  mb-2 w-full p-3  ${estiloEmailRec}`}
             />
+            {mensajeRespuesta &&
+              (
+                <div className='my-2'>
+                  <Message severity={estiloRespuesta} text={mensajeRespuesta} />
+                </div>
+              )}
 
-            <Button label="Enviar" className="w-full p-3 text-xl" title="enviar" onClick={validarEnvio2} />
-            {mensajeAdvertencia && (<p className='font-bold text-center bg-red-600 text-white mt-4 py-2'>{mensajeAdvertencia}</p>)}
+            <Button label="Enviar" className="w-full p-3 text-xl" title="enviar" onClick={recuperarPassword} />
             <components.Anchor onClick={() => toggle(true)}  >Iniciar Sesión</components.Anchor>
 
 
@@ -171,10 +189,9 @@ export default function Home() {
             <components.Parrafo onClick={() => toggle(false)} className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }}>¿Olvidaste tu contraseña?</components.Parrafo>
             <Button label="Iniciar Sesion" className="w-full p-3 mb-3 text-xl" onClick={validarEnvio} />
 
-            {mensajeAdvertencia && (<p className='font-bold text-center bg-red-600 text-white mt-4 py-2'>{mensajeAdvertencia}</p>)}
-
-
-
+            {mensajeRespuesta &&
+              (<Message severity={estiloRespuesta} text={mensajeRespuesta} />)
+            }
 
             <components.Parrafo>¿Eres Nuevo?</components.Parrafo>
             <div className="flex align-items-center">
@@ -197,7 +214,6 @@ export default function Home() {
               <components.GhostButton onClick={() => toggle(true)}>Iniciar Sesión</components.GhostButton>
             </components.leftOverLayPanel>
 
-
             <components.RightOverLayPanel signinIn={signIn}>
               <components.Title>Bienvenido de nuevo!</components.Title>
               <components.Title2>Jardín del Edén</components.Title2>
@@ -207,18 +223,9 @@ export default function Home() {
             <Image src={myImage} className={styles['my-image']} alt="Mi imagen" priority={true} />
           </components.Overlay>
         </components.OverlayContainer>
-
-
       </components.Container>
       <AppConfig />
-
-
-
-
-
-
     </>
-
   )
 }
 

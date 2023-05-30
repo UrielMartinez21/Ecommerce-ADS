@@ -1,34 +1,29 @@
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import Head from 'next/head';
 import AppConfig from '@/layout/AppConfig';
 import axios from 'axios';
 //--> Componentes de primeReact
-import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
+import { Message } from 'primereact/message';
 import { Password } from 'primereact/password';
-import { Messages } from 'primereact/messages';
-import { useRouter } from 'next/router';
 import { InputText } from "primereact/inputtext";
+import { useRouter } from 'next/router';
 
 //-->Imagenes 
 import Image from 'next/image';
 import loto from '../../../imagenes/login/principal2.png';
-
-
 import back from '../../../public/images/background.gif';
+
 //--> Componentes propios
-import { camposVacios, emailInvalido, passwordInvalido, passwordsInValidas } from '@/components/mensajesNotificaciones/mensajes';
-import { errorCrearUsuario, usuarioCreado } from '@/components/mensajesNotificaciones/notificaciones';
+import {
+  camposVacios, emailInvalido, exitoCuenta, passwordInvalido, passwordsInValidas
+} from '@/components/mensajesNotificaciones/mensajes';
 import { nuevoUsuario } from '@/components/mensajesNotificaciones/links';
 
 
 const CrearCuenta = () => {
   //--> Variable de redireccinamiento
   const router = useRouter();
-
-  //--> Mensajes y notificaciones
-  const toast = useRef(null);
-  const msgs = useRef(null);
 
   //-----------------------| Lista de variables |-----------------------
   //--> Campos de entrada
@@ -41,13 +36,12 @@ const CrearCuenta = () => {
   const [estiloNombre, setEstiloNombre] = useState('')
   const [estiloPassword, setEstiloPassword] = useState('')
   const [estiloConfirmPass, setEstiloConfirmPass] = useState('')
+  const [estiloMensajeRespuesta, setEstiloMensajeRespuesta] = useState('')
+  //--> Mensajes
+  const [mensajeRespuesta, setMensajeRespuesta] = useState('')
 
   //-----------------------| Expresion regular |-----------------------
   const validarEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/
-
-  //-----------------------| Mensajes de advertencia |-----------------------
-  const mostrarMensaje = (mensaje) => { msgs.current.show({ severity: 'error', detail: `${mensaje}`, sticky: true, closable: false }) };
-  const limpiarMensaje = () => { msgs.current.clear() }
 
   //-----------------------| Envio |-----------------------
   const crearUsuario = async () => {
@@ -57,8 +51,10 @@ const CrearCuenta = () => {
       if (!nombre) setEstiloNombre('p-invalid')
       if (!password) setEstiloPassword('p-invalid')
       if (!confirmPassword) setEstiloConfirmPass('p-invalid')
-      mostrarMensaje(camposVacios)
-      setTimeout(() => { limpiarMensaje() }, 3000)
+      setMensajeRespuesta(camposVacios)
+      setEstiloMensajeRespuesta('error')
+
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
       return
     } else {
       setEstiloEmail('')
@@ -70,16 +66,18 @@ const CrearCuenta = () => {
     //--> Validar email
     if (!validarEmail.test(email)) {
       setEstiloEmail('p-invalid')
-      mostrarMensaje(emailInvalido)
-      setTimeout(() => { limpiarMensaje() }, 3000)
+      setEstiloMensajeRespuesta('error')
+      setMensajeRespuesta(emailInvalido)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
       return
     } else { setEstiloEmail('') }
 
     //--> Validar password
     if (password.length < 6) {
       setEstiloPassword('p-invalid')
-      mostrarMensaje(passwordInvalido)
-      setTimeout(() => { limpiarMensaje() }, 3000)
+      setEstiloMensajeRespuesta('error')
+      setMensajeRespuesta(passwordInvalido)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
       return
     } else { setEstiloPassword('') }
 
@@ -87,8 +85,9 @@ const CrearCuenta = () => {
     if (password !== confirmPassword) {
       setEstiloPassword('p-invalid')
       setEstiloConfirmPass('p-invalid')
-      mostrarMensaje(passwordsInValidas)
-      setTimeout(() => { limpiarMensaje() }, 3000)
+      setEstiloMensajeRespuesta('error')
+      setMensajeRespuesta(passwordsInValidas)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
       return
     } else {
       setEstiloPassword('')
@@ -97,19 +96,24 @@ const CrearCuenta = () => {
 
     try {
       const objetoCrearUsuario = { nombreCliente: nombre, emailCliente: email, passwordCliente: password }
-      await axios.post(nuevoUsuario, objetoCrearUsuario)
+      const respuesta = await axios.post(nuevoUsuario, objetoCrearUsuario)
       //--> Limpiar campos
       setEmail('')
       setNombre('')
       setPassword('')
       setEstiloConfirmPass('')
-      //--> Notificar estatus despues de validarlo con back-end
-      toast.current.show({ severity: 'success', summary: `${usuarioCreado.titulo}`, detail: `${usuarioCreado.contenido}`, life: 3000 });
-      setTimeout(() => { router.push('/pages/pantallainicio/token') }, 1000);
+      //--> Redireccionar
+      if (respuesta.status === 200) {
+        //--> Notificar estatus despues de validarlo con back-end
+        setMensajeRespuesta(exitoCuenta)
+        setEstiloMensajeRespuesta('success')
+        setTimeout(() => { router.push('/pages/pantallainicio/token') }, 1000)
+      }
     } catch (error) {
-      toast.current.show({ severity: 'success', summary: `${errorCrearUsuario.titulo}`, detail: `${errorCrearUsuario.contenido}`, life: 3000 });
+      setEstiloMensajeRespuesta('error')
+      setMensajeRespuesta(error.response.data.msg)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000)
     }
-
   }
 
   const cancelarCreacion = () => {
@@ -128,12 +132,10 @@ const CrearCuenta = () => {
     //--> Redireccionar
     router.push('/')
 
-
   }
 
   return (
     <>
-
       <Head>
         <title>Jardin del Eden - Crear usuario</title>
         <meta charSet="UTF-8" />
@@ -151,16 +153,12 @@ const CrearCuenta = () => {
       <Image src={back} priority={true} className="z-0" style={{ width: '100vw', height: '100vh', filter: 'blur(1px)', position: 'absolute' }} alt="Mi imagen" />
       <div className='flex h-screen  overflow-auto '>
 
-        <Toast ref={toast} />
-
         <div className="z-1">
           <div className={`scalein animation-duration-1000  xl:col-6 md:col-7 sm:col-offset-6 m-auto`}>
             <div className='card  shadow-5'>
 
               <Image src={loto} priority={true} style={{ width: '18%', height: '13%', marginLeft: '40%' }} alt="Mi imagen" />
               <h1 className={`font-bold text-center`}>Crear cuenta</h1>
-
-
 
               <div className="card-container mx-auto text-center ">
                 <div className='field'>
@@ -193,9 +191,11 @@ const CrearCuenta = () => {
                   />
                 </div>
 
-                <div className='mx-auto' style={{ width: "200px", textAlign: "center" }}>
-                  <Messages ref={msgs} />
-                </div>
+                {mensajeRespuesta && (
+                  <div className='mx-auto my-3' style={{ width: "600px", textAlign: "center" }}>
+                    <Message severity={estiloMensajeRespuesta} text={mensajeRespuesta} />
+                  </div>
+                )}
 
                 <div className='flex justify-content-center mb-2'>
                   <Button label="Aceptar" className='mr-2 w-full p-3 md:w-13rem' onClick={crearUsuario} severity="success" size="large" />

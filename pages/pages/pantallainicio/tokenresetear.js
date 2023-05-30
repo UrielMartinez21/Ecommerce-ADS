@@ -4,15 +4,17 @@ import AppConfig from '@/layout/AppConfig';
 //--> Componentes de primeReact
 import axios from 'axios';
 import { Button } from 'primereact/button';
+import { Dialog } from 'primereact/dialog';
 import { Message } from 'primereact/message';
+import { Password } from 'primereact/password';
 import { InputText } from "primereact/inputtext";
 import { useRouter } from 'next/router';
 //--> Componentes propios
 import { temporizador } from '@/helpers/funciones';
-import { campoVacio, longiudTokenInvalida, tokenExpirado, exitoToken } from '@/components/mensajesNotificaciones/mensajes';
-import { validarToken } from '@/components/mensajesNotificaciones/links';
+import { campoVacio, longiudTokenInvalida, tokenExpirado, exitoToken, exitoResetPassword, passwordsInValidas, passwordInvalido } from '@/components/mensajesNotificaciones/mensajes';
+import { cambiarPassword, tokenResetearPassword } from '@/components/mensajesNotificaciones/links';
 
-const Token = () => {
+const TokenResetear = () => {
   //--> Variable de redireccinamiento
   const router = useRouter();
 
@@ -23,6 +25,14 @@ const Token = () => {
   //--> Token
   const [token, setToken] = useState('')
   const [estiloToken, setEstiloToken] = useState('')
+  //--> Passwords
+  const [password, setPassword] = useState('')
+  const [confirmPass, setConfirmPass] = useState('')
+  //--> Estilos de passwords
+  const [estiloPassword, setEstiloPassword] = useState('')
+  const [estiloConfirmPass, setEstiloConfirmPass] = useState('')
+  //--> Dialogo
+  const [mostrarDialogo, setMostrarDialogo] = useState(false)
   //--> Respuesta del back-end
   const [mensajeRespuesta, setMensajeRespuesta] = useState('')
   const [estiloMensajeRespuesta, setEstiloMensajeRespuesta] = useState('')
@@ -63,18 +73,16 @@ const Token = () => {
 
     //--> Validar envio en back-end
     try {
-      const respuesta = await axios.get(`${validarToken}${token}`)
+      const respuesta = await axios.get(`${tokenResetearPassword}${token}`)
       //--> Limpiar campo y estilo
-      setToken('')
       setEstiloToken('')
       if (respuesta.status === 200) {
         //--> Avisar estado
-        setMensajeRespuesta(exitoToken)
-        setEstiloMensajeRespuesta('success')
+        // setMensajeRespuesta(exitoToken)
+        // setEstiloMensajeRespuesta('success')
 
-        //--> Redireccionar al login
-        setTimeout(() => { router.push('/') }, 1200)
-
+        //--> Mostrar dialogo
+        setMostrarDialogo(true)
         //--> Detener temporizador
         setTiempo(0)
       }
@@ -94,13 +102,62 @@ const Token = () => {
     }
   }
 
+  const nuevoPassword = async () => {
+    if (!password) {
+      setEstiloPassword('p-invalid')
+      setEstiloMensajeRespuesta('error')
+      setMensajeRespuesta(campoVacio)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
+      return
+    } else { setEstiloPassword('') }
+
+    //--> Validar password
+    if (password.length < 6) {
+      setEstiloPassword('p-invalid')
+      setEstiloMensajeRespuesta('error')
+      setMensajeRespuesta(passwordInvalido)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
+      return
+    } else { setEstiloPassword('') }
+
+    //--> Comprobar passwords iguales
+    if (password !== confirmPass) {
+      setEstiloPassword('p-invalid')
+      setEstiloConfirmPass('p-invalid')
+      setEstiloMensajeRespuesta('error')
+      setMensajeRespuesta(passwordsInValidas)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
+      return
+    } else {
+      setEstiloPassword('')
+      setEstiloConfirmPass('')
+    }
+    try {
+      console.log(`${tokenResetearPassword}${token}`)
+      console.log(token)
+      const respuesta = await axios.post(`${tokenResetearPassword}${token}`, { nuevaPassword: password })
+      if (respuesta.status === 200) {
+        setMensajeRespuesta(exitoResetPassword)
+        setEstiloMensajeRespuesta('success')
+        setMostrarDialogo(false)
+        setTimeout(() => { router.push('/') }, 1000)
+      }
+    } catch (error) {
+      console.log(error)
+      console.log("Cambiar password")
+      setEstiloMensajeRespuesta('error')
+      setMensajeRespuesta(error.response.data.msg)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000)
+    }
+  }
+
   //---------------------------| Valor que regresara |---------------------------
   return (
     <>
       <Head>
-        <title>Jardin del Eden - Token</title>
+        <title>Jardin del Eden - Resetear password</title>
         <meta charSet="UTF-8" />
-        <meta name="description" content="El usuario confirmara su cuenta creada" />
+        <meta name="description" content="El usuario resetea su password" />
         <meta name="robots" content="index, follow" />
         <meta name="viewport" content="initial-scale=1, width=device-width" />
         <meta property="og:type" content="website"></meta>
@@ -116,10 +173,10 @@ const Token = () => {
         <div className="xl:col-6 md:col-7 sm:col-offset-6 m-auto">
           <div className="card ">
 
-            <p className='text-center text-6xl font-bold'>Confirma tu cuenta</p>
-            <p className='text-xl text-center'>¡Gracias por elejir Jardin de Eden!</p>
-            <p className='text-justify'>
-              Busque en su correo electrónico un mensaje enviado con el asunto <span className='text-cyan-500 font-semibold'>E-MAIL1 Correo verificación de cuenta</span> que contiene el código de confirmación, es posible que el mensaje haya sido enviado a la carpeta SPAM o similar.
+            <p className='text-center text-6xl font-bold'>Resetear password</p>
+            <p className='text-xl text-center'>¡Ingresa tu token para resetear tu password!</p>
+            <p className='text-center'>
+              Para finalizar el proceso ingrese el token que recibio en su correo.
             </p>
 
             <div className='flex justify-content-center mt-6'>
@@ -130,14 +187,14 @@ const Token = () => {
               </div>
             </div>
 
-            {mensajeRespuesta && (
+            {mensajeRespuesta && !mostrarDialogo && (
               <div className='mx-auto mt-2' style={{ width: "500px", textAlign: "center" }}>
                 <Message severity={estiloMensajeRespuesta} text={mensajeRespuesta} />
               </div>
             )}
 
             <p className='text-justify mt-5'>
-              Si no puede encontrar el mensaje indicado puede utilizar alguna de las opciones que se muestran a continuación.
+              Si no puede encontrar el mensaje indicado puede utilizar la opción que se muestran a continuación.
             </p>
 
             <div className='flex justify-content-start mt-4'>
@@ -145,7 +202,7 @@ const Token = () => {
                 {/* <Button label='Enviar nuevo código' severity="danger" className='font-bold mb-2' text onClick={reenviarToken} /> */}
                 <Button
                   label='Cancelar' severity="danger" className='font-bold' text
-                  onClick={() => router.push('/pages/pantallainicio/crearcuenta')} />
+                  onClick={() => router.push('/')} />
               </div>
             </div>
 
@@ -153,8 +210,37 @@ const Token = () => {
         </div>
         <AppConfig />
       </div>
+
+      <Dialog header="¡Atención!" visible={mostrarDialogo} style={{ width: '50vw' }} onHide={() => setMostrarDialogo(false)}>
+        <div className='flex justify-content-center my-2'>
+          <Password
+            id="cpassword" placeholder='Escribe tu contraseña'
+            inputClassName={`w-full p-3 md:w-25rem`} className={`${estiloPassword} `}
+            value={password} onChange={(e) => setPassword(e.target.value)} feedback={false}
+          />
+        </div>
+        <div className='flex justify-content-center my-2'>
+          <Password
+            id="cpassword" placeholder='Repite tu contraseña'
+            inputClassName={`w-full p-3 md:w-25rem`} className={`${estiloConfirmPass} `}
+            value={confirmPass} onChange={(e) => setConfirmPass(e.target.value)} feedback={false}
+          />
+        </div>
+        {mensajeRespuesta && (
+          <div className='mx-auto mt-2' style={{ width: "500px", textAlign: "center" }}>
+            <Message severity={estiloMensajeRespuesta} text={mensajeRespuesta} />
+          </div>
+        )}
+        <div className='flex justify-content-center mt-4'>
+          <Button
+            label='Aceptar' severity="danger" className='font-bold'
+            onClick={nuevoPassword}
+          />
+
+        </div>
+      </Dialog>
     </>
   )
 }
 
-export default Token
+export default TokenResetear
