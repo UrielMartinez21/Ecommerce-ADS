@@ -65,3 +65,5 @@ export const direccionEnvio = 'Seleccione una dirección de envío.'
 export const cerrarSesion = 'Cerrar sesión.'
 
 
+export const formatoNombre = "El Nombre o Apellido debe contener caracteres alfabéticos."
+export const formatoNumerico = "Los campos aceptan solo números."

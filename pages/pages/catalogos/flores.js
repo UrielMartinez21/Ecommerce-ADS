@@ -20,29 +20,29 @@ const CatalogoFlores = () => {
   //--> Ejecucion en segundo plano
   const datosFlores = [
     {
-      nombre: "Rosa", precio: 5.90, categoria: "primavera", estatus: "disponible",
+      nombre: "Rosa", precio: 5.90, categoria: "primavera", estatus: "Disponible",
       imagen: "https://png.pngtree.com/png-vector/20210710/ourmid/pngtree-close-up-of-rose-simulation-growth-png-image_3580749.jpg", descripcion: "Descripcion de rosa"
     },
     {
-      nombre: "Tulipan", precio: 6.20, categoria: "otoño", estatus: "agotado",
+      nombre: "Tulipán", precio: 6.20, categoria: "otoño", estatus: "Agotado",
       imagen: "https://w7.pngwing.com/pngs/666/928/png-transparent-tulip-free-content-flower-georgia-bulldogs-leaf-heart-computer-wallpaper.png",
       descripcion: "Descripcion de tulipan"
     },
     {
-      nombre: "Girasol", precio: 3.50, categoria: "invierno", estatus: "pocos",
+      nombre: "Girasol", precio: 3.50, categoria: "invierno", estatus: "Pocos",
       imagen: "https://media.admagazine.com/photos/61eb22cb9b19d943aa117b30/master/w_1600%2Cc_limit/Girasol.jpg",
       descripcion: "Descripcion de girasol"
     },
     {
-      nombre: "Setosa", precio: 25.23, categoria: "primavera", estatus: "pocos",
+      nombre: "Setosa", precio: 25.23, categoria: "primavera", estatus: "Pocos",
       imagen: "https://img1.freepng.es/20180314/vbq/kisspng-bird-echeveria-agavoides-echeveria-setosa-graptope-lotus-design-material-5aa973bd8fb253.3676960215210546535886.jpg", descripcion: "Descripcion de setosa"
     },
     {
-      nombre: "Gardenia", precio: 78.60, categoria: "verano", estatus: "disponible",
+      nombre: "Gardenia", precio: 78.60, categoria: "verano", estatus: "Disponible",
       imagen: "https://us.123rf.com/450wm/rprongjai/rprongjai1910/rprongjai191000001/131915934-flores-de-gardenia-sobre-fondo-blanco.jpg?ver=6", descripcion: "Descripcion de gardenia"
     },
     {
-      nombre: "Versicolor", precio: 84.69, categoria: "verano", estatus: "agotado",
+      nombre: "Versicolor", precio: 84.69, categoria: "verano", estatus: "Agotado",
       imagen: "https://img2.freepng.es/20180409/wce/kisspng-cut-flowers-iris-versicolor-iris-5acb7fdb4bc3d7.6318569115232859793103.jpg", descripcion: "Descripcion de versicolor"
     },
   ]
@@ -51,13 +51,13 @@ const CatalogoFlores = () => {
   //--> Indicar estado de la flor
   const getSeverity = (flor) => {
     switch (flor.estatus) {
-      case 'disponible':
+      case 'Disponible':
         return 'success';
 
-      case 'pocos':
+      case 'Pocos':
         return 'warning';
 
-      case 'agotado':
+      case 'Agotado':
         return 'danger';
 
       default:
@@ -189,7 +189,7 @@ const CatalogoFlores = () => {
   return (
     <Layout
       title="Flores"
-      description="Acceso al catalogo de flores"
+      description="Acceso al catálogo de flores"
     >
       <div className="grid">
         <div className="col-12">
@@ -209,9 +209,9 @@ const CatalogoFlores = () => {
               <div className="mt-5">
                 <p className="my-2"><span className="font-semibold text-lg">Nombre: </span>{detallesFlor.nombre}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Precio: </span>${detallesFlor.precio}</p>
-                <p className="my-2"><span className="font-semibold text-lg">Categoria: </span>{detallesFlor.categoria}</p>
+                <p className="my-2"><span className="font-semibold text-lg">Categoría: </span>{detallesFlor.categoria}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Estatus: </span>{detallesFlor.estatus}</p>
-                <p className="my-2"><span className="font-semibold text-lg">Descripcion: </span>{detallesFlor.descripcion}</p>
+                <p className="my-2"><span className="font-semibold text-lg">Descripción: </span>{detallesFlor.descripcion}</p>
               </div>
             </Dialog>
 
