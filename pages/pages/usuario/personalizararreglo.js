@@ -55,25 +55,25 @@ const PersonalizarArreglo = () => {
               <div className='card'>
                 <h5 className='text-center'>Barra de personalizacion</h5>
                 <div className='flex justify-content-between my-3'>
-                  <label htmlFor="diseño" className='flex align-items-center font-semibold'>Escoje un diseño</label>
+                  <label htmlFor="diseño" className='flex align-items-center font-semibold'>Escoge un diseño</label>
                   <Dropdown
                     inputId="diseño" value={diseño} onChange={(e) => setDiseño(e.value)} placeholder='Escoje un diseño'
                     options={diseños} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
                 </div>
                 <div className='flex justify-content-between my-3'>
-                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Escoje un tamaño</label>
+                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Escoge un tamaño</label>
                   <Dropdown
                     inputId="tamaño" value={tamaño} onChange={(e) => setTamaño(e.value)} placeholder='Escoje un tamaño'
                     options={tamaños} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
                 </div>
                 <div className='flex justify-content-between my-3'>
-                  <label htmlFor="flor" className='flex align-items-center font-semibold'>Escoje un tipo de flor</label>
+                  <label htmlFor="flor" className='flex align-items-center font-semibold'>Escoge un tipo de flor</label>
                   <Dropdown
                     inputId="flor" value={flor} onChange={(e) => setFlor(e.value)} placeholder='Escoje un tipo de flor'
                     options={flores} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
                 </div>
                 <div className='flex justify-content-between my-3'>
-                  <label htmlFor="extra" className='flex align-items-center font-semibold'>Escoje un peluche</label>
+                  <label htmlFor="extra" className='flex align-items-center font-semibold'>Escoge un peluche</label>
                   <Dropdown
                     inputId="extra" value={extra} onChange={(e) => setExtra(e.value)} placeholder='Escoje un peluche'
                     options={peluches} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
