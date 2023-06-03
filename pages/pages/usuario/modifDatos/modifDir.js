@@ -12,7 +12,7 @@ import { InputTextarea } from 'primereact/inputtextarea';
 
 
 //--> Componentes propios
-import { camposVacios} from '@/components/mensajesNotificaciones/mensajes';
+import { camposVacios, formatoNumerico} from '@/components/mensajesNotificaciones/mensajes';
 
 const ChangeLocation = () => {
   //--> Variable de redireccinamiento
@@ -66,16 +66,29 @@ const ChangeLocation = () => {
         setEstiloCPostal('')
         setEstiloCalleUno('')
       }
-      //--> Validar password
-   
   
 
-    //--> Limpiar campos
-       setEstiloColonia('')
-        setEstiloCalle('')
+      if (/^\d+$/.test(cPostal, nExt, nInt)) {
+        setEstiloNombre('p-invalid')
+        setEstiloApellido('p-invalid')
+        mostrarMensaje(formatoNumerico)
+        setTimeout(() => { limpiarMensaje() }, 3000)
+        return
+      } else {
         setEstiloNExt('')
+        setEstiloNInt('')
         setEstiloPostal('')
-        setEstiloCalleUno('')
+      }
+  
+    //--> Limpiar campos
+       setCalle('')
+        setColonia('')
+        setNExt('')
+        setNInt('')
+        setPostal('')
+        setCalleUno('')
+        setCalleDos('')
+        setIndicaciones('')
     //--> Notificar estatus despues de validarlo con back-end
  //   toast.current.show({ severity: 'success', summary: `${usuarioCreado.titulo}`, detail: `${usuarioCreado.contenido}`, life: 3000 });
  
@@ -105,13 +118,28 @@ const ChangeLocation = () => {
     router.push('/pages/usuario/miCuenta')
   }
 
-  return (  
+  return (
+    <Layout title="Modificar Dirección" description="Datos del usuario">
+      
       <div className="grid ">
         <div className="col-12">
           <div className="card">
-            
+            <h3>Modificar mi dirección</h3>
 
-                <div className="p-fluid grid">
+            <div className='flex align-items-rigth flex-wrap'> 
+            <div className='field'> 
+              <Link href="/pages/usuario/modifDatos/addDir" className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }} >
+               Regresar
+              </Link>
+              </div>
+              </div>
+
+            <div className="flex align-items-center flex-wrap">
+              <Avatar label="O" size="xlarge" shape="circle" className="flex align-items-center justify-content-center m-2" />
+              <p className="flex align-items-center justify-content-center m-2">Hola  <span className="underline">Omarcito</span></p>
+            </div>
+    
+              <div className="p-fluid grid">
                 <div className='field col-18 md:col-6'>
                 <label className="block text-900 text-xl font-medium mb-4">Calle:</label>
                   <InputText
@@ -136,7 +164,7 @@ const ChangeLocation = () => {
                  
                  <label className="block text-900 text-xl font-medium mb-1">Código Postal: </label>
                    <InputText
-                     placeholder='' className={`${setEstiloCPostal} p-inputtext-lg`}
+                     placeholder='' className={`${estiloPostal} p-inputtext-lg`}
                     value={cPostal} onChange={(e) => setCPostal(e.target.value)} />
                     
                     </div> 
@@ -190,7 +218,7 @@ const ChangeLocation = () => {
                  
                 <label className="block text-900 text-xl font-medium mb-5">Ingrese otras especificaciones: </label>
                 <InputTextarea id="especificaciones" value={indicaciones}
-                 onChange={(e) => setIndicaciones(e.value)} rows={4} className="p-invalid" />
+                 onChange={(e) => setIndicaciones(e.value)} rows={4} className="p-invalid"/>
                   
                    </div> 
                    </div>
@@ -206,6 +234,7 @@ const ChangeLocation = () => {
                       </div>
           </div>
         </div>
+    </Layout>
   )
 
 

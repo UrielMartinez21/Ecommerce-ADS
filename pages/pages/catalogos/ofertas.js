@@ -10,7 +10,7 @@ import { Dialog } from 'primereact/dialog';
 
 
 
-const CatalogoFlores = () => {
+const CatalogoPeluches = () => {
   //--> Variables
   const [flores, setFlores] = useState([])
   const [layout, setLayout] = useState('grid');
@@ -18,12 +18,12 @@ const CatalogoFlores = () => {
   //--> Ejecucion en segundo plano
   useEffect(() => {
     const datosFlores = [
-      { nombre: "Rosa", precio: 100000, categoria: "primavera", estatus: "disponible" },
-      { nombre: "Tulipan", precio: 6.20, categoria: "otoño", estatus: "agotado" },
-      { nombre: "Girasol", precio: 3.50, categoria: "invierno", estatus: "pocos" },
-      { nombre: "Setosa", precio: 25.23, categoria: "primavera", estatus: "pocos" },
-      { nombre: "Gardenia", precio: 78.60, categoria: "verano", estatus: "disponible" },
-      { nombre: "Versicolor", precio: 84.69, categoria: "verano", estatus: "agotado" },
+      { nombre: "Rosa", precio: 100000, categoria: "primavera", estatus: "Disponible" },
+      { nombre: "Tulipan", precio: 6.20, categoria: "otoño", estatus: "Agotado" },
+      { nombre: "Girasol", precio: 3.50, categoria: "invierno", estatus: "Pocos" },
+      { nombre: "Setosa", precio: 25.23, categoria: "primavera", estatus: "Pocos" },
+      { nombre: "Gardenia", precio: 78.60, categoria: "verano", estatus: "Disponible" },
+      { nombre: "Versicolor", precio: 84.69, categoria: "verano", estatus: "Agotado" },
     ]
     setFlores(datosFlores)
   }, [])
@@ -66,13 +66,13 @@ const CatalogoFlores = () => {
   //--> Indicar estado de la flor
   const getSeverity = (flor) => {
     switch (flor.estatus) {
-      case 'disponible':
+      case 'Disponible':
         return 'success';
 
-      case 'pocos':
+      case 'Pocos':
         return 'warning';
 
-      case 'agotado':
+      case 'Agotado':
         return 'danger';
 
       default:
@@ -114,7 +114,7 @@ const CatalogoFlores = () => {
                  Ut enim ad minim veniam, quis nostrud exercitation </p> 
               </div> 
               <Button   label="Favoritos" icon="pi pi-heart" rounded severity="help" aria-label="Favorite" className="p-button-rounded"  />
-              <Button label="Agregar" icon="pi pi-shopping-cart" className="p-button-rounded" disabled={flor.estatus === 'agotado'}></Button>
+              <Button label="Agregar" icon="pi pi-shopping-cart" className="p-button-rounded" disabled={flor.estatus === 'Agotado'}></Button>
               <Button label="Detalles" icon="pi pi-external-link"className="p-button-rounded" onClick={() => onClick('displayBasic')} />
                 
             <Dialog header="Rosa" visible={displayBasic} style={{ width: '20vw' }} footer={renderFooter('displayBasic')} onHide={() => onHide('displayBasic')}>
@@ -155,7 +155,7 @@ const CatalogoFlores = () => {
           <div className="flex align-items-center justify-content-between  ">
             <Button  icon="pi pi-heart" rounded severity="help" aria-label="Favorite" className="" />
             <Button label="Detalles" icon="pi pi-search" className=" font-light ml-2" onClick={() => onClick('displayBasic')} />
-            <Button label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2 "disabled={flor.estatus === 'agotado'}></Button>
+            <Button label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2 "disabled={flor.estatus === 'Agotado'}></Button>
            
             <Dialog header={<h2><i className="pi pi-search"></i> Rosa</h2>}  draggable={false}  className="custom-dialog-header" visible={displayBasic} style={{ width: '25vw' }} footer={renderFooter('displayBasic')} onHide={() => onHide('displayBasic')}>
             <img className="w-8 shadow-3 border-round " src={`https://media.admagazine.com/photos/61eb22cb9b19d943aa117b30/master/w_1600%2Cc_limit/Girasol.jpg`} width={'20%'} alt="girasol" />
@@ -201,7 +201,7 @@ const CatalogoFlores = () => {
 
   return (
     <Layout
-      title="Flores"
+      title="Ofertas"
       description="Acceso a ofertas"
     >
       <div className="grid">
@@ -217,4 +217,4 @@ const CatalogoFlores = () => {
   )
 }
 
-export default CatalogoFlores
+export default Ofertas

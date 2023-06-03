@@ -75,7 +75,7 @@ export default function Home() {
       const respuesta = await axios.post(iniciarSesion, { emailCliente: email, passwordCliente: password })
       if (respuesta.status === 200) { setTimeout(() => { router.push('/pages/dashboard') }, 1000) }
     } catch (error) {
-      setMensajeRespuesta(error.response.data.msg)
+     setMensajeRespuesta(error.response.data.msg)
       setEstiloRespuesta('error')
       setEstiloEmail('p-invalid')
       setEstiloPassword('p-invalid')
@@ -127,7 +127,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Jardin del Eden</title>
+        <title>Jardín del Edén</title>
         <meta charSet="UTF-8" />
         <meta name="description" content="Jardin del eden, una pagina para comprar flores" />
         <meta name="robots" content="index, follow" />
@@ -187,7 +187,7 @@ export default function Home() {
               feedback={false} className="w-full " inputClassName={`w-full p-3 md:w-30rem  ${estiloPassword}`} />
 
             <components.Parrafo onClick={() => toggle(false)} className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }}>¿Olvidaste tu contraseña?</components.Parrafo>
-            <Button label="Iniciar Sesion" className="w-full p-3 mb-3 text-xl" onClick={validarEnvio} />
+            <Button label="Iniciar Sesión" className="w-full p-3 mb-3 text-xl"  onClick={() => { router.push(validarEnvio) }} />
 
             {mensajeRespuesta &&
               (<Message severity={estiloRespuesta} text={mensajeRespuesta} />)
@@ -203,10 +203,6 @@ export default function Home() {
 
           </components.Form>
         </components.SignInContainer>
-
-
-
-
         <components.OverlayContainer signinIn={signIn}>
           <components.Overlay signinIn={signIn}>
 
@@ -215,7 +211,7 @@ export default function Home() {
             </components.leftOverLayPanel>
 
             <components.RightOverLayPanel signinIn={signIn}>
-              <components.Title>Bienvenido de nuevo!</components.Title>
+              <components.Title>¡Bienvenido de nuevo!</components.Title>
               <components.Title2>Jardín del Edén</components.Title2>
 
             </components.RightOverLayPanel >

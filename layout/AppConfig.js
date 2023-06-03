@@ -74,7 +74,7 @@ const AppConfig = (props) => {
               <Button icon="pi pi-plus" type="button" onClick={incrementScale} rounded text className="w-2rem h-2rem ml-2" disabled={layoutConfig.scale === scales[scales.length - 1]}></Button>
             </div>
 
-            <h5>Tipo de menu</h5>
+            <h5>Tipo de menú</h5>
             <div className="flex">
               <div className="field-radiobutton flex-1">
                 <RadioButton name="menuMode" value={'static'} checked={layoutConfig.menuMode === 'static'} onChange={(e) => changeMenuMode(e)} inputId="mode1"></RadioButton>

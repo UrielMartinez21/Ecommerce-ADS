@@ -1,15 +1,15 @@
 import Layout from "@/layout/layout"
 
-const AtencionClientes = () => {
+const EventoBabyShower = () => {
   return (
     <Layout
-      title="Atencion clientes"
-      description="Apartado para ayudar al usuario con su interaccion en la plataforma"
+      title="Baby Shower"
+      description="Acceso al evento de Baby Shower"
     >
       <div className="grid">
         <div className="col-12">
           <div className="card">
-            <h5>Atención al cliente</h5>
+            <h5>Arreglos Florares para Baby Shower</h5>
           </div>
         </div>
       </div>
@@ -17,4 +17,4 @@ const AtencionClientes = () => {
   )
 }
 
-export default AtencionClientes
+export default EventoBabyShower

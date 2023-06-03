@@ -10,7 +10,7 @@ import { Dialog } from 'primereact/dialog';
 
 
 
-const CatalogoFlores = () => {
+const CatalogoPeluches = () => {
   //----------------| Lista de variables |----------------
   const [peluches, setPeluches] = useState([])
   const [layout, setLayout] = useState('grid');
@@ -23,29 +23,29 @@ const CatalogoFlores = () => {
   //--> Ejecucion en segundo plano
   const datosPeluches = [
     {
-      nombre: "Tiburon Gato", precio: 14.90, categoria: "san valentin", estatus: "disponible",
+      nombre: "Tiburón Gato", precio: 14.90, categoria: "san valentin", estatus: "Disponible",
       imagen: "https://http2.mlstatic.com/D_NQ_NP_2X_778361-MLM69281757162_052023-F.webp", descripcion: "Descripcion de tiburon"
     },
     {
-      nombre: "Jirafa", precio: 30.29, categoria: "cumpleaños", estatus: "agotado",
+      nombre: "Jirafa", precio: 30.29, categoria: "cumpleaños", estatus: "Agotado",
       imagen: "https://s.cornershopapp.com/product-images/2343555.jpg?versionId=xPvvkAxaVapD_aHU1QfX81cIZDBccvis",
       descripcion: "Descripcion de jirafa"
     },
     {
-      nombre: "Oso Panda", precio: 8.40, categoria: "san valentin", estatus: "pocos",
+      nombre: "Oso Panda", precio: 8.40, categoria: "san valentin", estatus: "Pocos",
       imagen: "https://m.media-amazon.com/images/I/41dFyXgb9sL._SL500_.jpg",
       descripcion: "Descripcion de oso panda"
     },
     {
-      nombre: "Stich", precio: 12.67, categoria: "cumpleaños", estatus: "pocos",
+      nombre: "Stich", precio: 12.67, categoria: "cumpleaños", estatus: "Pocos",
       imagen: "https://http2.mlstatic.com/D_NQ_NP_929622-MLM51003735224_082022-O.jpg", descripcion: "Descripcion de stich"
     },
     {
-      nombre: "Unicornio", precio: 50.01, categoria: "cumpleaños", estatus: "disponible",
+      nombre: "Unicornio", precio: 50.01, categoria: "cumpleaños", estatus: "Disponible",
       imagen: "https://minisomx.vtexassets.com/arquivos/ids/218097/Peluche-Miniso-Unicornio-Felpa-Rosa-16x28-cm-1-12948.jpg?v=637952098028100000", descripcion: "Descripcion de unicornio"
     },
     {
-      nombre: "Delfin", precio: 84.69, categoria: "san valentin", estatus: "agotado",
+      nombre: "Delfín", precio: 84.69, categoria: "san valentin", estatus: "Agotado",
       imagen: "https://puuf.mx/wp-content/uploads/2023/02/delfin-de-peluche-azul-30-cm.jpg", descripcion: "Descripcion de delfin"
     },
   ]
@@ -54,13 +54,13 @@ const CatalogoFlores = () => {
   //--> Indicar estado de la flor
   const getSeverity = (peluche) => {
     switch (peluche.estatus) {
-      case 'disponible':
+      case 'Disponible':
         return 'success';
 
-      case 'pocos':
+      case 'Pocos':
         return 'warning';
 
-      case 'agotado':
+      case 'Agotado':
         return 'danger';
 
       default:
@@ -93,7 +93,7 @@ const CatalogoFlores = () => {
               <Button label="Favoritos" icon="pi pi-heart" rounded severity="help"
                 aria-label="Favorite" className="p-button-rounded" />
               <Button label="Agregar" icon="pi pi-shopping-cart" className="p-button-rounded"
-                disabled={peluche.estatus === 'agotado'} />
+                disabled={peluche.estatus === 'Agotado'} />
               <Button label="Detalles" icon="pi pi-external-link" className="p-button-rounded"
                 onClick={() => dialogoFlor(flor)} />
             </div>
@@ -128,7 +128,7 @@ const CatalogoFlores = () => {
           <div className="flex align-items-center justify-content-between">
             <Button icon="pi pi-heart" rounded severity="help" aria-label="Favorite" className="" />
             <Button label="Detalles" icon="pi pi-search" className=" font-light ml-2" onClick={() => dialogoPeluche(peluche)} />
-            <Button label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2 " disabled={peluche.estatus === 'agotado'}></Button>
+            <Button label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2 " disabled={peluche.estatus === 'Agotado'}></Button>
           </div>
 
         </div>
@@ -164,7 +164,7 @@ const CatalogoFlores = () => {
       <div className="flex justify-content-between">
         <div className="p-inputgroup w-4">
           <Button icon="pi pi-search" onClick={iniciarBusqueda} />
-          <InputText placeholder="Buscar por categoria" value={buscador} onChange={e => setBuscador(e.target.value)} />
+          <InputText placeholder="Buscar por categoría o nombre de producto" value={buscador} onChange={e => setBuscador(e.target.value)} />
           <Button icon="pi pi-times" onClick={limpiarBusqueda} disabled={buscador ? false : true} />
         </div>
 
@@ -191,14 +191,14 @@ const CatalogoFlores = () => {
   //----------------| Valor que regresara |----------------
   return (
     <Layout
-      title="Flores"
-      description="Acceso al catalogo de flores"
+      title="Peluches"
+      description="Acceso al catalogo de Peluches"
     >
       <div className="grid">
         <div className="col-12">
           <div className="card">
 
-            <h5>Flores</h5>
+            <h5>Peluches</h5>
             <DataView value={peluches} itemTemplate={itemTemplate} layout={layout} header={header()} />
 
             <Dialog
@@ -212,9 +212,9 @@ const CatalogoFlores = () => {
               <div className="mt-5">
                 <p className="my-2"><span className="font-semibold text-lg">Nombre: </span>{detallesPeluche.nombre}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Precio: </span>${detallesPeluche.precio}</p>
-                <p className="my-2"><span className="font-semibold text-lg">Categoria: </span>{detallesPeluche.categoria}</p>
+                <p className="my-2"><span className="font-semibold text-lg">Categoría: </span>{detallesPeluche.categoria}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Estatus: </span>{detallesPeluche.estatus}</p>
-                <p className="my-2"><span className="font-semibold text-lg">Descripcion: </span>{detallesPeluche.descripcion}</p>
+                <p className="my-2"><span className="font-semibold text-lg">Descripción: </span>{detallesPeluche.descripcion}</p>
               </div>
             </Dialog>
 
@@ -225,4 +225,4 @@ const CatalogoFlores = () => {
   )
 }
 
-export default CatalogoFlores
+export default CatalogoPeluches

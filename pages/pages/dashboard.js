@@ -43,12 +43,12 @@ const Dashboard = () => {
   return (
     <Layout
       title="Inicio"
-      description="Pagina principal de jardin del eden"
+      description="Página principal de Jardín del Edén"
     >
       <div className="grid">
         <div className="col-12">
           <div className="card">
-            <h5>Pagina principal</h5>
+            <h5>Jardín del Edén</h5>
             <Carousel value={temporadas} numVisible={3} numScroll={3}
               responsiveOptions={responsiveOptions} className="custom-carousel" circular
               autoplayInterval={3000} itemTemplate={plantillaTemporada} />

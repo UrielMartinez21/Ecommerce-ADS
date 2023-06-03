@@ -155,7 +155,7 @@ const TokenResetear = () => {
   return (
     <>
       <Head>
-        <title>Jardin del Eden - Resetear password</title>
+        <title>Restablecer contraseña</title>
         <meta charSet="UTF-8" />
         <meta name="description" content="El usuario resetea su password" />
         <meta name="robots" content="index, follow" />
@@ -173,10 +173,10 @@ const TokenResetear = () => {
         <div className="xl:col-6 md:col-7 sm:col-offset-6 m-auto">
           <div className="card ">
 
-            <p className='text-center text-6xl font-bold'>Resetear password</p>
-            <p className='text-xl text-center'>¡Ingresa tu token para resetear tu password!</p>
+            <p className='text-center text-6xl font-bold'>Restablecer contraseña</p>
+            <p className='text-xl text-center'>Ingrese el token para restablecer su contraseña.</p>
             <p className='text-center'>
-              Para finalizar el proceso ingrese el token que recibio en su correo.
+              Para finalizar el proceso ingrese el token que recibió en su correo.
             </p>
 
             <div className='flex justify-content-center mt-6'>
@@ -211,17 +211,18 @@ const TokenResetear = () => {
         <AppConfig />
       </div>
 
-      <Dialog header="¡Atención!" visible={mostrarDialogo} style={{ width: '50vw' }} onHide={() => setMostrarDialogo(false)}>
+      <Dialog header="Restablecer contraseña. " visible={mostrarDialogo} style={{ width: '50vw' }} onHide={() => setMostrarDialogo(false)}>
         <div className='flex justify-content-center my-2'>
+          <span>Ingrese su nueva contraseña, este debe contener mínimo 6 caracteres de longitud.</span>
           <Password
-            id="cpassword" placeholder='Escribe tu contraseña'
+            id="cpassword" placeholder='Mínimo 6 caracteres'
             inputClassName={`w-full p-3 md:w-25rem`} className={`${estiloPassword} `}
             value={password} onChange={(e) => setPassword(e.target.value)} feedback={false}
           />
         </div>
         <div className='flex justify-content-center my-2'>
           <Password
-            id="cpassword" placeholder='Repite tu contraseña'
+            id="cpassword" placeholder='Repita su contraseña'
             inputClassName={`w-full p-3 md:w-25rem`} className={`${estiloConfirmPass} `}
             value={confirmPass} onChange={(e) => setConfirmPass(e.target.value)} feedback={false}
           />
