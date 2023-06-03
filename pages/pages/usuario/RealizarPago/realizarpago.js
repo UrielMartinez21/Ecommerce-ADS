@@ -162,11 +162,11 @@ const RealizarPago = () => {
           <h4>Realizar Pago <i className="pi pi-dollar"></i></h4>
           <div className='lg:flex lg:justify-content-between '>
             <div className='lg:col-7 md:col-12 mb-5'>
-              <div className='card'> <h4>Elegir forma de pago</h4>
+              <div className='card'> <h4>Elija su forma de pago</h4>
               
               <div className='flex justify-content-between my-3'>
               
-                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Escoje una tarjeta</label>
+                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Elegir  tarjeta</label>
                   <Dropdown
                     inputId="tamaño" value={tarjeta} onChange={(e) => setTarjeta(e.value)} placeholder='Tarjetas'
                     options={tarjetas} optionLabel="card" optionValue='card' className="w-full md:w-14rem" />
@@ -180,7 +180,7 @@ const RealizarPago = () => {
                 
               <div className='card'> <h4>Elegir dirección</h4>
               <div className='flex justify-content-between my-3'>
-                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Escoje una dirección</label>
+                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Escoja una dirección</label>
                   <Dropdown
                     inputId="tamaño" value={direccion} onChange={(e) => setDireccion(e.value)} placeholder='Direcciones'
                     options={direcciones} optionLabel="address" optionValue='address' className="w-full md:w-14rem" />

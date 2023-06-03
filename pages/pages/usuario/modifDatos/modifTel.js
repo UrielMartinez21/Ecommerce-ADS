@@ -12,7 +12,7 @@ import { Dropdown } from 'primereact/dropdown';
 
 
 //--> Componentes propios
-import { camposVacios, formatoInvalidoTel} from '@/components/mensajesNotificaciones/mensajes';
+import { camposVacios, contactoInvalido} from '@/components/mensajesNotificaciones/mensajes';
 
 const ModificarTelefono = () => {
   //--> Variable de redireccinamiento
@@ -63,13 +63,22 @@ const ModificarTelefono = () => {
         setEstiloPhoneLadas('')
       }
         //--> Validar phone
-        if (phone.length === 10) {
+        if (phone.length !== 10) {
           setEstiloPhone('p-invalid')
-          mostrarMensaje(formatoInvalidoTel)
+          mostrarMensaje(contactoInvalido)
           setTimeout(() => { limpiarMensaje() }, 3000)
           return
         } else { 
           setEstiloPhone('') 
+      }
+  
+      if (/[a-zA-Z]/.test(phone)) {
+        setEstiloPhone('p-invalid')
+        mostrarMensaje(contactoInvalido)
+        setTimeout(() => { limpiarMensaje() }, 3000)
+        return
+      } else {
+        setEstiloPhone('')
       }
   
     //--> Limpiar campos
@@ -77,7 +86,7 @@ const ModificarTelefono = () => {
     setPhoneLadas('')
    
     //--> Notificar estatus despues de validarlo con back-end
-    toast.current.show({ severity: 'success', summary: 'Cambio guardado exitosamente', detail: 'Revisa tu correo', life: 3000 });
+    //toast.current.show({ severity: 'success', summary: 'Cambio guardado exitosamente', detail: 'Revisa tu correo', life: 3000 });
  
   }
 

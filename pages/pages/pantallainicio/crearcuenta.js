@@ -29,11 +29,13 @@ const CrearCuenta = () => {
   //--> Campos de entrada
   const [email, setEmail] = useState('')
   const [nombre, setNombre] = useState('')
+  const [apellido, setApellido] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   //--> Validar envio
   const [estiloEmail, setEstiloEmail] = useState('')
   const [estiloNombre, setEstiloNombre] = useState('')
+  const [estiloApellido, setEstiloApellido] = useState('')
   const [estiloPassword, setEstiloPassword] = useState('')
   const [estiloConfirmPass, setEstiloConfirmPass] = useState('')
   const [estiloMensajeRespuesta, setEstiloMensajeRespuesta] = useState('')
@@ -46,9 +48,10 @@ const CrearCuenta = () => {
   //-----------------------| Envio |-----------------------
   const crearUsuario = async () => {
     //--> Validar campos llenos
-    if ([email, nombre, password, confirmPassword].includes('')) {
+    if ([email, nombre, apellido, password, confirmPassword].includes('')) {
       if (!email) setEstiloEmail('p-invalid')
       if (!nombre) setEstiloNombre('p-invalid')
+      if (!apellido) setEstiloNombre('p-invalid')
       if (!password) setEstiloPassword('p-invalid')
       if (!confirmPassword) setEstiloConfirmPass('p-invalid')
       setMensajeRespuesta(camposVacios)
@@ -59,6 +62,7 @@ const CrearCuenta = () => {
     } else {
       setEstiloEmail('')
       setEstiloNombre('')
+      setEstiloApellido('')
       setEstiloPassword('')
       setEstiloConfirmPass('')
     }
@@ -100,6 +104,7 @@ const CrearCuenta = () => {
       //--> Limpiar campos
       setEmail('')
       setNombre('')
+      setApellido('')
       setPassword('')
       setEstiloConfirmPass('')
       //--> Redireccionar
@@ -119,6 +124,7 @@ const CrearCuenta = () => {
   const cancelarCreacion = () => {
     //--> Limpiar campos de entrada antes de salir
     setNombre('')
+    setApellido('')
     setEmail('')
     setPassword('')
     setConfirmPassword('')
@@ -126,6 +132,7 @@ const CrearCuenta = () => {
     //--> Limpiar estilos de campos de entrada
     setEstiloEmail('')
     setEstiloNombre('')
+    setEstiloApellido('')
     setEstiloPassword('')
     setEstiloConfirmPass('')
 
@@ -137,7 +144,7 @@ const CrearCuenta = () => {
   return (
     <>
       <Head>
-        <title>Jardin del Eden - Crear usuario</title>
+        <title>Jardín del Edén - Crear usuario</title>
         <meta charSet="UTF-8" />
         <meta name="description" content="El usuario podra darse de alta en el sistema" />
         <meta name="robots" content="index, follow" />
@@ -162,16 +169,23 @@ const CrearCuenta = () => {
 
               <div className="card-container mx-auto text-center ">
                 <div className='field'>
-                  <label htmlFor="nombreCompleto" className="block text-900  ">Tu nombre</label>
+                  <label htmlFor="nombreCompleto" className="block text-900  ">Nombre</label>
                   <InputText
-                    id="nombreCompleto" placeholder="Nombre y apellidos"
+                    id="nombreCompleto" placeholder="Nombre"
                     className={`${estiloNombre} w-full p-3 md:w-25rem `}
                     value={nombre} onChange={(e) => { setNombre(e.target.value) }} />
                 </div>
                 <div className='field'>
+                  <label htmlFor="apellido" className="block text-900  ">Apellidos</label>
+                  <InputText
+                    id="apellido" placeholder="Apellido(s)"
+                    className={`${estiloApellido} w-full p-3 md:w-25rem `}
+                    value={apellido} onChange={(e) => { setApellido(e.target.value) }} />
+                </div>
+                <div className='field'>
                   <label htmlFor="email" className="block text-900 ">Correo electrónico</label>
                   <InputText
-                    id="email" placeholder="Correo activo" className={`${estiloEmail} w-full p-3 md:w-25rem`}
+                    id="email" placeholder="Correo electrónico" className={`${estiloEmail} w-full p-3 md:w-25rem`}
                     value={email} onChange={(e) => { setEmail(e.target.value) }} />
                 </div>
 
@@ -184,9 +198,9 @@ const CrearCuenta = () => {
                   />
                 </div>
                 <div className='field'>
-                  <label className="block text-900 ">Confirmar contraseña</label>
+                  <label className="block text-900 ">Confirme su contraseña</label>
                   <Password
-                    id="cpassword" placeholder='Repite tu contraseña' inputClassName={`w-full p-3 md:w-25rem`} className={`${estiloConfirmPass} `}
+                    id="cpassword" placeholder='Repita su contraseña' inputClassName={`w-full p-3 md:w-25rem`} className={`${estiloConfirmPass} `}
                     value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} feedback={false}
                   />
                 </div>

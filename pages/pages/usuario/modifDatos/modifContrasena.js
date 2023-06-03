@@ -105,11 +105,6 @@ const ModificarContrasena = () => {
               </Link>
               </div>
               </div>
-
-            <div className="flex align-items-center flex-wrap">
-              <Avatar label="O" size="xlarge" shape="circle" className="flex align-items-center justify-content-center m-2" />
-              <p className="flex align-items-center justify-content-center m-2">Hola  <span className="underline">Omarcito</span></p>
-            </div>
               
               <div className=''>
                 <div className='field col-20 md:col-8'>
@@ -126,8 +121,9 @@ const ModificarContrasena = () => {
                    <div className=''>
                 <div className='field'>
                   <label className="block text-900 text-xl font-medium mb-2">Confirme su contraseña</label>
+                 
                   <Password
-                    placeholder='Repita tu contraseña' className={`${estiloConfirmPass} p-inputtext-lg`}
+                    placeholder='Repita su contraseña' className={`${estiloConfirmPass} p-inputtext-lg`}
                     value={confirmPass} onChange={(e) => setConfirmPass(e.target.value)} feedback={false}
                   />
                 </div>

@@ -9,7 +9,7 @@ const AtencionClientes = () => {
       <div className="grid">
         <div className="col-12">
           <div className="card">
-            <h5>Atencion al cliente</h5>
+            <h5>Atención al cliente</h5>
           </div>
         </div>
       </div>

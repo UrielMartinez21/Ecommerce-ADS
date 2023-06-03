@@ -53,29 +53,30 @@ const PersonalizarArreglo = () => {
 
             <div className='lg:col-5 md:col-12'>
               <div className='card'>
-                <h5 className='text-center'>Barra de personalizacion</h5>
+                <h5 className='text-center'>Barra de personalización</h5>
                 <div className='flex justify-content-between my-3'>
-                  <label htmlFor="diseño" className='flex align-items-center font-semibold'>Escoje un diseño</label>
+                  <label htmlFor="diseño" className='flex align-items-center font-semibold'>Diseño: </label> 
                   <Dropdown
-                    inputId="diseño" value={diseño} onChange={(e) => setDiseño(e.value)} placeholder='Escoje un diseño'
+                    inputId="diseño" value={diseño} onChange={(e) => setDiseño(e.value)} placeholder='Elija  un diseño'
                     options={diseños} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
                 </div>
+
                 <div className='flex justify-content-between my-3'>
-                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Escoje un tamaño</label>
+                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Tamaño:</label>
                   <Dropdown
-                    inputId="tamaño" value={tamaño} onChange={(e) => setTamaño(e.value)} placeholder='Escoje un tamaño'
+                    inputId="tamaño" value={tamaño} onChange={(e) => setTamaño(e.value)} placeholder='Elija un tamaño'
                     options={tamaños} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
                 </div>
                 <div className='flex justify-content-between my-3'>
-                  <label htmlFor="flor" className='flex align-items-center font-semibold'>Escoje un tipo de flor</label>
+                  <label htmlFor="flor" className='flex align-items-center font-semibold'>Tipo de flor:</label>
                   <Dropdown
-                    inputId="flor" value={flor} onChange={(e) => setFlor(e.value)} placeholder='Escoje un tipo de flor'
+                    inputId="flor" value={flor} onChange={(e) => setFlor(e.value)} placeholder='Tipo de flor'
                     options={flores} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
                 </div>
                 <div className='flex justify-content-between my-3'>
-                  <label htmlFor="extra" className='flex align-items-center font-semibold'>Escoje un peluche</label>
+                  <label htmlFor="extra" className='flex align-items-center font-semibold'>Peluche:</label>
                   <Dropdown
-                    inputId="extra" value={extra} onChange={(e) => setExtra(e.value)} placeholder='Escoje un peluche'
+                    inputId="extra" value={extra} onChange={(e) => setExtra(e.value)} placeholder='Peluche (opcional)'
                     options={peluches} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
                 </div>
               </div>

@@ -90,7 +90,7 @@ const CatalogoFlores = () => {
               <Button label="Favoritos" icon="pi pi-heart" rounded severity="help"
                 aria-label="Favorite" className="p-button-rounded" />
               <Button label="Agregar" icon="pi pi-shopping-cart" className="p-button-rounded"
-                disabled={flor.estatus === 'agotado'} />
+                disabled={flor.estatus === 'Agotado'} />
               <Button label="Detalles" icon="pi pi-external-link" className="p-button-rounded"
                 onClick={() => dialogoFlor(flor)} />
             </div>
@@ -125,7 +125,7 @@ const CatalogoFlores = () => {
           <div className="flex align-items-center justify-content-between">
             <Button icon="pi pi-heart" rounded severity="help" aria-label="Favorite" className="" />
             <Button label="Detalles" icon="pi pi-search" className=" font-light ml-2" onClick={() => dialogoFlor(flor)} />
-            <Button label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2 " disabled={flor.estatus === 'agotado'}></Button>
+            <Button label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2 " disabled={flor.estatus === 'Agotado'}></Button>
           </div>
 
         </div>
@@ -161,7 +161,7 @@ const CatalogoFlores = () => {
       <div className="flex justify-content-between">
         <div className="p-inputgroup w-4">
           <Button icon="pi pi-search" onClick={iniciarBusqueda} />
-          <InputText placeholder="Buscar por categoria" value={buscador} onChange={e => setBuscador(e.target.value)} />
+          <InputText placeholder="Buscar por categoría o nombre de producto" value={buscador} onChange={e => setBuscador(e.target.value)} />
           <Button icon="pi pi-times" onClick={limpiarBusqueda} disabled={buscador ? false : true} />
         </div>
 

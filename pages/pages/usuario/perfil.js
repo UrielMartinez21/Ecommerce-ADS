@@ -19,7 +19,7 @@ const Perfil = () => {
             <h5>Perfil</h5>
             <div className="flex align-items-center flex-wrap">
               <Avatar label="U" size="xlarge" shape="circle" className="flex align-items-center justify-content-center m-2" />
-              <p className="flex align-items-center justify-content-center m-2">Hola  <span className="underline">Uriel</span></p>
+              <p className="flex align-items-center justify-content-center m-2"> <span className="underline">Uriel</span></p>
             </div>
 
             <div className="mt-4">

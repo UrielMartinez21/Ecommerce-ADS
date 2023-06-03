@@ -31,8 +31,8 @@ const AppTopbar = forwardRef((props, ref) => {
 
   const confirmarDesicion = () => {
     confirmDialog({
-      message: 'Estas seguro de salir de la sesión?',
-      header: 'Terminar sesión',
+      message: '¿Estás seguro de cerrar sesión?',
+      header: 'Cerrar sesión',
       icon: 'pi pi-info-circle',
       position: 'top',
       accept: aceptarDesicion,
@@ -45,7 +45,7 @@ const AppTopbar = forwardRef((props, ref) => {
       <ConfirmDialog />
       <Link href="/pages/dashboard" className="layout-topbar-logo">
         <img src={`/layout/images/logo-${layoutConfig.colorScheme !== 'light' ? 'white' : 'dark'}.svg`} width="47.22px" height={'35px'} widt={'true'} alt="logo" />
-        <span>Jardin del Eden</span>
+        <span>Jardín del Edén</span>
       </Link>
 
       <button ref={menubuttonRef} type="button" className="p-link layout-menu-button layout-topbar-button" onClick={onMenuToggle}>

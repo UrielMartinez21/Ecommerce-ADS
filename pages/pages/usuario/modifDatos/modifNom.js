@@ -50,7 +50,7 @@ const ModificarNombre = () => {
         setEstiloApellido('')
       }
   
-      if (/[a-zA-Z]/.test(nombre, apellidos)) {
+      if (/^\d*$/.test(nombre, apellidos)) {
         setEstiloNombre('p-invalid')
         setEstiloApellido('p-invalid')
         mostrarMensaje(formatoNombre)

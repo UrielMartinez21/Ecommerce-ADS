@@ -124,7 +124,7 @@ const ChangeLocation = () => {
       <div className="grid ">
         <div className="col-12">
           <div className="card">
-            <h3 >Modificar mi dirección</h3>
+            <h3>Modificar mi dirección</h3>
 
             <div className='flex align-items-rigth flex-wrap'> 
             <div className='field'> 

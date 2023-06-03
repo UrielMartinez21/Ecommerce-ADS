@@ -133,7 +133,7 @@ const steps=[{
 
 {
   id:'RD',
-  message:'Tendrá 15 días para hacer cualquier cambio o devolución de los productos entregados.',  
+  message:'Tendrá 15 días para hacer cualquier cambio, devolución  o reembolso de los productos entregados. Tendrá que envíar sus motivos y/o pruebas de los prodcutos a cambiar o reembolsar. ',  
   trigger:'opciones'
 },
 {
@@ -153,7 +153,7 @@ const steps=[{
 },
 {
   id:'garantias',
-  message:'Tendrá 15 días para hacer cualquier cambio o devolución con su recibo de compra.',  
+  message:'En peluches tiene hasta 15 días para poder realizar un cambio del producto. En arreglos florares, si su arreglo llega maltratado, contactese directamente al siguiente número: + 52 55 14 75  22 30',  
   trigger:'opciones'
 }];
 

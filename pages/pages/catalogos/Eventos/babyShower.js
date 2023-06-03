@@ -4,7 +4,7 @@ const EventoBabyShower = () => {
   return (
     <Layout
       title="Baby Shower"
-      description="Acceso al evento de baby shower"
+      description="Acceso al evento de Baby Shower"
     >
       <div className="grid">
         <div className="col-12">

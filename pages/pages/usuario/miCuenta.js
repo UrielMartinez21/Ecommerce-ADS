@@ -2,7 +2,7 @@ import Layout from "@/layout/layout"
 import { Button } from 'primereact/button';
 import { Avatar } from 'primereact/avatar';
 import { useRouter } from 'next/router';
-
+import Link from 'next/link';
 
 
 const miCuenta = () => {
@@ -16,7 +16,15 @@ const miCuenta = () => {
       <div className="grid">
         <div className="col-12">
           <div className="card">
-            <h5>Perfil</h5>
+            
+            <h3> Mi Perfil</h3>
+            <div className=''> 
+              </div>
+              <div className='field'> 
+              <Link href="/pages/usuario/miCuenta" className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }} >
+               Regresar
+              </Link>
+              </div>
             <div className="flex align-items-center flex-wrap">
               <Avatar label="U" size="xlarge" shape="circle" className="flex align-items-center justify-content-center m-2" />
               <p className="flex align-items-center justify-content-center m-2">Omarcito Gómez</p>

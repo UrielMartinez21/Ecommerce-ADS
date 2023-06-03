@@ -111,13 +111,7 @@ const ChangeLocation = () => {
           <div className="card">
             
 
-           
-
-           
-
-        
-              
-              <div className="p-fluid grid">
+                <div className="p-fluid grid">
                 <div className='field col-18 md:col-6'>
                 <label className="block text-900 text-xl font-medium mb-4">Calle:</label>
                   <InputText

@@ -39,7 +39,7 @@ export const errorMailAsociado = 'Correo asociado a una cuenta.'
 //--> Invalido
 export const cvvInvalido = 'Formato CVV inválido.'
 export const numeroInvalido = 'Número inválido.' /*Usuario modifica num telefono*/
-export const contactoInvalido = 'Formato de contacto incorrecto.'
+export const contactoInvalido = 'Formato de contacto inválido.'
 export const precioInvalido = 'Formato de precio inválido.'
 export const direccionInvalido = 'Campos de dirección inválidos.'
 export const nombreInvalido = 'Formato del nombre inválido.'
