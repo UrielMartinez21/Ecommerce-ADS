@@ -120,7 +120,7 @@ const Favoritos = () => {
             <div className="flex sm:flex-column align-items-center sm:align-items-center gap-4 sm:gap-4">
               {/* <span className="text-2xl font-semibold">${flor.precio}</span> */}
               
-              <Button className="p-button-warning"  label="Seguimiento" icon="pi pi-arrow-circle-right" />
+              <Button className="p-button-warning"  label="Seguimiento" onClick={() => { router.push('/pages/usuario/seguirCompras') }} icon="pi pi-arrow-circle-right" />
               <Button className="p-button-info"  label="Devoluciones" icon="pi pi-replay" />
               <Button className="p-button-help"  label="Opinión" disabled={flor.estado != 'Entregado'} icon="pi pi-thumbs-up-fill" />
                 
