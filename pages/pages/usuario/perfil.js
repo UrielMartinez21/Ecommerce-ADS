@@ -33,7 +33,7 @@ const Perfil = () => {
               </div>
               <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-shopping-bag flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
-                <Button label="Mis Compras" text className="flex align-items-center justify-content-center m-2" />
+                <Button label="Mis compras" text className="flex align-items-center justify-content-center m-2" />
               </div>
               <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-heart flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
@@ -41,7 +41,7 @@ const Perfil = () => {
               </div>
               <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-clock flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
-                <Button label="Historial" text className="flex align-items-center justify-content-center m-2" />
+                <Button label="Historial" onClick={() => { router.push('/pages/usuario/miscompras') } } text className="flex align-items-center justify-content-center m-2" />
               </div>
               <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-user flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }} ></i>
