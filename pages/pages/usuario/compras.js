@@ -86,8 +86,6 @@ const Favoritos = () => {
                 
             </div>
             <div>
-    
-             
             </div>
           </div>
         );
@@ -105,7 +103,7 @@ const Favoritos = () => {
         
           <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
             <div className="flex flex-column align-items-center sm:align-items-start ">
-              <div ><span className=" font-bold text-900">Numero de pedido:</span> #{flor.Npedido}</div>
+              <div ><span className=" font-bold text-900">Número de pedido:</span> #{flor.Npedido}</div>
               <div ><span className=" font-bold text-900">Total:</span> ${flor.precio}</div>
               <div ><span className=" font-bold text-900">Pedido realizado:</span> {flor.fecha}</div>
               {/* <Rating value={flor.rating} readOnly cancel={false}></Rating> */}
