@@ -100,7 +100,6 @@ const Favoritos = () => {
           
         </div>
         <DataView value={datosOrden.productos} itemTemplate={productoTemplate} />
-          
         </div>
         <div className="mb-3"></div>
         
