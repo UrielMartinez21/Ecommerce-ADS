@@ -68,6 +68,7 @@ const PersonalizarArreglo = () => {
                     options={tamaños} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
                 </div>
                 <div className='flex justify-content-between my-3'>
+
                   <label htmlFor="flor" className='flex align-items-center font-semibold'>Tipo de flor:</label>
                   <Dropdown
                     inputId="flor" value={flor} onChange={(e) => setFlor(e.value)} placeholder='Tipo de flor'

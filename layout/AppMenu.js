@@ -32,7 +32,7 @@ const AppMenu = () => {
       label: 'Usuario',
       items: [
         { label: 'Personalizar arreglo', icon: 'pi pi-fw pi-gift', to: '/pages/usuario/personalizararreglo' },
-        { label: 'Mis Compras', icon: 'pi pi-fw pi-shopping-bag', to: '/pages/usuario/miscompras' },
+        { label: 'Mis Compras', icon: 'pi pi-fw pi-shopping-bag', to: '/pages/usuario/compras' },
         { label: 'Mis favoritos', icon: 'pi pi-fw pi-heart', to: '/pages/usuario/valoraProducto' },
         { label: 'Valorar Productos', icon: 'pi pi-fw pi-star', to: '/pages/usuario/valoraProducto' },
         { label: 'Atención al cliente', icon: 'pi pi-fw pi-comments', to: '/pages/seguimientoPedidos/valoraProducto' },
