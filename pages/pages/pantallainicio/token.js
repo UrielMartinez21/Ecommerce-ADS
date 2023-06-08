@@ -119,11 +119,11 @@ const Token = () => {
             <p className='text-center text-6xl font-bold'>Confirme su cuenta</p>
             <p className='text-xl text-center'>¡Gracias por elegir Jardín de Edén!</p>
             <p className='text-justify'>
-             Verifique en su bandeja de entrada el correo enviado con el asunto<span className='text-cyan-500 font-semibold'>Correo verificación de cuenta</span> que contiene el código de confirmación, es posible que el mensaje haya sido enviado a la carpeta SPAM o similar.
+              Verifique en su bandeja de entrada el correo enviado con el asunto<span className='text-cyan-500 font-semibold'>Correo verificación de cuenta</span> que contiene el código de confirmación, es posible que el mensaje haya sido enviado a la carpeta SPAM o similar.
             </p>
 
             <div className='flex justify-content-center mt-6'>
-              <div className="p-inputgroup" style={{ width: "380px" }}>
+              <div className="p-inputgroup" style={{ width: "450px" }}>
                 <InputText placeholder={`Ingrese su código de confirmación. Tiempo: ${verTiempo}`} className={`${estiloToken}`}
                   value={token} onChange={(e) => setToken(e.target.value)} disabled={tiempo === 0} />
                 <Button label='Confirmar' onClick={confirmarUsuario} disabled={tiempo === 0} />

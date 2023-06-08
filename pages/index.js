@@ -187,7 +187,7 @@ export default function Home() {
               feedback={false} className="w-full " inputClassName={`w-full p-3 md:w-30rem  ${estiloPassword}`} />
 
             <components.Parrafo onClick={() => toggle(false)} className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }}>¿Olvidaste tu contraseña?</components.Parrafo>
-            <Button label="Iniciar Sesión" className="w-full p-3 mb-3 text-xl" onClick={() => { router.push("/pages/dashboard") }} />
+            <Button label="Iniciar Sesión" className="w-full p-3 mb-3 text-xl" onClick={validarEnvio} />
 
             {mensajeRespuesta &&
               (<Message severity={estiloRespuesta} text={mensajeRespuesta} />)
