@@ -25,23 +25,6 @@ const AppMenu = () => {
       items: [
         { label: 'Flores', to: '/pages/catalogos/flores' },
         { label: 'Peluches', icon: "fa-light fa-teddy-bear", to: '/pages/catalogos/peluches' },
-
-        {
-          label: 'Eventos', icon: 'pi pi-fw pi-bookmark',
-          items: [{ label: 'Amor & Aniversario', icon: 'pi pi-fw pi-heart-fill', to: '/pages/catalogos/Eventos/amorAniv' },
-          { label: 'Agradecimiento', to: '/pages/catalogos/Eventos/agradece' },
-          { label: 'Bodas', to: '/pages/catalogos/Eventos/Boda' },
-          { label: 'Baby Shower', to: '/pages/catalogos/Eventos/babyShower' },
-          { label: 'Cumpleaños', to: '/pages/catalogos/Eventos/cumple' },
-          { label: 'Condolencias', to: '/pages/catalogos/Eventos/condolencias' },
-          { label: 'Graduación', to: '/pages/catalogos/Eventos/graduacion' },
-          {
-            label: 'Regalos',
-            items: [{ label: 'Para él', to: '/pages/catalogos/Eventos/paraEl' },
-            { label: 'Para ella', to: '/pages/catalogos/Eventos/paraElla' }]
-          },]
-        },
-        { label: 'Ofertas', icon: 'pi pi-fw pi-tags', to: '/pages/catalogos/ofertas' },
         { label: 'Temporada', icon: 'pi pi-fw pi-tag', to: '/pages/catalogos/temporada' }
       ]
     },
