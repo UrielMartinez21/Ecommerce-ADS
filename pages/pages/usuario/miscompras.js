@@ -72,8 +72,8 @@ const MisCompras = () => {
              
               
               
-              <Button   label="Reembolso"  icon="pi pi-times" severity="danger" aria-label="Favorite" className="font-light ml-2"  />
-              <Button label="Comentar" icon="pi pi-thumbs-up-fill" severity="success" className="font-light ml-2 "></Button>
+              <Button  label="Reembolso"  icon="pi pi-times" severity="danger" aria-label="Favorite" className="font-light ml-2"  onClick={() => { router.push('/pages/usuario/reembolsos')}} />
+              <Button label="Valorar Producto" icon="pi pi-thumbs-up-fill" severity="success" className="font-light ml-2 "   onClick={() => { router.push('/pages/usuario/valoraProducto')}}> </Button>
               
                 
             

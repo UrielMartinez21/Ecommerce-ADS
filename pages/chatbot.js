@@ -22,7 +22,7 @@ const otherFontTheme = {
 };
 const steps=[{
   id:'saludo',
-  message:'Hola, bienvenido a Soporte al cliente, ¿En que te puedo ayudar?',  
+  message:'Hola, bienvenido a Soporte al Cliente, ¿En qué te puedo ayudar?',  
   trigger:'opciones' 
 },
 {
@@ -133,27 +133,27 @@ const steps=[{
 
 {
   id:'RD',
-  message:'Tendrá 15 días para hacer cualquier cambio, devolución  o reembolso de los productos entregados. Tendrá que envíar sus motivos y/o pruebas de los prodcutos a cambiar o reembolsar. ',  
+  message:'Tendrá 15 días para hacer cualquier cambio, devolución  o reembolso de los productos entregados. Tendrá que envíar sus motivos y/o pruebas de los productos a cambiar o reembolsar. ',  
   trigger:'opciones'
 },
 {
   id:'EC',
-  message:'Los envíos son a cualquier parte de la Ciudad de México. El envío es de $50.00 MXN.',  
+  message:'Los envíos son a cualquier parte de la Ciudad de México. El envío es de $0.00 MXN.',  
   trigger:'opciones'
 },
 {
   id:'Seguimiento',
-  message:'Puede ver el status de su envió en la opción "Seguimiento" que se encuentra en el menú principal.',  
+  message:'Puede ver el status de su envío en la opción "Seguimiento" que se encuentra en el menú principal.',  
   trigger:'opciones'
 },
 {
   id:'Metodosp',
-  message:'Se puede realizar el pago con tarjetas VISA y MasterCard, así mismo puede realizar tranferencias subiendo posteriormente su comprobante',  
+  message:'Se puede realizar el pago con tarjetas  de débito y crédito de VISA, MasterCard, American Express, JCB, Diners Club INTERNATIONAL, Maestro y Discover.  ',  
   trigger:'opciones'
 },
 {
   id:'garantias',
-  message:'En peluches tiene hasta 15 días para poder realizar un cambio del producto. En arreglos florares, si su arreglo llega maltratado, contactese directamente al siguiente número: + 52 55 14 75  22 30',  
+  message:'Tendrá 15 días para hacer cambio o devolución en peluches, así mismo, para pedir un reembolos en arreglos florales que lleguen maltratados. La opción  de "Devolución" que se encuentra en su Historial de compras a la derecha de su pedido realizado, para mayor información y aclaración de dudas contacte al siguiente número: + 52 55 14 75  22 30',  
   trigger:'opciones'
 }];
 

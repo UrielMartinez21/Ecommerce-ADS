@@ -86,98 +86,77 @@ const AppConfig = (props) => {
               </div>
             </div>
 
-            <h5>Efecto domino</h5>
+            <h5>Efecto dominó</h5>
             <InputSwitch checked={layoutConfig.ripple} onChange={(e) => changeRipple(e)}></InputSwitch>
           </>
         )}
 
-        <h5>Estilos de diseño</h5>
-        <div className="grid">
-          {/* <div className="col-3">
-            <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('saga-blue', 'light')}>
-              <img src="/layout/images/themes/saga-blue.png" className="w-2rem h-2rem" alt="Saga Blue" />
-            </button>
-          </div>
-          <div className="col-3">
-            <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('saga-green', 'light')}>
-              <img src="/layout/images/themes/saga-green.png" className="w-2rem h-2rem" alt="Saga Green" />
-            </button>
-          </div>
-          <div className="col-3">
-            <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('saga-orange', 'light')}>
-              <img src="/layout/images/themes/saga-orange.png" className="w-2rem h-2rem" alt="Saga Orange" />
-            </button>
-          </div>
-          <div className="col-3">
-            <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('saga-purple', 'light')}>
-              <img src="/layout/images/themes/saga-purple.png" className="w-2rem h-2rem" alt="Saga Purple" />
-            </button>
-          </div>
-          <div className="col-3">
-            <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('arya-blue', 'dark')}>
-              <img src="/layout/images/themes/arya-blue.png" className="w-2rem h-2rem" alt="Arya Blue" />
-            </button>
-          </div>
-          <div className="col-3">
-            <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('arya-green', 'dark')}>
-              <img src="/layout/images/themes/arya-green.png" className="w-2rem h-2rem" alt="Arya Green" />
-            </button>
-          </div>
-          <div className="col-3">
-            <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('arya-orange', 'dark')}>
-              <img src="/layout/images/themes/arya-orange.png" className="w-2rem h-2rem" alt="Arya Orange" />
-            </button>
-          </div>
-          <div className="col-3">
-            <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('arya-purple', 'dark')}>
-              <img src="/layout/images/themes/arya-purple.png" className="w-2rem h-2rem" alt="Arya Purple" />
-            </button>
-          </div> */}
-
-          {/* Temas claros */}
+        <h5>Estilos de diseño</h5><br/>
+        <div><h6>Temas claros</h6></div> 
+        <div className="grid">         
           <div className="col-3">
             <button
               className="p-link w-2rem h-2rem" style={{ backgroundColor: '#B6EC8F', height: '200px' }}
-              onClick={() => changeTheme('light-green', 'light')}></button>
+              onClick={() => changeTheme('light-green', 'light')}>
+                   <img src="  https://png.pngtree.com/png-vector/20230407/ourmid/pngtree-flower-line-icon-vector-png-image_6680008.png" className="w-2rem h-2rem"  />
+              </button>
           </div>
           <div className="col-3">
             <button
               className="p-link w-2rem h-2rem" style={{ backgroundColor: '#FF988D', height: '200px' }}
-              onClick={() => changeTheme('light-rose', 'light')}></button>
+              onClick={() => changeTheme('light-rose', 'light')}>
+                 <img src="  https://png.pngtree.com/png-vector/20230407/ourmid/pngtree-flower-line-icon-vector-png-image_6680008.png" className="w-2rem h-2rem"  />
+              </button>
           </div>
           <div className="col-3">
             <button
               className="p-link w-2rem h-2rem" style={{ backgroundColor: '#CF933A', height: '200px' }}
-              onClick={() => changeTheme('light-orange', 'light')}></button>
+              onClick={() => changeTheme('light-orange', 'light')}>
+                <img src="  https://png.pngtree.com/png-vector/20230407/ourmid/pngtree-flower-line-icon-vector-png-image_6680008.png" className="w-2rem h-2rem"  />
+              </button>
           </div>
           <div className="col-3">
             <button
               className="p-link w-2rem h-2rem" style={{ backgroundColor: '#E54150', height: '200px' }}
-              onClick={() => changeTheme('light-red', 'light')}></button>
-          </div>
-
-          {/* Temas oscuros */}
-          <div className="col-3">
-            <button
-              className="p-link w-2rem h-2rem" style={{ backgroundColor: '#B6EC8F', height: '200px' }}
-              onClick={() => changeTheme('dark-green', 'dark')}></button>
-          </div>
-          <div className="col-3">
-            <button
-              className="p-link w-2rem h-2rem" style={{ backgroundColor: '#FF988D', height: '200px' }}
-              onClick={() => changeTheme('dark-rose', 'dark')}></button>
-          </div>
-          <div className="col-3">
-            <button
-              className="p-link w-2rem h-2rem" style={{ backgroundColor: '#CF933A', height: '200px' }}
-              onClick={() => changeTheme('dark-orange', 'dark')}></button>
-          </div>
-          <div className="col-3">
-            <button
-              className="p-link w-2rem h-2rem" style={{ backgroundColor: '#E54150', height: '200px' }}
-              onClick={() => changeTheme('dark-red', 'dark')}></button>
-          </div>
+              onClick={() => changeTheme('light-red', 'light')}>
+                   <img src="  https://png.pngtree.com/png-vector/20230407/ourmid/pngtree-flower-line-icon-vector-png-image_6680008.png" className="w-2rem h-2rem"  />
+              </button>
+          </div>   
         </div>
+        <br/>
+        <div><h6>Temas obscuros</h6></div> 
+          <div className="grid" >
+          <div className="col-3">
+            <button
+              className="p-link w-2rem h-2rem" style={{ backgroundColor: '#B6EC8F', height: '200px' }}
+              onClick={() => changeTheme('dark-green', 'dark')}>
+                  <img src="https://static.vecteezy.com/system/resources/previews/011/117/626/non_2x/blossom-silhouette-style-png.png" className="w-2rem h-2rem"  />
+              </button>
+          </div>
+          <div className="col-3">
+            <button
+              className="p-link w-2rem h-2rem" style={{ backgroundColor: '#FF988D', height: '200px' }}
+              onClick={() => changeTheme('dark-rose', 'dark')}>
+                  <img src="https://static.vecteezy.com/system/resources/previews/011/117/626/non_2x/blossom-silhouette-style-png.png" className="w-2rem h-2rem"  />
+              </button>
+          </div>
+          <div className="col-3">
+            <button
+              className="p-link w-2rem h-2rem" style={{ backgroundColor: '#CF933A', height: '200px' }}
+              onClick={() => changeTheme('dark-orange', 'dark')}>
+                  <img src="https://static.vecteezy.com/system/resources/previews/011/117/626/non_2x/blossom-silhouette-style-png.png" className="w-2rem h-2rem"  />
+              </button>
+          </div>
+          <div className="col-3">
+            <button
+              className="p-link w-2rem h-2rem" style={{ backgroundColor: '#E54150', height: '200px' }}
+              onClick={() => changeTheme('dark-red', 'dark')}>
+                 <img src="https://static.vecteezy.com/system/resources/previews/011/117/626/non_2x/blossom-silhouette-style-png.png" className="w-2rem h-2rem"  />
+              </button>
+          </div>
+
+
+          </div>
       </Sidebar>
     </>
   );
