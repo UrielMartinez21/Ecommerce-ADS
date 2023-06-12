@@ -66,7 +66,9 @@ const CatalogoFlores = () => {
             className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
             style={{ width: '200px', height: '200px' }}
           />
-          <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
+          <div
+            className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4"
+          >
             <div className="flex flex-column align-items-center sm:align-items-start gap-3">
               <div className="text-2xl font-bold text-900">{flor.nombreProducto}</div>
               {/* <Rating value={flor.rating} readOnly cancel={false}></Rating> */}
@@ -77,7 +79,19 @@ const CatalogoFlores = () => {
                   <span className="font-semibold">{flor.categoriaProducto}</span>
                 </span>
               </div>
-              <span className="text-2xl font-semibold mt-8">${flor.precioProducto}</span>
+
+              {flor.precioProducto === flor.precioDescuento && (
+                <span className="text-2xl font-semibold mt-8">${flor.precioProducto}</span>
+              )}
+
+              {flor.precioProducto !== flor.precioDescuento && (
+                <div className="mt-8">
+                  <span className="text-2xl font-semibold line-through">${flor.precioProducto}</span>
+                  <span className="text-2xl font-semibold ml-6">${flor.precioDescuento}</span>
+                </div>
+              )}
+
+
             </div>
 
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2 mt-6">
@@ -119,7 +133,22 @@ const CatalogoFlores = () => {
               style={{ width: '200px', height: '200px' }}
             />
             <div className="text-2xl font-bold">{flor.nombreProducto}</div>
-            <span className="text-2xl font-bold">${flor.precioProducto}</span>
+            {flor.precioProducto === flor.precioDescuento && (
+              <span className="text-2xl font-bold">${flor.precioProducto}</span>
+            )}
+
+            {flor.precioProducto !== flor.precioDescuento && (
+              <div>
+                <span className="text-2xl font-bold mx-5 line-through">
+                  ${flor.precioProducto}
+                </span>
+                <span className="text-2xl font-bold mx-5">
+                  ${flor.precioDescuento}
+                </span>
+              </div>
+            )}
+
+
             {/* <Rating value={flor.rating} readOnly cancel={false}></Rating> */}
           </div>
 

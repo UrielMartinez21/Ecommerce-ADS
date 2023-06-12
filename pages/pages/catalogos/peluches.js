@@ -79,7 +79,20 @@ const CatalogoPeluches = () => {
                   <span className="font-semibold">{peluche.categoriaProducto}</span>
                 </span>
               </div>
-              <span className="text-2xl font-semibold mt-8">${peluche.precioProducto}</span>
+
+              {peluche.precioProducto === peluche.precioDescuento && (
+                <span className="text-2xl font-semibold mt-8">${peluche.precioProducto}</span>
+              )}
+
+              {peluche.precioProducto !== peluche.precioDescuento && (
+                <div className="mt-8">
+                  <span className="text-2xl font-semibold line-through">${peluche.precioProducto}</span>
+                  <span className="text-2xl font-semibold ml-6">${peluche.precioDescuento}</span>
+                </div>
+              )}
+
+
+              {/* <span className="text-2xl font-semibold mt-8">${peluche.precioProducto}</span> */}
             </div>
 
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2 mt-6">
@@ -121,7 +134,24 @@ const CatalogoPeluches = () => {
               style={{ width: '200px', height: '200px' }}
             />
             <div className="text-2xl font-bold">{peluche.nombreProducto}</div>
-            <span className="text-2xl font-bold">${peluche.precioProducto}</span>
+
+            {peluche.precioProducto === peluche.precioDescuento && (
+              <span className="text-2xl font-bold">${peluche.precioProducto}</span>
+            )}
+
+            {peluche.precioProducto !== peluche.precioDescuento && (
+              <div>
+                <span className="text-2xl font-bold mx-5 line-through">
+                  ${peluche.precioProducto}
+                </span>
+                <span className="text-2xl font-bold mx-5">
+                  ${peluche.precioDescuento}
+                </span>
+              </div>
+            )}
+
+
+            {/* <span className="text-2xl font-bold">${peluche.precioProducto}</span> */}
             {/* <Rating value={peluche.rating} readOnly cancel={false}></Rating> */}
           </div>
 
