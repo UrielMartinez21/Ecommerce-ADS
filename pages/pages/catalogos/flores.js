@@ -31,7 +31,7 @@ const CatalogoFlores = () => {
 
   //--> Ejecucion en segundo planos
   useEffect(() => {
-    axios.get(mostrarFlores).then(res => { console.log(res.data.fleurs); setFlores(res.data.fleurs) })
+    axios.get(mostrarFlores).then(res => { setFlores(res.data.fleurs) })
   }, [])
 
   //--> Indicar estado de la flor
@@ -164,7 +164,8 @@ const CatalogoFlores = () => {
       <div className="flex justify-content-between">
         <div className="p-inputgroup w-4">
           <Button icon="pi pi-search" onClick={iniciarBusqueda} />
-          <InputText placeholder="Buscar por categoría o nombre de producto" value={buscador} onChange={e => setBuscador(e.target.value)} />
+          <InputText placeholder="Buscar por categoría o nombre de producto" value={buscador}
+            onChange={e => setBuscador(e.target.value)} />
           <Button icon="pi pi-times" onClick={limpiarBusqueda} disabled={buscador ? false : true} />
         </div>
 

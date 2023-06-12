@@ -10,5 +10,8 @@ export const resetearPassword = "http://localhost:4000/api/cliente/olvide-passwo
 export const tokenResetearPassword = "http://localhost:4000/api/cliente/olvide-password/"
 export const cambiarPassword = "http://localhost:4000/api/cliente/olvide-password/"
 
-//--> Catalogo flores
+// --> Catalogo flores
 export const mostrarFlores = "http://localhost:4000/api/productos/mostrarFlores"
+
+// --> Catalogo peluches
+export const mostrarPeluches = "http://localhost:4000/api/productos/mostrarPeluches"
