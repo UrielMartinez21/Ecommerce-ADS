@@ -160,9 +160,8 @@ const Favoritos = () => {
             </div>
             <div className="flex sm:flex-column align-items-center sm:align-items-center gap-4 sm:gap-4">
               <span className="text-2xl font-semibold">${order.precio}</span>
-              <Button className="p-button-warning" label="Seguimiento" icon="pi pi-arrow-circle-right" />
-              <Button className="p-button-info" label="Devoluciones" icon="pi pi-replay" />
-              <Button className="p-button-help" label="Opinión" disabled={order.estado !== 'Entregado'} icon="pi pi-thumbs-up-fill" />
+              <Button className="p-button-warning" label="Seguimiento" icon="pi pi-arrow-circle-right"  onClick={() => { router.push('/pages/usuario/seguirCompras') }}  />
+              <Button className="p-button-help" label="Cancelar" severity="danger" icon="pi pi-times" />
             </div>
           </div>
         </div>
@@ -188,3 +187,5 @@ const Favoritos = () => {
 };
 
 export default Favoritos;
+
+
