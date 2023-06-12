@@ -9,46 +9,26 @@ import { InputText } from 'primereact/inputtext';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import { mostrarFlores } from "@/components/mensajesNotificaciones/links";
 // import { Rating } from 'primereact/rating';
+// --> Libreria de cloudinary
+import { Image } from 'cloudinary-react'
 
 const CatalogoFlores = () => {
   //----------------| Lista de variables |----------------
   const [flores, setFlores] = useState([])
   const [layout, setLayout] = useState('grid');
   //-->Detalles de flor
-  const [detallesFlor, setDetallesFlor] = useState({})
+  const [detallesFlor, setDetallesFlor] = useState({
+    nombreProducto: '',
+    descripcionProducto: '',
+    precioProducto: '',
+    categoriaProducto: '',
+    statusProducto: '',
+    imagenProducto: []
+  })
   const [mostrarDialog, setMostrarDialog] = useState(false)
   //--> Buscador
   const [buscador, setBuscador] = useState('')
 
-  //--> Ejecucion en segundo plano
-  const datosFlores = [
-    {
-      nombre: "Rosa", precio: 5.90, categoria: "primavera", estatus: "Disponible",
-      imagen: "https://png.pngtree.com/png-vector/20210710/ourmid/pngtree-close-up-of-rose-simulation-growth-png-image_3580749.jpg", descripcion: "Descripcion de rosa"
-    },
-    {
-      nombre: "Tulipán", precio: 6.20, categoria: "otoño", estatus: "Agotado",
-      imagen: "https://w7.pngwing.com/pngs/666/928/png-transparent-tulip-free-content-flower-georgia-bulldogs-leaf-heart-computer-wallpaper.png",
-      descripcion: "Descripcion de tulipan"
-    },
-    {
-      nombre: "Girasol", precio: 3.50, categoria: "invierno", estatus: "Pocos",
-      imagen: "https://media.admagazine.com/photos/61eb22cb9b19d943aa117b30/master/w_1600%2Cc_limit/Girasol.jpg",
-      descripcion: "Descripcion de girasol"
-    },
-    {
-      nombre: "Setosa", precio: 25.23, categoria: "primavera", estatus: "Pocos",
-      imagen: "https://img1.freepng.es/20180314/vbq/kisspng-bird-echeveria-agavoides-echeveria-setosa-graptope-lotus-design-material-5aa973bd8fb253.3676960215210546535886.jpg", descripcion: "Descripcion de setosa"
-    },
-    {
-      nombre: "Gardenia", precio: 78.60, categoria: "verano", estatus: "Disponible",
-      imagen: "https://us.123rf.com/450wm/rprongjai/rprongjai1910/rprongjai191000001/131915934-flores-de-gardenia-sobre-fondo-blanco.jpg?ver=6", descripcion: "Descripcion de gardenia"
-    },
-    {
-      nombre: "Versicolor", precio: 84.69, categoria: "verano", estatus: "Agotado",
-      imagen: "https://img2.freepng.es/20180409/wce/kisspng-cut-flowers-iris-versicolor-iris-5acb7fdb4bc3d7.6318569115232859793103.jpg", descripcion: "Descripcion de versicolor"
-    },
-  ]
   //--> Ejecucion en segundo planos
   useEffect(() => {
     axios.get(mostrarFlores).then(res => { console.log(res.data.fleurs); setFlores(res.data.fleurs) })
@@ -81,6 +61,11 @@ const CatalogoFlores = () => {
             className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" src={`${flor.imagen}`}
             alt={`${flor.nombreProducto}`} style={{ width: '200px', height: '200px' }}
           /> */}
+          <Image
+            cloudName="dp6uo7fsz" publicId={flor.imagenProducto[0]}
+            className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+            style={{ width: '200px', height: '200px' }}
+          />
           <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
             <div className="flex flex-column align-items-center sm:align-items-start gap-3">
               <div className="text-2xl font-bold text-900">{flor.nombreProducto}</div>
@@ -128,6 +113,11 @@ const CatalogoFlores = () => {
             {/* <img
               className="shadow-2 border-round" src={`${flor.imagen}`} alt={`${flor.nombreProducto}`}
               style={{ width: '200px', height: '200px' }} /> */}
+
+            <Image
+              cloudName="dp6uo7fsz" publicId={flor.imagenProducto[0]}
+              style={{ width: '200px', height: '200px' }}
+            />
             <div className="text-2xl font-bold">{flor.nombreProducto}</div>
             <span className="text-2xl font-bold">${flor.precioProducto}</span>
             {/* <Rating value={flor.rating} readOnly cancel={false}></Rating> */}
@@ -156,16 +146,16 @@ const CatalogoFlores = () => {
 
   const iniciarBusqueda = () => {
     let floresFiltradas
-    floresFiltradas = datosFlores.filter(flor => buscador == flor.nombreProducto)
-    if (floresFiltradas.length === 0) { floresFiltradas = datosFlores.filter(flor => buscador === flor.categoriaProducto) }
-    if (floresFiltradas.length === 0) { floresFiltradas = datosFlores.filter(flor => buscador === flor.statusProducto) }
-    if (floresFiltradas.length === 0) { floresFiltradas = datosFlores.filter(flor => buscador == flor.precioProducto) }
+    floresFiltradas = flores.filter(flor => buscador == flor.nombreProducto)
+    if (floresFiltradas.length === 0) { floresFiltradas = flores.filter(flor => buscador === flor.categoriaProducto) }
+    if (floresFiltradas.length === 0) { floresFiltradas = flores.filter(flor => buscador === flor.statusProducto) }
+    if (floresFiltradas.length === 0) { floresFiltradas = flores.filter(flor => buscador == flor.precioProducto) }
     setFlores(floresFiltradas)
   }
 
   const limpiarBusqueda = () => {
     setBuscador("")
-    setFlores(datosFlores)
+    axios.get(mostrarFlores).then(res => { console.log(res.data.fleurs); setFlores(res.data.fleurs) })
   }
 
   //--> Barra para cambiar modo de vista
@@ -191,7 +181,7 @@ const CatalogoFlores = () => {
 
   const cerrarDialogo = () => {
     setMostrarDialog(false)
-    setDetallesFlor({})
+    // setDetallesFlor({})
   }
 
   const botonesDialogo = (
@@ -217,14 +207,18 @@ const CatalogoFlores = () => {
               footer={botonesDialogo} style={{ width: '35vw' }}
             >
               <div className="flex justify-content-center">
-                <img src={detallesFlor.imagen} style={{ width: '200px', height: '200px' }} />
+                {/* <img src={detallesFlor.imagen} style={{ width: '200px', height: '200px' }} /> */}
+                <Image
+                  cloudName="dp6uo7fsz" publicId={detallesFlor.imagenProducto[0]}
+                  style={{ width: '200px', height: '200px' }}
+                />
               </div>
               <div className="mt-5">
                 <p className="my-2"><span className="font-semibold text-lg">Nombre: </span>{detallesFlor.nombreProducto}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Precio: </span>${detallesFlor.precioProducto}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Categoría: </span>{detallesFlor.categoriaProducto}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Estatus: </span>{detallesFlor.statusProducto}</p>
-                <p className="my-2"><span className="font-semibold text-lg">Descripción: </span>{detallesFlor.descripcion}</p>
+                <p className="my-2"><span className="font-semibold text-lg">Descripción: </span>{detallesFlor.descrProducto}</p>
               </div>
             </Dialog>
 
