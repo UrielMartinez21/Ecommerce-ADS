@@ -162,11 +162,11 @@ const RealizarPago = () => {
           <h4>Realizar Pago <i className="pi pi-dollar"></i></h4>
           <div className='lg:flex lg:justify-content-between '>
             <div className='lg:col-7 md:col-12 mb-5'>
-              <div className='card'> <h4>Elija su forma de pago</h4>
+              <div className='card'> <h4>Seleccione su forma de pago</h4>
               
               <div className='flex justify-content-between my-3'>
               
-                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Elegir  tarjeta</label>
+                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Seleccione una tarjeta o añada una nueva</label>
                   <Dropdown
                     inputId="tamaño" value={tarjeta} onChange={(e) => setTarjeta(e.value)} placeholder='Tarjetas'
                     options={tarjetas} optionLabel="card" optionValue='card' className="w-full md:w-14rem" />
@@ -178,9 +178,9 @@ const RealizarPago = () => {
                 </div>
                 </div>
                 
-              <div className='card'> <h4>Elegir dirección</h4>
+              <div className='card'> <h4>Seleccione una dirección </h4>
               <div className='flex justify-content-between my-3'>
-                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Escoja una dirección</label>
+                  <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Seleccione una dirección o añada una nueva</label>
                   <Dropdown
                     inputId="tamaño" value={direccion} onChange={(e) => setDireccion(e.value)} placeholder='Direcciones'
                     options={direcciones} optionLabel="address" optionValue='address' className="w-full md:w-14rem" />
@@ -241,7 +241,7 @@ const RealizarPago = () => {
               </div>
               <div className='card'>
                 
-                <h3 className='font-bold  text-center'>Operacion</h3>
+                <h3 className='font-bold  text-center'>Operación</h3>
                 
                 <Dialog visible={displayBasic} style={{ width: '50vw' }} footer={renderFooter('displayBasic')} onHide={() => onHide('displayBasic')}>
                 <h4 className='font-bold  text-center '>Productos</h4>
@@ -257,9 +257,9 @@ const RealizarPago = () => {
                 </div>
                 
                 <p> <span className='font-bold '>Fecha de entrega: </span> {selectedDate}</p>
-                <p> <span className='font-bold '>Costo: </span> $1000000</p>
-                <p> <span className='font-bold '>Envio: </span> $1,000,00</p>
-                <p className='text-center  text-2xl'> <span className='font-bold '>Total: </span> Un chingo</p>
+                <p> <span className='font-bold '>Costo: </span> $3,485.00</p>
+                <p> <span className='font-bold '>Envio: </span> $0.00</p>
+                <p className='text-center  text-2xl'> <span className='font-bold '>Total: </span> $3,485.00</p>
                 
                 
                 

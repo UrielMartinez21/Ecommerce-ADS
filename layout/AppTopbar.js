@@ -57,9 +57,9 @@ const AppTopbar = forwardRef((props, ref) => {
       </button>
 
       <div ref={topbarmenuRef} className={classNames('layout-topbar-menu', { 'layout-topbar-menu-mobile-active': layoutState.profileSidebarVisible })}>
-        <button type="button" className="p-link layout-topbar-button" onClick={() => router.push('/pages/usuario/carrito')}>
+        <button  type="button" className="p-link layout-topbar-button" onClick={() => router.push('/pages/usuario/carrito')}>
           <i className="pi pi-shopping-cart"></i>
-          <span>Calendar</span>
+          <span> Carrito</span>
         </button>
         <button type="button" className="p-link layout-topbar-button" onClick={() => { router.push('/pages/usuario/perfil') }}>
           <i className="pi pi-user"></i>

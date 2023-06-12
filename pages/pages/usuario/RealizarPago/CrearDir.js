@@ -81,29 +81,7 @@ const ChangeLocation = () => {
  
   }
 
-  const cancelChangeLocation = () => {
-    //--> Limpiar campos de entrada antes de salir
-        setColonia('')
-        setCalle('')
-        setNExt('')
-        setNInt('')
-        setCPostal('')
-        setCalleUno('')
-        setCalleDos('')
-        setIndicaciones('')
-    //--> Limpiar estilos de campos de entrada
-        setEstiloColonia('')
-        setEstiloCalle('')
-        setEstiloNExt('')
-        setCPostal('')
-        setEstiloNInt('')
-        setEstiloCalleUno('')
-        setEstiloIndicaciones('')
-        setEstiloCalleDos('')
 
-    //--> Redireccionar
-    router.push('/pages/usuario/miCuenta')
-  }
 
   return (  
       <div className="grid ">
@@ -201,7 +179,6 @@ const ChangeLocation = () => {
                      
                      <div className='flex justify-content-evenly my-4'>
                       <Button label="Guardar Cambios" onClick={saveLocation} severity="success" size="large" />
-                      <Button label="Cancelar" onClick={cancelChangeLocation} severity="danger" size="large" />
                       </div>
                       </div>
           </div>
