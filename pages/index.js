@@ -73,7 +73,12 @@ export default function Home() {
     //--> Validar envio a back-end
     try {
       const respuesta = await axios.post(iniciarSesion, { emailCliente: email, passwordCliente: password })
-      if (respuesta.status === 200) { setTimeout(() => { router.push('/pages/dashboard') }, 1000) }
+      if (respuesta.status === 200) {
+        // console.log(respuesta.data.username)
+        localStorage.setItem('nombre', respuesta.data.username)
+        localStorage.setItem('token', respuesta.data.token)
+        setTimeout(() => { router.push('/pages/dashboard') }, 1000)
+      }
     } catch (error) {
       setMensajeRespuesta(error.response.data.msg)
       setEstiloRespuesta('error')

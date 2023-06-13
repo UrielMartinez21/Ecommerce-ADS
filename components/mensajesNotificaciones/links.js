@@ -15,3 +15,6 @@ export const mostrarFlores = "http://localhost:4000/api/productos/mostrarFlores"
 
 // --> Catalogo peluches
 export const mostrarPeluches = "http://localhost:4000/api/productos/mostrarPeluches"
+
+// --> Cambiar nombre
+export const modificarNombre = "http://localhost:4000/api/cliente/modificar/username"

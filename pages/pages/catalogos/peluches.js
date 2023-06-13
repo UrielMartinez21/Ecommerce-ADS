@@ -98,7 +98,7 @@ const CatalogoPeluches = () => {
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2 mt-6">
               <Button label="Favoritos" icon="pi pi-heart" rounded severity="help"
                 aria-label="Favorite" className="p-button-rounded" />
-              <Button label="Agregar" icon="pi pi-shopping-cart" className="p-button-rounded"
+              <Button label="Agregar" icon="pi pi-shopping-cart" className="p-button-rounded" severity="success"
                 disabled={peluche.statusProducto === 'Agotado'} />
               <Button label="Detalles" icon="pi pi-external-link" className="p-button-rounded"
                 onClick={() => dialogoPeluche(peluche)} />
@@ -159,7 +159,7 @@ const CatalogoPeluches = () => {
             <Button icon="pi pi-heart" rounded severity="help" aria-label="Favorite" className="" />
             <Button label="Detalles" icon="pi pi-search" className=" font-light ml-2" onClick={() => dialogoPeluche(peluche)} />
             <Button
-              label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2 "
+              label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2 " severity="success"
               disabled={peluche.statusProducto === 'Agotado'}></Button>
           </div>
 
