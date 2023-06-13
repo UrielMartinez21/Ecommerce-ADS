@@ -6,11 +6,12 @@ import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
 import { Carousel } from 'primereact/carousel';
 
-const Favoritos = () => {
+const Compras = () => {
   const router = useRouter();
   const [Ordenes, setOrden] = useState([]);
   const [displayBasic, setDisplayBasic] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState(null);
+  const [showCancelDialog, setShowCancelDialog] = useState(false);
 
   useEffect(() => {
     const datosOrden = [
@@ -52,7 +53,7 @@ const Favoritos = () => {
         Npedido: "161718",
         precio: 78.60,
         fecha: "10/10/2002",
-        estado: "Pedido Confirmado",
+        estado: "Entregado",
         productos: [
           {
             nombre: "Rosa",
@@ -65,6 +66,31 @@ const Favoritos = () => {
     ];
     setOrden(datosOrden);
   }, []);
+
+  //-------------|Cancelar Pedido cuando han pasado menos de 10 minutos desde el cobro|---------------
+  const handleCancelOrder = (order) => {
+    const tenMinutesInMillis = 600000; // 10 minutes in milliseconds
+    const orderDate = new Date(order.fecha).getTime();
+    const currentDate = new Date().getTime();
+
+    if (currentDate - orderDate < tenMinutesInMillis) {
+      setSelectedOrder(order);
+      setShowCancelDialog(true);
+    } else {
+      // Más de 10 min
+      console.log("Orden cancelada:", order.Npedido);
+    }
+  };
+
+  const confirmCancelOrder = () => {
+    // Menos de  10 min
+    console.log("Orden cancelada:", selectedOrder.Npedido);
+    setShowCancelDialog(false);
+  };
+
+  const cancelCancelOrder = () => {
+    setShowCancelDialog(false);
+  };
 
   const productoTemplate = (producto) => (
     <div className="col-12">
@@ -182,10 +208,31 @@ const Favoritos = () => {
           </div>
         </div>
       </div>
+
+
+      <Dialog
+        visible={showCancelDialog}
+        onHide={cancelCancelOrder}
+        header="Confirmar cancelación"
+        footer={
+          <div>
+            <Button label="Confirmar" onClick={confirmCancelOrder} severity="sucess" />
+            <Button label="Cancelar" onClick={cancelCancelOrder} severity="danger" />
+            
+          </div>
+        }
+      >
+        <p>
+          ¿Está seguro de que desea cancelar el pedido <strong>{selectedOrder?.Npedido}</strong>? Esta acción no se puede deshacer.
+        </p>
+      </Dialog>
+
+
+
     </Layout>
   );
 };
 
-export default Favoritos;
+export default Compras;
 
 
