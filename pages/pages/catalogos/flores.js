@@ -5,6 +5,7 @@ import axios from "axios";
 import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { Carousel } from 'primereact/carousel';
 import { InputText } from 'primereact/inputtext';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import { mostrarFlores } from "@/components/mensajesNotificaciones/links";
@@ -217,6 +218,38 @@ const CatalogoFlores = () => {
   const botonesDialogo = (
     <><Button label="Cerrar" icon="pi pi-times" onClick={cerrarDialogo} className="p-button-text" /></>
   )
+  //----------------| Imagenes de dialogo |----------------
+  const responsiveOptions = [
+    {
+      breakpoint: '1199px',
+      numVisible: 1,
+      numScroll: 1
+    },
+    {
+      breakpoint: '991px',
+      numVisible: 2,
+      numScroll: 1
+    },
+    {
+      breakpoint: '767px',
+      numVisible: 1,
+      numScroll: 1
+    }
+  ];
+
+  const plantillaImagenes = (producto) => {
+    return (
+      <div className="flex justify-content-center">
+        <div className="mb-3">
+          <Image
+            cloudName="dp6uo7fsz" publicId={producto}
+            style={{ width: '200px', height: '200px' }}
+          />
+        </div>
+      </div>
+    );
+  };
+
 
   //----------------| Valor que regresara |----------------
   return (
@@ -234,14 +267,12 @@ const CatalogoFlores = () => {
             <Dialog
               header={`Detalles de ${detallesFlor.nombreProducto}`}
               visible={mostrarDialog} onHide={cerrarDialogo}
-              footer={botonesDialogo} style={{ width: '35vw' }}
+              footer={botonesDialogo} style={{ width: '50vw' }}
             >
               <div className="flex justify-content-center">
-                {/* <img src={detallesFlor.imagen} style={{ width: '200px', height: '200px' }} /> */}
-                <Image
-                  cloudName="dp6uo7fsz" publicId={detallesFlor.imagenProducto[0]}
-                  style={{ width: '200px', height: '200px' }}
-                />
+                <Carousel
+                  value={detallesFlor.imagenProducto} numVisible={1} numScroll={1} responsiveOptions={responsiveOptions}
+                  itemTemplate={plantillaImagenes} />
               </div>
               <div className="mt-5">
                 <p className="my-2"><span className="font-semibold text-lg">Nombre: </span>{detallesFlor.nombreProducto}</p>
