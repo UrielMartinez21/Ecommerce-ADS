@@ -7,13 +7,16 @@ import { Button } from 'primereact/button';
 import { Messages } from 'primereact/messages';
 import { useRouter } from 'next/router';
 import { InputText } from "primereact/inputtext";
+import { Toast } from 'primereact/toast';
 import { Avatar } from 'primereact/avatar';
 import { Password } from 'primereact/password';
+import axios from 'axios';
+import { ModificarContrasena } from '@/components/mensajesNotificaciones/links';
 
 //--> Componentes propios
 import { camposVacios, passwordInvalido, passwordsInValidas} from '@/components/mensajesNotificaciones/mensajes';
 
-const ModificarContrasena = () => {
+const ModificarPassword = () => {
   //--> Variable de redireccinamiento
   const router = useRouter();
 
@@ -35,7 +38,7 @@ const ModificarContrasena = () => {
   const limpiarMensaje = () => { msgs.current.clear() }
 
   //-----------------------| Envio |-----------------------
-  const cambiarContrasena = () => {
+  const cambiarContrasena = async() => {
       //--> Validar campos llenos
       if ([pass, confirmPass].includes('')) {
         if (!pass) setEstiloPass('p-invalid')
@@ -68,6 +71,37 @@ const ModificarContrasena = () => {
         setEstiloPass('')
         setEstiloConfirmPass('')
       }
+    //--> Preparar objeto para enviar
+    const token = localStorage.getItem('token')
+    const cabecera = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const objetoEnviar = {
+      newPassword: pass,
+      
+    }
+
+    //--> Enviar peticion
+    try {
+      const respuesta = await axios.post(ModificarContrasena, objetoEnviar, cabecera)
+      if (respuesta.status === 200) {
+        toast.current.show({ severity: 'success', summary: 'Éxito', detail: respuesta.data.msg, life: 3000 });
+        setTimeout(() => {
+          //--> Redireccionar
+          router.push('/pages/usuario/miCuenta')
+        }, 3000);}
+      
+    } catch (error) {
+      if (toast.current) {
+        toast.current.show({
+          severity: 'info',
+          summary: 'Información',
+          detail: error.response.data.msg,
+          life: 3000, 
+        });}
+    }
   
 
     //--> Limpiar campos
@@ -92,7 +126,7 @@ const ModificarContrasena = () => {
 
   return (
     <Layout title="Modificar E-mail" description="Datos del usuario">
-      
+       <Toast ref={toast} />
       <div className="grid">
         <div className="col-12">
           <div className="card">
@@ -149,4 +183,4 @@ const ModificarContrasena = () => {
   
 }
 
-export default ModificarContrasena
+export default ModificarPassword

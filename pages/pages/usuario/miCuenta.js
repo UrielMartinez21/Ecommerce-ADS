@@ -30,7 +30,7 @@ const miCuenta = () => {
             <div className=''>
             </div>
             <div className='field'>
-              <Link href="/pages/usuario/miCuenta" className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }} >
+              <Link href="/pages/usuario/perfil" className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }} >
                 Regresar
               </Link>
             </div>

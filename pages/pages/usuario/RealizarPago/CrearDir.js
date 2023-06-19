@@ -9,10 +9,17 @@ import { useRouter } from 'next/router';
 import { InputText } from "primereact/inputtext";
 import { Avatar } from 'primereact/avatar';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { Toast } from 'primereact/toast';
 
+
+import axios from 'axios';
+import { saveDir} from '@/components/mensajesNotificaciones/links';
 
 //--> Componentes propios
-import { camposVacios} from '@/components/mensajesNotificaciones/mensajes';
+
+import { camposVacios, formatoNumerico } from '@/components/mensajesNotificaciones/mensajes';
+
+
 
 const ChangeLocation = () => {
   //--> Variable de redireccinamiento
@@ -43,12 +50,12 @@ const ChangeLocation = () => {
   const [estiloCalleDos, setEstiloCalleDos] = useState('')
   const [estiloIndicaciones, setEstiloIndicaciones] = useState('')
 
-  //-----------------------| Mensajes de advertencia |-----------------------
-  const mostrarMensaje = (mensaje) => { msgs.current.show({ severity: 'error', detail: `${mensaje}`, sticky: true, closable: false }) };
-  const limpiarMensaje = () => { msgs.current.clear() }
-
+ //-----------------------| Mensajes de advertencia |-----------------------
+ const mostrarMensaje = (mensaje) => { msgs.current.show({ severity: 'error', detail: `${mensaje}`, sticky: true, closable: false }) };
+ const limpiarMensaje = () => { msgs.current.clear() }
+ 
   //-----------------------| Envio |-----------------------
-  const saveLocation = () => {
+  const saveLocation =async() => {
       //--> Validar campos llenos
       if ([colonia,calle,cPostal,nExt,calleUno].includes('')) {
         if (!colonia) setEstiloColonia('p-invalid')
@@ -65,19 +72,96 @@ const ChangeLocation = () => {
         setEstiloNExt('')
         setEstiloCPostal('')
         setEstiloCalleUno('')
+        setEstiloIndicaciones('')
       }
-      //--> Validar password
+
+      
+    if (!/^\d{5}$/.test(cPostal)) {
+      setEstiloCPostal('p-invalid')
+      mostrarMensaje("Formato no válido")
+      setTimeout(() => { limpiarMensaje() }, 3000)
+      return
+    } else {
+      setEstiloCPostal('')
+    }
+    if (!/^\d+$/.test(nExt)) {
+      setEstiloNExt('p-invalid')
+      mostrarMensaje(formatoNumerico)
+      setTimeout(() => { limpiarMensaje() }, 3000)
+      return
+    } else {
+      setEstiloNExt('')
+    }
+
+    if (nInt !== '' && !/^\d+$/.test(nInt)) {
+      setEstiloNInt('p-invalid')
+      mostrarMensaje(formatoNumerico)
+      setTimeout(() => { limpiarMensaje() }, 3000)
+      return
+    } else {
+      setEstiloNInt('')
+    }
+
+
+    const token = localStorage.getItem('token')
+    const cabecera = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const objetoEnviar = {
+    col: colonia,
+    cal: calle,
+    cp: cPostal,
+    nInt: nInt,
+    nExt: nExt,
+    calle1: calleUno,
+    calle2: calleDos,
+    adicionales: indicaciones
+      
+    }
+  
+    //--> Enviar peticion
+    try {
+      const respuesta = await axios.post(saveDir, objetoEnviar, cabecera)
+      if (respuesta.status === 200) {
+        toast.current.show({ severity: 'success', summary: 'Éxito', detail: respuesta.data.msg, life: 3000 });
+          }
+      
+    } catch (error) {
+      if (toast.current) {
+        toast.current.show({
+          severity: 'Error',
+          summary: 'error',
+          detail: error.response.data.msg,
+          life: 3000, 
+        });}
+    }
+ 
    
   
 
     //--> Limpiar campos
-       setEstiloColonia('')
+        setEstiloColonia('')
         setEstiloCalle('')
         setEstiloNExt('')
-        setEstiloPostal('')
+        setEstiloCPostal('')
         setEstiloCalleUno('')
+        setEstiloCalleDos('')
+        setEstiloIndicaciones('')
+
+
+        setColonia('')
+        setCalle('')
+        setNExt('')
+        setNInt('')
+        setCPostal('')
+        setCalleUno('')
+        setCalleDos('')
+        setIndicaciones('')
     //--> Notificar estatus despues de validarlo con back-end
  //   toast.current.show({ severity: 'success', summary: `${usuarioCreado.titulo}`, detail: `${usuarioCreado.contenido}`, life: 3000 });
+ 
  
   }
 
@@ -85,6 +169,7 @@ const ChangeLocation = () => {
 
   return (  
       <div className="grid ">
+          <Toast ref={toast} />
         <div className="col-12">
           <div className="card">
             
@@ -114,7 +199,7 @@ const ChangeLocation = () => {
                  
                  <label className="block text-900 text-xl font-medium mb-1">Código Postal: </label>
                    <InputText
-                     placeholder='' className={`${setEstiloCPostal} p-inputtext-lg`}
+                     placeholder='' className={`${estiloPostal} p-inputtext-lg`}
                     value={cPostal} onChange={(e) => setCPostal(e.target.value)} />
                     
                     </div> 
@@ -167,8 +252,8 @@ const ChangeLocation = () => {
                 <div className='field col-20 md:col-10'>
                  
                 <label className="block text-900 text-xl font-medium mb-5">Ingrese otras especificaciones: </label>
-                <InputTextarea id="especificaciones" value={indicaciones}
-                 onChange={(e) => setIndicaciones(e.value)} rows={4} className="p-invalid" />
+                <InputTextarea id="especificaciones" value={indicaciones}  className={`${estiloIndicaciones} p-inputtext-lg`}
+                 onChange={(e) => setIndicaciones(e.value)} rows={4} />
                   
                    </div> 
                    </div>
@@ -192,3 +277,4 @@ const ChangeLocation = () => {
 }
 
 export default ChangeLocation
+

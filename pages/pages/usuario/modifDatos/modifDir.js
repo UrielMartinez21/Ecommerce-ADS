@@ -9,7 +9,11 @@ import { useRouter } from 'next/router';
 import { InputText } from "primereact/inputtext";
 import { Avatar } from 'primereact/avatar';
 import { InputTextarea } from 'primereact/inputtextarea';
+import { Toast } from 'primereact/toast';
 
+
+import axios from 'axios';
+import { saveDir} from '@/components/mensajesNotificaciones/links';
 
 //--> Componentes propios
 import { camposVacios, formatoNumerico} from '@/components/mensajesNotificaciones/mensajes';
@@ -48,98 +52,167 @@ const ChangeLocation = () => {
   const limpiarMensaje = () => { msgs.current.clear() }
 
   //-----------------------| Envio |-----------------------
-  const saveLocation = () => {
-      //--> Validar campos llenos
-      if ([colonia,calle,cPostal,nExt,calleUno].includes('')) {
-        if (!colonia) setEstiloColonia('p-invalid')
-        if (!calle) setEstiloCalle('p-invalid')
-        if (!nExt) setEstiloNExt('p-invalid')
-        if (!cPostal) setEstiloCPostal('p-invalid')
-        if (!calleUno) setEstiloCalleUno('p-invalid')
-        mostrarMensaje(camposVacios)
-        setTimeout(() => { limpiarMensaje() }, 3000)
-        return
-      } else {
-        setEstiloColonia('')
-        setEstiloCalle('')
-        setEstiloNExt('')
-        setEstiloCPostal('')
-        setEstiloCalleUno('')
-      }
-  
+  const saveLocation =async() => {
+    //--> Validar campos llenos
+    if ([colonia,calle,cPostal,nExt,calleUno].includes('')) {
+      if (!colonia) setEstiloColonia('p-invalid')
+      if (!calle) setEstiloCalle('p-invalid')
+      if (!nExt) setEstiloNExt('p-invalid')
+      if (!cPostal) setEstiloCPostal('p-invalid')
+      if (!calleUno) setEstiloCalleUno('p-invalid')
+      mostrarMensaje(camposVacios)
+      setTimeout(() => { limpiarMensaje() }, 3000)
+      return
+    } else {
+      setEstiloColonia('')
+      setEstiloCalle('')
+      setEstiloNExt('')
+      setEstiloCPostal('')
+      setEstiloCalleUno('')
+      setEstiloIndicaciones('')
+    }
 
-      if (/^\d+$/.test(cPostal, nExt, nInt)) {
-        setEstiloNombre('p-invalid')
-        setEstiloApellido('p-invalid')
-        mostrarMensaje(formatoNumerico)
-        setTimeout(() => { limpiarMensaje() }, 3000)
-        return
-      } else {
-        setEstiloNExt('')
-        setEstiloNInt('')
-        setEstiloPostal('')
-      }
-  
-    //--> Limpiar campos
-       setCalle('')
-        setColonia('')
-        setNExt('')
-        setNInt('')
-        setPostal('')
-        setCalleUno('')
-        setCalleDos('')
-        setIndicaciones('')
-    //--> Notificar estatus despues de validarlo con back-end
- //   toast.current.show({ severity: 'success', summary: `${usuarioCreado.titulo}`, detail: `${usuarioCreado.contenido}`, life: 3000 });
- 
+    
+  if (!/^\d{5}$/.test(cPostal)) {
+    setEstiloCPostal('p-invalid')
+    mostrarMensaje(formatoNumerico)
+    setTimeout(() => { limpiarMensaje() }, 3000)
+    return
+  } else {
+    setEstiloCPostal('')
+  }
+  if (!/^\d+$/.test(nExt)) {
+    setEstiloNExt('p-invalid')
+    mostrarMensaje(formatoNumerico)
+    setTimeout(() => { limpiarMensaje() }, 3000)
+    return
+  } else {
+    setEstiloNExt('')
   }
 
-  const cancelChangeLocation = () => {
-    //--> Limpiar campos de entrada antes de salir
-        setColonia('')
-        setCalle('')
-        setNExt('')
-        setNInt('')
-        setCPostal('')
-        setCalleUno('')
-        setCalleDos('')
-        setIndicaciones('')
-    //--> Limpiar estilos de campos de entrada
-        setEstiloColonia('')
-        setEstiloCalle('')
-        setEstiloNExt('')
-        setCPostal('')
-        setEstiloNInt('')
-        setEstiloCalleUno('')
-        setEstiloIndicaciones('')
-        setEstiloCalleDos('')
+  if (nInt !== '' && !/^\d+$/.test(nInt)) {
+    setEstiloNInt('p-invalid')
+    mostrarMensaje(formatoNumerico)
+    setTimeout(() => { limpiarMensaje() }, 3000)
+    return
+  } else {
+    setEstiloNInt('')
+  }
+
+
+  const token = localStorage.getItem('token')
+  const cabecera = {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }
+  const objetoEnviar = {
+  col: colonia,
+  cal: calle,
+  cp: cPostal,
+  nInt: nInt,
+  nExt: nExt,
+  calle1: calleUno,
+  calle2: calleDos,
+  adicionales: indicaciones
+    
+  }
+
+  //--> Enviar peticion
+  try {
+    const respuesta = await axios.post(saveDir, objetoEnviar, cabecera)
+    if (respuesta.status === 200) {
+      toast.current.show({ severity: 'success', summary: 'Éxito', detail: respuesta.data.msg, life: 3000 });
+        }
+    
+  } catch (error) {
+    if (toast.current) {
+      toast.current.show({
+        severity: 'Error',
+        summary: 'error',
+        detail: error.response.data.msg,
+        life: 3000, 
+      });}
+  }
+
+ 
+
+
+  //--> Limpiar campos
+      setEstiloColonia('')
+      setEstiloCalle('')
+      setEstiloNExt('')
+      setEstiloCPostal('')
+      setEstiloCalleUno('')
+      setEstiloCalleDos('')
+      setEstiloIndicaciones('')
+
+
+      setColonia('')
+      setCalle('')
+      setNExt('')
+      setNInt('')
+      setCPostal('')
+      setCalleUno('')
+      setCalleDos('')
+      setIndicaciones('')
+  //--> Notificar estatus despues de validarlo con back-end
+//   toast.current.show({ severity: 'success', summary: `${usuarioCreado.titulo}`, detail: `${usuarioCreado.contenido}`, life: 3000 });
+
+
+
+
 
     //--> Redireccionar
+    setTimeout(() => {
+      router.push('/pages/usuario/miCuenta')
+    }, 3000);
+  }
+
+  
+  const cancelChangeLocation = () => {
+    //--> Limpiar campos de entrada antes de salir
+    setColonia('')
+    setCalle('')
+    setNExt('')
+    setNInt('')
+    setCPostal('')
+    setCalleUno('')
+    setCalleDos('')
+    setIndicaciones('')
+
+    //--> Limpiar estilos de campos de entrada
+    setEstiloColonia('')
+    setEstiloCalle('')
+    setEstiloNExt('')
+    setCPostal('')
+    setEstiloNInt('')
+    setEstiloCalleUno('')
+    setEstiloIndicaciones('')
+    setEstiloCalleDos('')
+
+    //--> Redireccionar
+    
     router.push('/pages/usuario/miCuenta')
+  
   }
 
   return (
     <Layout title="Modificar Dirección" description="Datos del usuario">
       
       <div className="grid ">
+          <Toast ref={toast} />
         <div className="col-12">
           <div className="card">
-            <h3>Modificar mi dirección</h3>
-
-            <div className='flex align-items-rigth flex-wrap'> 
-            <div className='field'> 
-              <Link href="/pages/usuario/modifDatos/addDir" className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }} >
-               Regresar
+          <h3>Agregar dirección</h3>
+          <div className='flex align-items-rigth flex-wrap'>
+              <div className='field'>
+                <Link href="/pages/usuario/modifDatos/addDir" className="font-medium no-underline ml-2 text-right cursor-pointer" style={{ color: 'var(--primary-color)' }} >
+                  Regresar
               </Link>
               </div>
-              </div>
-
-            <div className="flex align-items-center flex-wrap">
-              <Avatar label="O" size="xlarge" shape="circle" className="flex align-items-center justify-content-center m-2" />
-              <p className="flex align-items-center justify-content-center m-2">Hola  <span className="underline">Omarcito</span></p>
             </div>
-    
-              <div className="p-fluid grid">
+                <div className="p-fluid grid">
                 <div className='field col-18 md:col-6'>
                 <label className="block text-900 text-xl font-medium mb-4">Calle:</label>
                   <InputText
@@ -217,8 +290,8 @@ const ChangeLocation = () => {
                 <div className='field col-20 md:col-10'>
                  
                 <label className="block text-900 text-xl font-medium mb-5">Ingrese otras especificaciones: </label>
-                <InputTextarea id="especificaciones" value={indicaciones}
-                 onChange={(e) => setIndicaciones(e.value)} rows={4} className="p-invalid"/>
+                <InputTextarea id="especificaciones" value={indicaciones}  className={`${estiloIndicaciones} p-inputtext-lg`}
+                 onChange={(e) => setIndicaciones(e.value)} rows={4} />
                   
                    </div> 
                    </div>
