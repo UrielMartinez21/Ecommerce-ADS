@@ -55,7 +55,7 @@ const PersonalizarArreglo = () => {
               <div className='card'>
                 <h5 className='text-center'>Barra de personalización</h5>
                 <div className='flex justify-content-between my-3'>
-                  <label htmlFor="diseño" className='flex align-items-center font-semibold'>Diseño: </label> 
+                  <label htmlFor="diseño" className='flex align-items-center font-semibold'>Diseño: </label>
                   <Dropdown
                     inputId="diseño" value={diseño} onChange={(e) => setDiseño(e.value)} placeholder='Elija  un diseño'
                     options={diseños} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
@@ -85,7 +85,7 @@ const PersonalizarArreglo = () => {
                 <p className='font-bold text-2xl'>Total a pagar: ${`${diseño + tamaño + flor + extra}`}</p>
               </div>
               <div className='flex justify-content-around'>
-                <Button label="Guardar" severity="info" rounded size="large" className='w-5' />
+                {/* <Button label="Guardar" severity="info" rounded size="large" className='w-5' /> */}
                 <Button label="Pagar" severity="success" rounded size="large" className='w-5' />
               </div>
             </div>

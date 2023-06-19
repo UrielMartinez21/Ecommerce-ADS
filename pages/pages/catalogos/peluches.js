@@ -2,18 +2,27 @@ import React, { useEffect, useState,useRef } from "react";
 import Layout from "@/layout/layout"
 import axios from "axios";
 //--> Componentes de PrimeReact
-import { Button } from 'primereact/button';
-import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
+
+//import { Button } from 'primereact/button';
+//import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import { agregarProducto } from "@/components/mensajesNotificaciones/links";
 // import { Paginator } from 'primereact/paginator';
 // import { Rating } from 'primereact/rating';
+
 import { Tag } from 'primereact/tag';
-import { InputText } from 'primereact/inputtext';
+import { Button } from 'primereact/button';
+import { Rating } from 'primereact/rating';
 import { Dialog } from 'primereact/dialog';
+
 import { Toast } from 'primereact/toast';
 import {
   carritoadd
 } from '@/components/mensajesNotificaciones/mensajes';
+
+import { Carousel } from 'primereact/carousel';
+import { InputText } from 'primereact/inputtext';
+import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
+
 
 // --> Libreria de cloudinary
 import { Image } from 'cloudinary-react'
@@ -137,11 +146,6 @@ const AgregarCarrito = async (peluche) => {
     return (
       <div className="col-12">
         <div className="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-
-          {/* <img
-            className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" src={`${peluche.imagen}`}
-            alt={`${peluche.nombreProducto}`} style={{ width: '200px', height: '200px' }}
-          /> */}
           <Image
             cloudName="dp6uo7fsz" publicId={peluche.imagenProducto[0]}
             className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
@@ -150,7 +154,6 @@ const AgregarCarrito = async (peluche) => {
           <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
             <div className="flex flex-column align-items-center sm:align-items-start gap-3">
               <div className="text-2xl font-bold text-900">{peluche.nombreProducto}</div>
-              {/* <Rating value={peluche.rating} readOnly cancel={false}></Rating> */}
               <div className="flex align-items-center gap-3">
                 <Tag value={peluche.statusProducto} severity={getSeverity(peluche)}></Tag>
                 <span className="flex align-items-center gap-2">
@@ -169,9 +172,7 @@ const AgregarCarrito = async (peluche) => {
                   <span className="text-2xl font-semibold ml-6">${peluche.precioDescuento}</span>
                 </div>
               )}
-
-
-              {/* <span className="text-2xl font-semibold mt-8">${peluche.precioProducto}</span> */}
+              <Rating value={peluche.valoracionGlobal} readOnly cancel={false}></Rating>
             </div>
 
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2 mt-6">
@@ -205,10 +206,6 @@ const AgregarCarrito = async (peluche) => {
           </div>
 
           <div className="flex flex-column align-items-center gap-3 py-5">
-            {/* <img
-              className="shadow-2 border-round" src={`${peluche.imagen}`} alt={`${peluche.nombreProducto}`}
-              style={{ width: '200px', height: '200px' }} /> */}
-
             <Image
               cloudName="dp6uo7fsz" publicId={peluche.imagenProducto[0]}
               style={{ width: '200px', height: '200px' }}
@@ -229,12 +226,8 @@ const AgregarCarrito = async (peluche) => {
                 </span>
               </div>
             )}
-
-
-            {/* <span className="text-2xl font-bold">${peluche.precioProducto}</span> */}
-            {/* <Rating value={peluche.rating} readOnly cancel={false}></Rating> */}
+            <Rating value={peluche.valoracionGlobal} readOnly cancel={false}></Rating>
           </div>
-
           <div className="flex align-items-center justify-content-between">
             <Button icon="pi pi-heart" rounded severity="help" aria-label="Favorite" className="" />
             <Button label="Detalles" icon="pi pi-search" className=" font-light ml-2" onClick={() => dialogoPeluche(peluche)} />
@@ -307,6 +300,38 @@ const AgregarCarrito = async (peluche) => {
     <><Button label="Cerrar" icon="pi pi-times" onClick={cerrarDialogo} className="p-button-text" /></>
   )
 
+  //----------------| Imagenes de dialogo |----------------
+  const responsiveOptions = [
+    {
+      breakpoint: '1199px',
+      numVisible: 1,
+      numScroll: 1
+    },
+    {
+      breakpoint: '991px',
+      numVisible: 2,
+      numScroll: 1
+    },
+    {
+      breakpoint: '767px',
+      numVisible: 1,
+      numScroll: 1
+    }
+  ];
+
+  const plantillaImagenes = (producto) => {
+    return (
+      <div className="flex justify-content-center">
+        <div className="mb-3">
+          <Image
+            cloudName="dp6uo7fsz" publicId={producto}
+            style={{ width: '150px', height: '150px' }}
+          />
+        </div>
+      </div>
+    );
+  };
+
   //----------------| Valor que regresara |----------------
   return (
     <Layout
@@ -323,27 +348,27 @@ const AgregarCarrito = async (peluche) => {
             <Dialog
               header={`Detalles de ${detallesPeluche.nombreProducto}`}
               visible={mostrarDialog} onHide={cerrarDialogo}
-              footer={botonesDialogo} style={{ width: '35vw' }}
+              footer={botonesDialogo} style={{ width: '50vw' }}
             >
               <div className="flex justify-content-center">
-                {/* <img src={detallesFlor.imagen} style={{ width: '200px', height: '200px' }} /> */}
-                <Image
-                  cloudName="dp6uo7fsz" publicId={detallesPeluche.imagenProducto[0]}
-                  style={{ width: '200px', height: '200px' }}
-                />
+                <Carousel
+                  value={detallesPeluche.imagenProducto} numVisible={1} numScroll={1} responsiveOptions={responsiveOptions}
+                  itemTemplate={plantillaImagenes} />
               </div>
               <div className="mt-5">
                 <p className="my-2"><span className="font-semibold text-lg">Nombre: </span>{detallesPeluche.nombreProducto}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Precio: </span>${detallesPeluche.precioProducto}</p>
-                <p className="my-2"><span className="font-semibold text-lg">
-                  Categoría: </span>{detallesPeluche.categoriaProducto}
-                </p>
+                {detallesPeluche.precioProducto !== detallesPeluche.precioDescuento && (
+                  <p className="my-2">
+                    <span className="font-semibold text-lg">Precio con descuento: </span>${detallesPeluche.precioDescuento}
+                  </p>
+                )}
+                <p className="my-2"><span className="font-semibold text-lg">Categoría: </span>{detallesPeluche.categoriaProducto}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Estatus: </span>{detallesPeluche.statusProducto}</p>
-                <p className="my-2"><span className="font-semibold text-lg">
-                  Descripción: </span>{detallesPeluche.descrProducto}
-                </p>
+                <p className="my-2"><span className="font-semibold text-lg">Descripción: </span>{detallesPeluche.descrProducto}</p>
               </div>
             </Dialog>
+
 
           </div>
         </div>

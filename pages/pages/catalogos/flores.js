@@ -5,6 +5,7 @@ import axios from "axios";
 import { Tag } from 'primereact/tag';
 import { Button } from 'primereact/button';
 import { Dialog } from 'primereact/dialog';
+import { Carousel } from 'primereact/carousel';
 import { InputText } from 'primereact/inputtext';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import { mostrarFlores } from "@/components/mensajesNotificaciones/links";
@@ -13,8 +14,7 @@ import { agregarProducto ,agregarFavorito} from "@/components/mensajesNotificaci
 import {
   carritoadd
 } from '@/components/mensajesNotificaciones/mensajes';
-
-// import { Rating } from 'primereact/rating';
+import { Rating } from 'primereact/rating';
 // --> Libreria de cloudinary
 import { Image } from 'cloudinary-react'
 
@@ -40,7 +40,10 @@ const CatalogoFlores = () => {
 
   //--> Ejecucion en segundo planos
   useEffect(() => {
-    axios.get(mostrarFlores).then(res => { setFlores(res.data.fleurs) })
+    axios.get(mostrarFlores).then(res => {
+      setFlores(res.data.fleurs)
+      // console.log(res.data.fleurs)
+    })
   }, [])
 
   //--> Indicar estado de la flor
@@ -156,11 +159,6 @@ const AgregarFavorito = async (flor) => {
     return (
       <div className="col-12">
         <div className="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
-
-          {/* <img
-            className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round" src={`${flor.imagen}`}
-            alt={`${flor.nombreProducto}`} style={{ width: '200px', height: '200px' }}
-          /> */}
           <Image
             cloudName="dp6uo7fsz" publicId={flor.imagenProducto[0]}
             className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
@@ -171,7 +169,6 @@ const AgregarFavorito = async (flor) => {
           >
             <div className="flex flex-column align-items-center sm:align-items-start gap-3">
               <div className="text-2xl font-bold text-900">{flor.nombreProducto}</div>
-              {/* <Rating value={flor.rating} readOnly cancel={false}></Rating> */}
               <div className="flex align-items-center gap-3">
                 <Tag value={flor.statusProducto} severity={getSeverity(flor)}></Tag>
                 <span className="flex align-items-center gap-2">
@@ -190,8 +187,7 @@ const AgregarFavorito = async (flor) => {
                   <span className="text-2xl font-semibold ml-6">${flor.precioDescuento}</span>
                 </div>
               )}
-
-
+              <Rating value={flor.valoracionGlobal} readOnly cancel={false}></Rating>
             </div>
 
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2 mt-6">
@@ -231,10 +227,6 @@ const AgregarFavorito = async (flor) => {
           </div>
 
           <div className="flex flex-column align-items-center gap-3 py-5">
-            {/* <img
-              className="shadow-2 border-round" src={`${flor.imagen}`} alt={`${flor.nombreProducto}`}
-              style={{ width: '200px', height: '200px' }} /> */}
-
             <Image
               cloudName="dp6uo7fsz" publicId={flor.imagenProducto[0]}
               style={{ width: '200px', height: '200px' }}
@@ -256,7 +248,7 @@ const AgregarFavorito = async (flor) => {
             )}
 
 
-            {/* <Rating value={flor.rating} readOnly cancel={false}></Rating> */}
+            <Rating value={flor.valoracionGlobal} readOnly cancel={false}></Rating>
           </div>
 
           <div className="flex align-items-center justify-content-between">
@@ -329,6 +321,37 @@ const AgregarFavorito = async (flor) => {
   const botonesDialogo = (
     <><Button label="Cerrar" icon="pi pi-times" onClick={cerrarDialogo} className="p-button-text" /></>
   )
+  //----------------| Imagenes de dialogo |----------------
+  const responsiveOptions = [
+    {
+      breakpoint: '1199px',
+      numVisible: 1,
+      numScroll: 1
+    },
+    {
+      breakpoint: '991px',
+      numVisible: 2,
+      numScroll: 1
+    },
+    {
+      breakpoint: '767px',
+      numVisible: 1,
+      numScroll: 1
+    }
+  ];
+
+  const plantillaImagenes = (producto) => {
+    return (
+      <div className="flex justify-content-center">
+        <div className="mb-3">
+          <Image
+            cloudName="dp6uo7fsz" publicId={producto}
+            style={{ width: '200px', height: '200px' }}
+          />
+        </div>
+      </div>
+    );
+  };
 
   //----------------| Valor que regresara |----------------
   return (
@@ -346,18 +369,21 @@ const AgregarFavorito = async (flor) => {
             <Dialog
               header={`Detalles de ${detallesFlor.nombreProducto}`}
               visible={mostrarDialog} onHide={cerrarDialogo}
-              footer={botonesDialogo} style={{ width: '35vw' }}
+              footer={botonesDialogo} style={{ width: '46vw' }}
             >
               <div className="flex justify-content-center">
-                {/* <img src={detallesFlor.imagen} style={{ width: '200px', height: '200px' }} /> */}
-                <Image
-                  cloudName="dp6uo7fsz" publicId={detallesFlor.imagenProducto[0]}
-                  style={{ width: '200px', height: '200px' }}
-                />
+                <Carousel
+                  value={detallesFlor.imagenProducto} numVisible={1} numScroll={1} responsiveOptions={responsiveOptions}
+                  itemTemplate={plantillaImagenes} />
               </div>
               <div className="mt-5">
                 <p className="my-2"><span className="font-semibold text-lg">Nombre: </span>{detallesFlor.nombreProducto}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Precio: </span>${detallesFlor.precioProducto}</p>
+                {detallesFlor.precioProducto !== detallesFlor.precioDescuento && (
+                  <p className="my-2">
+                    <span className="font-semibold text-lg">Precio con descuento: </span>${detallesFlor.precioDescuento}
+                  </p>
+                )}
                 <p className="my-2"><span className="font-semibold text-lg">Categoría: </span>{detallesFlor.categoriaProducto}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Estatus: </span>{detallesFlor.statusProducto}</p>
                 <p className="my-2"><span className="font-semibold text-lg">Descripción: </span>{detallesFlor.descrProducto}</p>
