@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef } from "react";
 import Layout from "@/layout/layout"
 import axios from "axios";
 //--> Componentes de PrimeReact
@@ -8,9 +8,17 @@ import { Dialog } from 'primereact/dialog';
 import { InputText } from 'primereact/inputtext';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
 import { mostrarFlores } from "@/components/mensajesNotificaciones/links";
+import { Toast } from 'primereact/toast';
+import { agregarProducto ,agregarFavorito} from "@/components/mensajesNotificaciones/links";
+import {
+  carritoadd
+} from '@/components/mensajesNotificaciones/mensajes';
+
 // import { Rating } from 'primereact/rating';
 // --> Libreria de cloudinary
 import { Image } from 'cloudinary-react'
+
+
 
 const CatalogoFlores = () => {
   //----------------| Lista de variables |----------------
@@ -23,7 +31,8 @@ const CatalogoFlores = () => {
     precioProducto: '',
     categoriaProducto: '',
     statusProducto: '',
-    imagenProducto: []
+    imagenProducto: [],
+  
   })
   const [mostrarDialog, setMostrarDialog] = useState(false)
   //--> Buscador
@@ -50,7 +59,98 @@ const CatalogoFlores = () => {
         return null;
     }
   };
+ //-->Toast
+ const toast = useRef(null);
+ 
 
+
+   // Nuevo estado para controlar si un producto es favorito o no
+   const [favoritos, setFavoritos] = useState([]);
+
+   // Función para cambiar el estado de favorito de un producto
+   const toggleFavorito = (flor) => {
+     if (esFavorito(flor)) {
+       // Si ya es favorito, se elimina de la lista de favoritos
+       const nuevosFavoritos = favoritos.filter((item) => item.id !== flor.id);
+       setFavoritos(nuevosFavoritos);
+     } else {
+       // Si no es favorito, se agrega a la lista de favoritos
+       const nuevosFavoritos = [...favoritos, flor];
+       setFavoritos(nuevosFavoritos);
+     }
+   };
+ 
+   // Función para verificar si un producto es favorito
+   const esFavorito = (flor) => {
+     return favoritos.some((item) => item.id === flor.id);
+   };
+ 
+
+
+ //-->Carrito de Compras para flores
+const AgregarCarrito = async (flor) => {
+  const token = localStorage.getItem('token')
+    const cabecera = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }}
+  try {
+
+    
+    const respuesta = await axios.post(agregarProducto, {nombreProducto: flor.nombreProducto},cabecera)
+    if (respuesta.status === 200) {
+      if (toast.current) {
+        toast.current.show({
+          severity: 'success',
+          summary: 'Mensaje de exito',
+          detail: carritoadd,
+          life: 3000, 
+        });}
+    }
+  } catch (error) {
+    if (toast.current) {
+      toast.current.show({
+        severity: 'info',
+        summary: 'Información',
+        detail: error.response.data.msg,
+        life: 3000, 
+      });}
+   
+  }
+}
+
+
+//-->Carrito de Compras para flores
+const AgregarFavorito = async (flor) => {
+  const token = localStorage.getItem('token')
+    const cabecera = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }}
+  try {
+
+    
+    const respuesta = await axios.post(agregarFavorito, {nombreProducto: flor.nombreProducto},cabecera)
+    if (respuesta.status === 200) {
+      if (toast.current) {
+        toast.current.show({
+          severity: 'success',
+          summary: 'Mensaje de exito',
+          detail: carritoadd,
+          life: 3000, 
+        });}
+    }
+  } catch (error) {
+    if (toast.current) {
+      toast.current.show({
+        severity: 'info',
+        summary: 'Información',
+        detail: error.response.data.msg,
+        life: 3000, 
+      });}
+   
+  }
+}
   //--> Modo de vista: lista
   const listItem = (flor) => {
     return (
@@ -95,10 +195,17 @@ const CatalogoFlores = () => {
             </div>
 
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2 mt-6">
-              <Button label="Favoritos" icon="pi pi-heart" rounded severity="help"
-                aria-label="Favorite" className="p-button-rounded" />
-              <Button label="Agregar" icon="pi pi-shopping-cart" className="p-button-rounded" severity="success"
-                disabled={flor.statusProducto === 'Agotado'} />
+            <Button
+          label="Favoritos"
+          icon={esFavorito(flor) ? "pi pi-heart" : "pi pi-heart-fill"}
+          rounded
+          severity="help"
+          aria-label="Favorite"
+          className="p-button-rounded"
+          onClick={() => toggleFavorito(flor)}
+        />
+              <Button label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2 " severity="success" disabled={flor.estatusProducto === 'Agotado'} onClick={() => {AgregarCarrito(flor)}}/>
+              <Toast ref={toast} />
               <Button label="Detalles" icon="pi pi-external-link" className="p-button-rounded"
                 onClick={() => dialogoFlor(flor)} />
             </div>
@@ -153,11 +260,16 @@ const CatalogoFlores = () => {
           </div>
 
           <div className="flex align-items-center justify-content-between">
-            <Button icon="pi pi-heart" rounded severity="help" aria-label="Favorite" className="" />
+          <Button
+          icon={esFavorito(flor) ? "pi pi-heart-fill" : "pi pi-heart"}
+          rounded
+          severity="help"
+          className="p-button-rounded"
+          onClick={() => {toggleFavorito(flor); AgregarFavorito(flor)}}
+        />
             <Button label="Detalles" icon="pi pi-search" className=" font-light ml-2" onClick={() => dialogoFlor(flor)} />
-            <Button
-              label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2" severity="success"
-              disabled={flor.statusProducto === 'Agotado'}></Button>
+            <Button label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2 " severity="success" disabled={flor.estatus === 'Agotado'} onClick={() => {AgregarCarrito(flor)}}/>
+              <Toast ref={toast} />
           </div>
 
         </div>
