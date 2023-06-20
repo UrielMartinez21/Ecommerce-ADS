@@ -63,3 +63,7 @@ export const pagarPedido="http://localhost:4000/api/pedidos/pagarPedido"
 export const verFloresBack = "http://localhost:4000/api/cliente/interaccionPro/verFlores"
 export const verPeluchesBack = "http://localhost:4000/api/cliente/interaccionPro/verPeluches"
 
+
+//-->ConsultarCompras
+export const consultarPedidos = "http://localhost:4000/api/cliente/interaccionPed/visualizar"
+
