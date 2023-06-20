@@ -223,7 +223,7 @@ const CarritoCompras = () => {
         <div className="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
 
           <Image
-
+            cloudName="dp6uo7fsz" publicId={flor.img_C}
             className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
             style={{ width: '200px', height: '200px' }}
           />
