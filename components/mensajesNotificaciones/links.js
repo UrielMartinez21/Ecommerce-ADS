@@ -42,12 +42,16 @@ export const decrementarProducto = "http://localhost:4000/api/cliente/carrito/de
 export const eliminarProducto = "http://localhost:4000/api/cliente/carrito/eliminarProducto"
 //-> Vaciar Carrito
 export const vaciarCarrito = "http://localhost:4000/api/cliente/carrito/vaciarCarrito"
-//-> Visualizar Carrito
+//--> Visualizar Carrito
 export const visualizarCarrito = "http://localhost:4000/api/cliente/carrito/visualizarCarrito"
-//->Agregar a favorito
+//-->Agregar a favorito
 export const agregarFavorito = "http://localhost:4000/api/cliente/interaccionPro/agregarFavoritos"
 
 
-//->Funciones consulta
+//-->Funciones consulta
 export const consultarTarjeta = "http://localhost:4000/api/cliente/interaccionPed/verTarjetas"
 export const consultarDir = "http://localhost:4000/api/cliente/interaccionPed/verDirecciones"
+
+//--> Personalizar producto
+export const verFloresBack = "http://localhost:4000/api/cliente/interaccionPro/verFlores"
+export const verPeluchesBack = "http://localhost:4000/api/cliente/interaccionPro/verPeluches"

@@ -1,13 +1,58 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '@/layout/layout'
 import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
+import axios from 'axios';
+import { verFloresBack, verPeluchesBack } from '@/components/mensajesNotificaciones/links';
 
 const PersonalizarArreglo = () => {
   const [flor, setFlor] = useState(0)
   const [diseño, setDiseño] = useState(0);
   const [tamaño, setTamaño] = useState(0)
   const [extra, setExtra] = useState(0)
+
+  const [listaFlores, setListaFlores] = useState([])
+  const [listaPeluches, setListaPeluches] = useState([])
+
+  const consultarFlores = async () => {
+    //--> Preparar objeto para enviar
+    const token = localStorage.getItem('token')
+    const cabecera = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    //--> Enviar objeto
+    try {
+      const datos = await axios.get(verFloresBack, cabecera)
+      console.log(datos.data.fleurs)
+      setListaFlores(datos.data.fleurs)
+    } catch (error) { console.log(error) }
+  }
+
+  const consultarPeluches = async () => {
+    //--> Preparar objeto para enviar
+    const token = localStorage.getItem('token')
+    const cabecera = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    //--> Enviar objeto
+    try {
+      const datos = await axios.get(verPeluchesBack, cabecera)
+      // console.log(datos.data.plushies)
+      setListaPeluches(datos.data.plushies)
+    } catch (error) { console.log(error) }
+  }
+
+  useEffect(() => {
+    consultarFlores()
+    consultarPeluches()
+  }, [])
+  useEffect(() => {
+    console.log(flor)
+  }, [flor])
 
   const flores = [
     { tipo: "Girasol", valor: 10 },
@@ -72,13 +117,13 @@ const PersonalizarArreglo = () => {
                   <label htmlFor="flor" className='flex align-items-center font-semibold'>Tipo de flor:</label>
                   <Dropdown
                     inputId="flor" value={flor} onChange={(e) => setFlor(e.value)} placeholder='Tipo de flor'
-                    options={flores} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
+                    options={listaFlores} optionLabel="nombreProducto" optionValue='nombreProducto' className="w-full md:w-14rem" />
                 </div>
                 <div className='flex justify-content-between my-3'>
                   <label htmlFor="extra" className='flex align-items-center font-semibold'>Peluche:</label>
                   <Dropdown
                     inputId="extra" value={extra} onChange={(e) => setExtra(e.value)} placeholder='Peluche (opcional)'
-                    options={peluches} optionLabel="tipo" optionValue='valor' className="w-full md:w-14rem" />
+                    options={listaPeluches} optionLabel="nombreProducto" optionValue='nombreProducto' className="w-full md:w-14rem" />
                 </div>
               </div>
               <div className='card'>
