@@ -79,8 +79,10 @@ const ModificarNombre = () => {
     //--> Enviar peticion
     try {
       const respuesta = await axios.post(modificarNombre, objetoEnviar, cabecera)
-      console.log(respuesta)
+      // console.log(respuesta)
+      // console.log(`${nombre} ${apellidos}`)
       if (respuesta.status === 200) {
+        localStorage.setItem('nombre', `${nombre} ${apellidos}`)
         toast.current.show({ severity: 'success', summary: 'Éxito', detail: 'Nombre modificado', life: 3000 });
         setTimeout(() => {
           //--> Redireccionar
