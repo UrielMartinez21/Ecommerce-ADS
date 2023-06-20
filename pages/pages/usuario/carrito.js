@@ -140,21 +140,42 @@ const CarritoCompras = () => {
       }
     }
     //--> Envio de la peticion
+    
     try {
-      const respuesta = await axios.post(eliminarProducto, { nombreProducto: producto.producto_C }, cabecera)
-      console.log(respuesta.status)
-      if (respuesta.status === 200) {
-        toast.current.show({
-          severity: 'success',
-          summary: 'Mensaje de éxito',
-          detail: `${respuesta.data.msg}`,
-          life: 3000,
-        });
+      const confirmacion = window.confirm('¿Está seguro de que deseas eliminar este artículo del carrito?');
+      if (confirmacion) {
+        const respuesta = await axios.post(eliminarProducto, { nombreProducto: producto.producto_C }, cabecera);
+        console.log(respuesta.status);
+        if (respuesta.status === 200) {
+          toast.current.show({
+            severity: 'success',
+            summary: 'Mensaje de éxito',
+            detail: `${respuesta.data.msg}`,
+            life: 3000,
+          });
+        }
+        consultarCarrito();
       }
-      consultarCarrito()
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
+  
+
+    // try {
+    //   const respuesta = await axios.post(eliminarProducto, { nombreProducto: producto.producto_C }, cabecera)
+    //   console.log(respuesta.status)
+    //   if (respuesta.status === 200) {
+    //     toast.current.show({
+    //       severity: 'success',
+    //       summary: 'Mensaje de éxito',
+    //       detail: `${respuesta.data.msg}`,
+    //       life: 3000,
+    //     });
+    //   }
+    //   consultarCarrito()
+    // } catch (error) {
+    //   console.log(error)
+    // }
 
   }
 
