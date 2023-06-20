@@ -74,7 +74,7 @@ const CrearCuenta = () => {
       setEstiloApellido('p-invalid')
       setMensajeRespuesta(formatoNombre)
       setEstiloMensajeRespuesta('error')
-      setTimeout(() => { limpiarMensaje() }, 3000)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
       return
     } else {
       setEstiloNombre('')
@@ -85,7 +85,7 @@ const CrearCuenta = () => {
       setEstiloApellido('p-invalid')
       setMensajeRespuesta(formatoNombre)
       setEstiloMensajeRespuesta('error')
-      setTimeout(() => { limpiarMensaje() }, 3000)
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
       return
     } else {
       setEstiloApellido('')
