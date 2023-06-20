@@ -21,6 +21,30 @@ const AtencionClientes = () => {
   });
 
   const saveCard = async()=> {
+
+    if (
+      state.number === '' ||
+      state.expiry === '' ||
+      state.cvc === '' ||
+      state.name === ''
+    ){
+      toast.current?.show({
+        severity: 'error',
+        summary: 'Error',
+        detail: "Todos los campos deben estar llenos",
+        life: 3000,
+      });
+      return
+    } 
+    if(state.cvc.length<3){
+      toast.current?.show({
+        severity: 'error',
+        summary: 'Error',
+        detail: "El cvv debe ser de 3 digitos",
+        life: 3000,
+      });
+      return
+    }
      //--> Preparar objeto para enviar
   console.log(state.expiry)
   const token = localStorage.getItem('token')
@@ -29,8 +53,9 @@ const AtencionClientes = () => {
       Authorization: `Bearer ${token}`
     }
   }
+  const numbero = state.number.replace(/\s/g, '');
   const objetoEnviar = {
-    num: state.number,
+    num: numbero,
     fecha: state.expiry,
     titular: state.name,
     c: state.cvc
@@ -69,34 +94,33 @@ const AtencionClientes = () => {
   //toast.current.show({ severity: 'success', summary: 'Cambio guardado exitosamente', detail: 'Revisa tu correo', life: 3000 });
 
 }
+const handleInputChange = (evt) => {
+  const { name, value } = evt.target;
 
-
-
-  const handleInputChange = (evt) => {
-    const { name, value } = evt.target;
-    
-  
-    if (name === 'name' && /^[A-Za-z]+$/.test(value)) {
-      setState((prev) => ({ ...prev, [name]: value }));
-    }
-
-    if (name === 'cvc' && /^\d{0,3}$/.test(value)) {
-      setState((prev) => ({ ...prev, [name]: value }));
-    }
-    if (name === 'expiry' && /^(0[1-9]|1\d|2\d|3[01])\/([0-9]{2})$/.test(value)) {
-      setState((prev) => ({ ...prev, [name]: value }));
-    }
-    
-  }
-  const handleInputNumber = (evt) => {
-    const { name, value } = evt.target;
+  if (name === 'name' && (/^[a-zA-Z\s]*$/.test(value) || value === '')) {
     setState((prev) => ({ ...prev, [name]: value }));
   }
 
-  const handleInputFocus = (evt) => {
-    setState((prev) => ({ ...prev, focus: evt.target.name }));
+  if (name === 'cvc' && (/^\d{0,3}$/.test(value) || value === '')) {
+    setState((prev) => ({ ...prev, [name]: value }));
   }
 
+  if (
+    name === 'expiry' &&
+    (/^(0[1-9]|1\d|2\d|3[01])\/([0-9]{2})$/.test(value) || value === '')
+  ) {
+    setState((prev) => ({ ...prev, [name]: value }));
+  }
+};
+
+const handleInputNumber = (evt) => {
+  const { name, value } = evt.target;
+  setState((prev) => ({ ...prev, [name]: value }));
+};
+
+const handleInputFocus = (evt) => {
+  setState((prev) => ({ ...prev, focus: evt.target.name }));
+};
 
   return (
 

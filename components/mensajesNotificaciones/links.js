@@ -51,3 +51,9 @@ export const agregarFavorito = "http://localhost:4000/api/cliente/interaccionPro
 //->Funciones consulta
 export const consultarTarjeta = "http://localhost:4000/api/cliente/interaccionPed/verTarjetas"
 export const consultarDir = "http://localhost:4000/api/cliente/interaccionPed/verDirecciones"
+
+
+//->Realizar pago
+export const obtenerPedido="http://localhost:4000/api/pedidos"
+export const quitarPedido="http://localhost:4000/api/pedidos/cancelarPedido"
+export const pagarPedido="http://localhost:4000/api/pedidos/pagarPedido"
