@@ -212,8 +212,9 @@ const TokenResetear = () => {
       </div>
 
       <Dialog header="Restablecer contraseña. " visible={mostrarDialogo} style={{ width: '50vw' }} onHide={() => setMostrarDialogo(false)}>
+        <p>Ingrese su nueva contraseña, este debe contener mínimo 6 caracteres de longitud.</p>
         <div className='flex justify-content-center my-2'>
-          <span>Ingrese su nueva contraseña, este debe contener mínimo 6 caracteres de longitud.</span> <br/>
+          <br />
           <Password
             id="cpassword" placeholder='Mínimo 6 caracteres'
             inputClassName={`w-full p-3 md:w-25rem`} className={`${estiloPassword} `}
