@@ -4,12 +4,17 @@ import { Button } from 'primereact/button';
 import { Dropdown } from 'primereact/dropdown';
 import axios from 'axios';
 import { verFloresBack, verPeluchesBack } from '@/components/mensajesNotificaciones/links';
+import { Image } from 'cloudinary-react'
 
 const PersonalizarArreglo = () => {
   const [flor, setFlor] = useState(0)
   const [diseño, setDiseño] = useState(0);
   const [tamaño, setTamaño] = useState(0)
   const [extra, setExtra] = useState(0)
+
+  const [objetoFlor, setObjetoFlor] = useState(null)
+  const [objetoPeluche, setObjetoPeluche] = useState(null)
+
 
   const [listaFlores, setListaFlores] = useState([])
   const [listaPeluches, setListaPeluches] = useState([])
@@ -41,7 +46,6 @@ const PersonalizarArreglo = () => {
     //--> Enviar objeto
     try {
       const datos = await axios.get(verPeluchesBack, cabecera)
-      // console.log(datos.data.plushies)
       setListaPeluches(datos.data.plushies)
     } catch (error) { console.log(error) }
   }
@@ -50,36 +54,40 @@ const PersonalizarArreglo = () => {
     consultarFlores()
     consultarPeluches()
   }, [])
+
   useEffect(() => {
-    console.log(flor)
+    console.log(extra)
+  }, [extra])
+
+  useEffect(() => {
+    if (flor) {
+      const objeto = listaFlores.filter(f => f.precioDescuento === flor)
+      setObjetoFlor(objeto[0])
+      // console.log(objeto[0].imagenProducto[0])
+    }
   }, [flor])
 
-  const flores = [
-    { tipo: "Girasol", valor: 10 },
-    { tipo: "Rosa", valor: 12 },
-    { tipo: "Gardenia", valor: 14 },
-    { tipo: "Setosa", valor: 16 },
-  ]
+  useEffect(() => {
+    if (extra) {
+      const objeto = listaPeluches.filter(p => p.precioDescuento === extra)
+      setObjetoPeluche(objeto[0])
+      // console.log(objeto[0].imagenProducto[0])
+    }
+  }, [extra])
+
 
   const diseños = [
-    { tipo: 'Individual', valor: 1 },
-    { tipo: 'San valentin', valor: 2 },
-    { tipo: 'Buchon', valor: 3 },
-    { tipo: 'Cumpleaños', valor: 4 },
+    { tipo: 'Individual', valor: 90 },
+    { tipo: 'San valentin', valor: 100 },
+    { tipo: 'Buchon', valor: 150 },
+    { tipo: 'Cumpleaños', valor: 90 },
   ];
 
   const tamaños = [
-    { tipo: "Pequeño", valor: 5 },
-    { tipo: "Chico", valor: 10 },
-    { tipo: "Mediano", valor: 15 },
-    { tipo: "Grande", valor: 20 },
-  ]
-
-  const peluches = [
-    { tipo: "Oso", valor: 50 },
-    { tipo: "Jirafa", valor: 60 },
-    { tipo: "Tiburon", valor: 70 },
-    { tipo: "Panda", valor: 80 },
+    { tipo: "Pequeño", valor: 1 },
+    { tipo: "Chico", valor: 3 },
+    { tipo: "Mediano", valor: 5 },
+    { tipo: "Grande", valor: 7 },
   ]
 
   return (
@@ -92,8 +100,32 @@ const PersonalizarArreglo = () => {
           <h4>Diseña tu arreglo</h4>
           <div className='lg:flex lg:justify-content-between '>
             <div className='lg:col-7 md:col-12'>
-              <div className='card'>Foto de arreglo</div>
-              <div className='card'>Foto de peluche</div>
+              {objetoFlor && (
+                <div className='card'>
+                  <Image
+                    cloudName="dp6uo7fsz" publicId={objetoFlor.imagenProducto[0]}
+                    className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+                    style={{ width: '200px', height: '200px' }}
+                  />
+                </div>
+              )}
+              {!objetoFlor && (
+                <div className='card'>No ha seleccionado alguna flor.</div>
+              )}
+
+              {objetoPeluche && (
+                <div className='card'>
+                  <Image
+                    cloudName="dp6uo7fsz" publicId={objetoPeluche.imagenProducto[0]}
+                    className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+                    style={{ width: '200px', height: '200px' }}
+                  />
+                </div>
+              )}
+              {!objetoPeluche && (
+                <div className='card'>No ha seleccionado algún peluche.</div>
+              )}
+              {/* <div className='card'>Foto de peluche</div> */}
             </div>
 
             <div className='lg:col-5 md:col-12'>
@@ -117,20 +149,20 @@ const PersonalizarArreglo = () => {
                   <label htmlFor="flor" className='flex align-items-center font-semibold'>Tipo de flor:</label>
                   <Dropdown
                     inputId="flor" value={flor} onChange={(e) => setFlor(e.value)} placeholder='Tipo de flor'
-                    options={listaFlores} optionLabel="nombreProducto" optionValue='nombreProducto' className="w-full md:w-14rem" />
+                    options={listaFlores} optionLabel="nombreProducto" optionValue='precioDescuento' className="w-full md:w-14rem" />
                 </div>
                 <div className='flex justify-content-between my-3'>
                   <label htmlFor="extra" className='flex align-items-center font-semibold'>Peluche:</label>
                   <Dropdown
                     inputId="extra" value={extra} onChange={(e) => setExtra(e.value)} placeholder='Peluche (opcional)'
-                    options={listaPeluches} optionLabel="nombreProducto" optionValue='nombreProducto' className="w-full md:w-14rem" />
+                    options={listaPeluches} optionLabel="nombreProducto" optionValue='precioDescuento'
+                    className="w-full md:w-14rem" />
                 </div>
               </div>
               <div className='card'>
-                <p className='font-bold text-2xl'>Total a pagar: ${`${diseño + tamaño + flor + extra}`}</p>
+                <p className='font-bold text-2xl'>Total a pagar: ${`${diseño + (tamaño * flor) + extra}`}</p>
               </div>
               <div className='flex justify-content-around'>
-                {/* <Button label="Guardar" severity="info" rounded size="large" className='w-5' /> */}
                 <Button label="Pagar" severity="success" rounded size="large" className='w-5' />
               </div>
             </div>
