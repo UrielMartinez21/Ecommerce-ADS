@@ -5,6 +5,7 @@ import axios from 'axios';
 //--> Componentes de primeReact
 import { Button } from 'primereact/button';
 import { Message } from 'primereact/message';
+import { Messages } from 'primereact/messages';
 import { Password } from 'primereact/password';
 import { InputText } from "primereact/inputtext";
 import { useRouter } from 'next/router';
@@ -16,8 +17,7 @@ import back from '../../../public/images/background.gif';
 
 //--> Componentes propios
 import {
-  camposVacios, emailInvalido, exitoCuenta, passwordInvalido, passwordsInValidas
-} from '@/components/mensajesNotificaciones/mensajes';
+  camposVacios, emailInvalido, exitoCuenta, passwordInvalido, passwordsInValidas, formatoNombre} from '@/components/mensajesNotificaciones/mensajes';
 import { nuevoUsuario } from '@/components/mensajesNotificaciones/links';
 
 
@@ -41,6 +41,8 @@ const CrearCuenta = () => {
   const [estiloMensajeRespuesta, setEstiloMensajeRespuesta] = useState('')
   //--> Mensajes
   const [mensajeRespuesta, setMensajeRespuesta] = useState('')
+  //-----------------------| Mensajes de advertencia |-----------------------
+ 
 
   //-----------------------| Expresion regular |-----------------------
   const validarEmail = /^\w+([.-_+]?\w+)*@\w+([.-]?\w+)*(\.\w{2,10})+$/
@@ -66,6 +68,29 @@ const CrearCuenta = () => {
       setEstiloPassword('')
       setEstiloConfirmPass('')
     }
+
+    if (/^\d*$/.test(nombre, apellido)) {
+      setEstiloNombre('p-invalid')
+      setEstiloApellido('p-invalid')
+      setMensajeRespuesta(formatoNombre)
+      setEstiloMensajeRespuesta('error')
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
+      return
+    } else {
+      setEstiloNombre('')
+      setEstiloApellido('')
+    }
+
+    if (/^\d*$/.test( apellido)) {
+      setEstiloApellido('p-invalid')
+      setMensajeRespuesta(formatoNombre)
+      setEstiloMensajeRespuesta('error')
+      setTimeout(() => { setMensajeRespuesta('') }, 3000);
+      return
+    } else {
+      setEstiloApellido('')
+    }
+
 
     //--> Validar email
     if (!validarEmail.test(email)) {
@@ -111,7 +136,7 @@ const CrearCuenta = () => {
       setEstiloConfirmPass('')
       //--> Redireccionar
       if (respuesta.status === 200) {
-        //--> Notificar estatus despues de validarlo con back-end
+        //--> Notificar estatus después de validarlo con back-end
         setMensajeRespuesta(exitoCuenta)
         setEstiloMensajeRespuesta('success')
         setTimeout(() => { router.push('/pages/pantallainicio/token') }, 1000)
