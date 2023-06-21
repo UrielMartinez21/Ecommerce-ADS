@@ -55,6 +55,26 @@ const DetallesProducto = () => {
     setCarrito([...carrito, producto]);
   };
 
+  const cuadroCancelarValoracion = () => {
+    confirmDialog({
+      message: '¿Seguro que deseas cancelar la valoración?',
+      header: 'Cancelar valoración',
+      icon: 'pi pi-info-circle',
+      position: 'top',
+      accept: cancelarVerdadero,
+      reject: cancelarFalso
+    });
+  };
+
+  const cancelarVerdadero = () => {
+    console.log("Acepto")
+    router.push('/miscompras')
+  }
+
+  const cancelarFalso = () => {
+    console.log("Cancelación cancelada")
+  }
+
 
   //--> Indicar estado del producto
   const getSeverity = (producto) => {
@@ -75,6 +95,17 @@ const DetallesProducto = () => {
  
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (valoracion === 0) {
+      Toast.show({
+        severity: 'warn',
+        summary: 'Valoración obligatoria',
+        detail: 'Por favor, selecciona una valoración de estrellas.',
+        life: 3000,
+      });
+      return;
+    }
+
     // Aquí puedes enviar la valoración y el comentario al servidor o realizar otra lógica de procesamiento
     console.log(`Valoración: ${valoracion}`);
     console.log(`Comentario: ${comentario}`);
@@ -174,6 +205,7 @@ const DetallesProducto = () => {
           <br />
           <Button type="submit" severity="success">Enviar</Button>
         </form>
+        <Button onClick={cuadroCancelarValoracion} severity="danger">Cancelar</Button>
       </div>
     </div>
     

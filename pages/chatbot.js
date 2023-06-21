@@ -36,9 +36,11 @@ const steps=[{
            {value: "Seguimiento de pedido  ",label: "7. Seguimiento de pedido  ",trigger:"Seguimiento"},
            {value: "Métodos de pago        ",label: "8. Métodos de pago        ",trigger:"Metodosp"},
            {value: "Garantías              ",label: "9. Garantías              ",trigger:"garantias"},
+           {value: "Flores para eventos    ",label: "10. Flores para eventos   ",trigger:"floresEventos"}
   ],
   
-}, {
+}, 
+{
   id:'cuidadoFlores',
   options:[{value: "Rosas",        label: "Rosas        ",trigger:"Rosas"},
            {value: "Girasoles ",   label: "Girasoles   " ,trigger:"Girasoles"},
@@ -60,14 +62,28 @@ const steps=[{
   
 },
 {
+  id:'eventos',
+  options:[{value: "AmorAniversario   ",label: "Amor Aniversario  ",trigger:"amorAni"},
+          {value: "Condolencias       ",label: "Condolencias      ",trigger:"condolencias"},
+          {value: "Cumpleaños         ",label: "Cumpleaños        ",trigger:"cumpleaños"},
+          {value: "Bautizos           ",label: "Bautizos          ",trigger:"bautizos"},
+          {value: "Agradecimiento     ",label: "Agradecimiento    ",trigger:"agradecimiento"},     
+  ],
+},
+{
   id:'Populares',
-  message:'Las flores más populares son:',  
+  message:'Contamos con una gran cantidad de flores y la popularidad de ellas depende sobre todo de la temporada en la que nos encontremos. A lo largo del año las mas populares son: Rosas, Girasoles, Tulipanes, Orquídeas. Las rosas son un clasico que sin duda impresionan en cualquier circunstancia. Los girasoles son populares sobretodo por como transmiten alegría y vitalidad. Los tulipanes son un símbolo de elegancia y gracia. Las orquídeas son populares gracias a que demuestra exotismo y sofisticación.',  
   trigger:'opciones'
 },
 {
   id:'Cuidado',
   message: 'Seleccione la flor de la cual desea ver sus cuidados.',
   trigger:'cuidadoFlores'
+},
+{
+  id:'floresEventos',
+  message: 'Contamos con flores para los siguientes eventos:',
+  trigger:'eventos'
 },
 {
   id: 'Rosas',
@@ -155,7 +171,35 @@ const steps=[{
   id:'garantias',
   message:'Tendrá 15 días para hacer cambio o devolución en peluches, así mismo, para pedir un reembolos en arreglos florales que lleguen maltratados. La opción  de "Devolución" que se encuentra en su Historial de compras a la derecha de su pedido realizado, para mayor información y aclaración de dudas contacte al siguiente número: + 52 55 14 75  22 30',  
   trigger:'opciones'
-}];
+},
+
+{
+  id:'amorAni',
+  message:'Las flores para Amor o Aniversario son: Rosas, Margaritas, Lirios y Tulipanes',
+  trigger:'opciones'
+},
+{
+  id:'condolencias',
+  message:'Las flores apropiadas para expresar condolencia son: Lirio blanco, Rosa blanca y Orquídeas blancas',
+  trigger:'opciones'
+},
+{
+  id:'cumpleaños',
+  message:'Las flores aptas para cumpleaños son: Girasoles, Rosas de colores y Lirios',
+  trigger:'opciones'
+},
+{
+  id:'bautizos',
+  message:'Las flores para un bautizo son: Tulipanes, Rosas y Lirios',
+  trigger:'opciones'
+},
+{
+  id:'agradecimiento',
+  message:'Las flores para mostrar agradecimiento son: Tulipanes, Margaritas y Lilas',
+  trigger:'opciones'
+}
+
+];
 
 return(
     

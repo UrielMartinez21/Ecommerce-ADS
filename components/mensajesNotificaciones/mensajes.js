@@ -34,6 +34,7 @@ export const exitoCuenta = 'Cuenta creada con éxito.'
 export const errorValoracion = 'Error para guardar la valoración.'
 export const errorComprobante = 'Comprobante no ingresado.'
 export const errorMailAsociado = 'Correo asociado a una cuenta.'
+export const errorGuardarValoracion = 'Envio de valoración fallido'
 
 
 //--> Invalido
@@ -63,6 +64,11 @@ export const tempoCreada = 'Temporada creada.'
 export const prodEliminado = 'Producto eliminado.'
 export const direccionEnvio = 'Seleccione una dirección de envío.'
 export const cerrarSesion = 'Cerrar sesión.'
+
+// --> Valoracion
+export const valoracionGuardada = 'Valoración guardado'
+export const valoracionObligatoria = 'Campo de estrellas obligatorio'
+
 
 
 export const formatoNombre = "El Nombre o Apellido debe contener caracteres alfabéticos."
