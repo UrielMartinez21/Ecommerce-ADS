@@ -39,7 +39,7 @@ const AppMenu = () => {
         //     { label: 'Para ella', a: '/pages/catalogos/Eventos/paraElla' }]
         //   },]
         // },
-        { label: 'Temporada', icon: 'pi pi-fw pi-tag', to: '/pages/catalogos/temporada' }
+        // { label: 'Temporada', icon: 'pi pi-fw pi-tag', to: '/pages/catalogos/temporada' }
       ]
     },
     {
@@ -48,7 +48,7 @@ const AppMenu = () => {
         { label: 'Personalizar arreglo', icon: 'pi pi-fw pi-gift', to: '/pages/usuario/personalizararreglo' },
         { label: 'Mis Compras', icon: 'pi pi-fw pi-shopping-bag', to: '/pages/usuario/compras' },
         { label: 'Mis favoritos', icon: 'pi pi-fw pi-heart', to: '/pages/usuario/favoritos' },
-        { label: 'Atención al cliente', icon: 'pi pi-fw pi-comments' },
+        // { label: 'Atención al cliente', icon: 'pi pi-fw pi-comments' },
       ]
     }
 

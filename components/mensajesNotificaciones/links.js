@@ -55,9 +55,9 @@ export const consultarDir = "http://localhost:4000/api/cliente/interaccionPed/ve
 
 
 //->Realizar pago
-export const obtenerPedido="http://localhost:4000/api/pedidos"
-export const quitarPedido="http://localhost:4000/api/pedidos/cancelarPedido"
-export const pagarPedido="http://localhost:4000/api/pedidos/pagarPedido"
+export const obtenerPedido = "http://localhost:4000/api/pedidos"
+export const quitarPedido = "http://localhost:4000/api/pedidos/cancelarPedido"
+export const pagarPedido = "http://localhost:4000/api/pedidos/pagarPedido"
 
 //--> Personalizar producto
 export const verFloresBack = "http://localhost:4000/api/cliente/interaccionPro/verFlores"
@@ -66,4 +66,15 @@ export const verPeluchesBack = "http://localhost:4000/api/cliente/interaccionPro
 
 //-->ConsultarCompras
 export const consultarPedidos = "http://localhost:4000/api/cliente/interaccionPed/visualizar"
+
+//-->Ver direcciones
+export const verDirecciones = "http://localhost:4000/api/cliente/interaccionPed/verDirecciones"
+
+//-->Ver tarjetas
+export const verTarjetas = "http://localhost:4000/api/cliente/interaccionPed/verTarjetas"
+
+//-->Favoritos
+export const agregarFavoritos = "http://localhost:4000/api/cliente/interaccionPro/agregarFavoritos"
+export const verFavoritos = "http://localhost:4000/api/cliente/interaccionPro/verFavoritos"
+export const eliminarFavoritos = "http://localhost:4000/api/cliente/interaccionPro/eliminarFavoritos"
 

@@ -1,11 +1,11 @@
-import React, { useEffect, useState,useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Layout from "@/layout/layout"
 import axios from "axios";
 //--> Componentes de PrimeReact
 
 //import { Button } from 'primereact/button';
 //import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
-import { agregarProducto } from "@/components/mensajesNotificaciones/links";
+import { agregarFavoritos, agregarProducto } from "@/components/mensajesNotificaciones/links";
 // import { Paginator } from 'primereact/paginator';
 // import { Rating } from 'primereact/rating';
 
@@ -69,77 +69,115 @@ const CatalogoPeluches = () => {
   };
 
 
-   //-->Toast
-   const toast = useRef(null);
-   const showToast = () => {
-     toast.current.show({ severity: 'success', summary: 'Mensaje de éxito', detail:carritoadd });
-   };
- 
- 
-
-//--> Indicar estado de favoritos
-
-//-->Carrito de Compras para peluches
-const ShoppingCarrito = localStorage.getItem('carrito');
-const productoCarrito = JSON.parse(ShoppingCarrito);
-const [car, setCar] = useState(productoCarrito || []);
+  //-->Toast
+  const toast = useRef(null);
+  const showToast = () => {
+    toast.current.show({ severity: 'success', summary: 'Producto agregado', detail: carritoadd });
+  };
 
 
-const ShoppingCar = (data) => {
-  data.cantidad=1
-  const { nombreProducto } = data;
- 
-  const nuevaFlor = peluches.find((flor) => flor.nombreProducto === nombreProducto);
-  if (nuevaFlor) {
-    const productoExistente = car.find((p) => p.nombreProducto === nombreProducto);
-    if (productoExistente) {
-      productoExistente.cantidad += 1;
-      {showToast}
-      setCar([...car]); // Actualizar el estado del carrito con la cantidad modificada
-    } else {
-      {showToast}
-      setCar([...car, nuevaFlor]); // Agregar el producto al carrito
+
+  //--> Indicar estado de favoritos
+
+  //-->Carrito de Compras para peluches
+  const ShoppingCarrito = localStorage.getItem('carrito');
+  const productoCarrito = JSON.parse(ShoppingCarrito);
+  const [car, setCar] = useState(productoCarrito || []);
+
+
+  const ShoppingCar = (data) => {
+    data.cantidad = 1
+    const { nombreProducto } = data;
+
+    const nuevaFlor = peluches.find((flor) => flor.nombreProducto === nombreProducto);
+    if (nuevaFlor) {
+      const productoExistente = car.find((p) => p.nombreProducto === nombreProducto);
+      if (productoExistente) {
+        productoExistente.cantidad += 1;
+        { showToast }
+        setCar([...car]); // Actualizar el estado del carrito con la cantidad modificada
+      } else {
+        { showToast }
+        setCar([...car, nuevaFlor]); // Agregar el producto al carrito
+      }
     }
-  }
-    
-};
-useEffect(() => {
-  localStorage.setItem('carrito', JSON.stringify(car));
-  console.log(car)
-}, [car]);
+
+  };
+  useEffect(() => {
+    localStorage.setItem('carrito', JSON.stringify(car));
+    console.log(car)
+  }, [car]);
 
 
-const AgregarCarrito = async (peluche) => {
-  
-  const token = localStorage.getItem('token')
+  const AgregarCarrito = async (peluche) => {
+    const token = localStorage.getItem('token')
     const cabecera = {
       headers: {
         Authorization: `Bearer ${token}`
-      }}
-  try {
-
-    
-    const respuesta = await axios.post(agregarProducto, {nombreProducto: peluche.nombreProducto},cabecera)
-    if (respuesta.status === 200) {
+      }
+    }
+    try {
+      const respuesta = await axios.post(agregarProducto, { nombreProducto: peluche.nombreProducto }, cabecera)
+      if (respuesta.status === 200) {
+        if (toast.current) {
+          toast.current.show({
+            severity: 'success',
+            summary: 'Producto agregado',
+            detail: carritoadd,
+            life: 3000,
+          });
+        }
+      }
+    } catch (error) {
       if (toast.current) {
+        toast.current.show({
+          severity: 'warn',
+          summary: 'Atención',
+          detail: error.response.data.msg,
+          life: 3000,
+        });
+      }
+    }
+  }
+
+  const [favoritos, setFavoritos] = useState([]);
+  // Función para verificar si un producto es favorito
+  const esFavorito = (flor) => {
+    return favoritos.some((item) => item.id === flor.id);
+  };
+
+  //-->Carrito de Compras para flores
+  const AgregarFavorito = async (flor) => {
+    const token = localStorage.getItem('token')
+    const cabecera = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    try {
+      const respuesta = await axios.post(agregarFavoritos, { nombreProducto: flor.nombreProducto }, cabecera)
+      if (respuesta.status === 200) {
         toast.current.show({
           severity: 'success',
           summary: 'Mensaje de exito',
           detail: carritoadd,
-          life: 3000, 
-        });}
-    }
-  } catch (error) {
-    if (toast.current) {
+          life: 3000,
+        });
+        // if (toast.current) {
+        // }
+      }
+    } catch (error) {
       toast.current.show({
         severity: 'info',
         summary: 'Información',
         detail: error.response.data.msg,
-        life: 3000, 
-      });}
-   
+        life: 3000,
+      });
+      // if (toast.current) {
+      // }
+    }
   }
-}
+
 
   //--> Modo de vista: lista
   const listItem = (peluche) => {
@@ -176,11 +214,22 @@ const AgregarCarrito = async (peluche) => {
             </div>
 
             <div className="flex sm:flex-column align-items-center sm:align-items-end gap-3 sm:gap-2 mt-6">
-              <Button label="Favoritos" icon="pi pi-heart" rounded severity="help"
-                aria-label="Favorite" className="p-button-rounded" />
+              <Button
+                label="Favoritos"
+                icon={esFavorito(peluche) ? "pi pi-heart" : "pi pi-heart-fill"}
+                rounded
+                severity="help"
+                aria-label="Favorite"
+                className="p-button-rounded"
+                // onClick={() => toggleFavorito(flor)}
+                onClick={() => AgregarFavorito(peluche)}
+              />
+              {/* <Button
+                label="Favoritos" icon="pi pi-heart" rounded severity="help"
+                aria-label="Favorite" className="p-button-rounded" /> */}
               <Button label="Agregar" icon="pi pi-shopping-cart" className="p-button-rounded" severity="success"
-                disabled={peluche.statusProducto === 'Agotado'}  onClick={() => {AgregarCarrito(peluche)}} />
-                 <Toast ref={toast} />
+                disabled={peluche.statusProducto === 'Agotado'} onClick={() => { AgregarCarrito(peluche) }} />
+              <Toast ref={toast} />
               <Button label="Detalles" icon="pi pi-external-link" className="p-button-rounded"
                 onClick={() => dialogoPeluche(peluche)} />
             </div>
@@ -229,12 +278,19 @@ const AgregarCarrito = async (peluche) => {
             <Rating value={peluche.valoracionGlobal} readOnly cancel={false}></Rating>
           </div>
           <div className="flex align-items-center justify-content-between">
-            <Button icon="pi pi-heart" rounded severity="help" aria-label="Favorite" className="" />
+            {/* <Button icon="pi pi-heart" rounded severity="help" aria-label="Favorite" className="" /> */}
+            <Button
+              icon={esFavorito(peluche) ? "pi pi-heart-fill" : "pi pi-heart"}
+              rounded
+              severity="help"
+              className="p-button-rounded"
+              onClick={() => { AgregarFavorito(peluche) }}
+            />
             <Button label="Detalles" icon="pi pi-search" className=" font-light ml-2" onClick={() => dialogoPeluche(peluche)} />
             <Button
               label="Agregar" icon="pi pi-shopping-cart" className="font-light ml-2 " severity="success"
-              disabled={peluche.statusProducto === 'Agotado'}  onClick={() => {AgregarCarrito(peluche)}}></Button>
-               <Toast ref={toast} />
+              disabled={peluche.statusProducto === 'Agotado'} onClick={() => { AgregarCarrito(peluche) }}></Button>
+            <Toast ref={toast} />
           </div>
 
         </div>

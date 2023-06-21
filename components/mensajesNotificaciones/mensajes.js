@@ -67,3 +67,4 @@ export const cerrarSesion = 'Cerrar sesión.'
 
 export const formatoNombre = "El Nombre o Apellido debe contener caracteres alfabéticos."
 export const formatoNumerico = "Los campos aceptan solo números."
+export const formatoCodigoPostal = "El código postal debe contener 5 dígitos."

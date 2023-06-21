@@ -6,16 +6,38 @@ import { Toast } from 'primereact/toast';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import { DataView, DataViewLayoutOptions } from 'primereact/dataview';
+import axios from "axios";
+import { verTarjetas } from "@/components/mensajesNotificaciones/links";
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 const Cards = () => {
   const router = useRouter();
+  //-----------------------| Lista de variables |-----------------------
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [tarjetas, setTarjetas] = useState([]);
   const [selectedRow, setSelectedRow] = useState(null);
   const [rows, setRows] = useState([
     { nombre: "Terminación:", terminacion: 2156, tipo: "VISA" },
     { nombre: "Terminación: ", terminacion: 3950, tipo: "MasterCard" },
     { nombre: "Terminación: ", terminacion: 1658, tipo: "VISA" }
   ]);
+
+
+  const consultarTarjetas = async () => {
+    console.log('Consultando tarjetas...')
+    const token = localStorage.getItem('token')
+    const cabecera = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
+    const respuesta = await axios.get(verTarjetas, cabecera)
+    setTarjetas(respuesta.data)
+    // console.log(respuesta.data)
+  }
+
+  useEffect(() => { consultarTarjetas() }, [])
 
   const confirmDelete = (row) => {
     setSelectedRow(row);
@@ -28,7 +50,7 @@ const Cards = () => {
       const updatedRows = [...rows];
       updatedRows.splice(index, 1);
       setRows(updatedRows);
-    //  toast.current.show({ severity: 'success', summary: 'Success', detail: 'Row deleted', life: 3000 });
+      //  toast.current.show({ severity: 'success', summary: 'Success', detail: 'Row deleted', life: 3000 });
     }
     setShowConfirmDialog(false);
   };
@@ -59,7 +81,20 @@ const Cards = () => {
                 </Link>
               </div>
             </div>
-            <table>
+
+
+            <DataTable
+              value={tarjetas} paginator rows={5} rowsPerPageOptions={[5, 10, 25, 50]} tableStyle={{ minWidth: '50rem' }}
+              showGridlines className="p-datatable-gridlines mt-4"
+            >
+              <Column field="titularTarjeta" header="Titular" ></Column>
+              {/* <Column field="fechaVencimiento" header="Fecha vencimiento" ></Column> */}
+              <Column field="numTarjeta" header="Número de tarjeta" ></Column>
+            </DataTable>
+
+
+
+            {/* <table>
               <tbody>
                 {rows.map((row, index) => (
                   <tr key={`key-${index}`} className="mt-5">
@@ -75,14 +110,17 @@ const Cards = () => {
                   </tr>
                 ))}
               </tbody>
-            </table>
+            </table> */}
+
+
+
           </div>
         </div>
       </div>
       <ConfirmDialog visible={showConfirmDialog} onHide={() => setShowConfirmDialog(false)} message="¿Está seguro que desea eliminar esta tarjeta?" footer={renderFooter()} />
-    
-      </Layout>
-)
+
+    </Layout>
+  )
 }
 
 export default Cards

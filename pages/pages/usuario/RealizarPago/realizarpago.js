@@ -37,6 +37,10 @@ const RealizarPago = () => {
   const [dia, setDia] = useState('')
   const [date, setDate] = useState(null);
 
+  const [displayBasic, setDisplayBasic] = useState(false);
+  const [displaycard, setDisplaycard] = useState(false);
+  const [displayadd, setDisplayadd] = useState(false);
+
   const toast = useRef(null);
 
   const consultarCard = async () => {
@@ -248,9 +252,9 @@ const RealizarPago = () => {
       const respuesta = await axios.post(pagarPedido, objetoEnviar, cabecera)
       if (respuesta.status === 200) {
         // router.push('/pages/dashboard')
-        toast.current.show({ severity: 'success', summary: 'Mensaje de éxito', detail: respuesta.data.msg, life: 3000, });
+        toast.current.show({ severity: 'success', summary: 'Pago exitoso.', detail: respuesta.data.msg, life: 3000, });
         setTimeout(() => {
-          router.push('/pages/usuario/carrito')
+          router.push('/pages/usuario/compras')
         }, 3000);
         // if (toast.current) {
         //   router.push('/pages/usuario/carrito')
@@ -270,18 +274,12 @@ const RealizarPago = () => {
   useEffect(() => {
     consultarCard()
     consultarDireccion()
-  }, [])
+  }, [displaycard, displayadd])
   useEffect(() => {
     // Función que se ejecuta al acceder a la página
     consultarPedido()
   }, []);
 
-
-
-
-  const [displayBasic, setDisplayBasic] = useState(false);
-  const [displaycard, setDisplaycard] = useState(false);
-  const [displayadd, setDisplayadd] = useState(false);
 
   /*VARIABLES PARA DETERMINAR LA FECHA DE ENTREGA */
   const today = new Date(); // Obtener la fecha actual
