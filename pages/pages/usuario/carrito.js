@@ -149,7 +149,7 @@ const CarritoCompras = () => {
         if (respuesta.status === 200) {
           toast.current.show({
             severity: 'success',
-            summary: 'Mensaje de éxito',
+            summary: 'El producto a sido eliminado con éxito',
             detail: `${respuesta.data.msg}`,
             life: 3000,
           });
