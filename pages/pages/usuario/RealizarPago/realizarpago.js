@@ -14,16 +14,15 @@ import RegistrarDir from '../RealizarPago/CrearDir';
 import { Toast } from 'primereact/toast';
 import { Image } from 'cloudinary-react'
 import axios from "axios";
-import { consultarDir, consultarTarjeta,obtenerPedido,quitarPedido,pagarPedido } from "@/components/mensajesNotificaciones/links";
+import { consultarDir, consultarTarjeta, obtenerPedido, quitarPedido, pagarPedido } from "@/components/mensajesNotificaciones/links";
+
 const RealizarPago = () => {
 
   const router = useRouter();
-  const IrCarrito = () => {
-    //--> Redireccionar
-    router.push('/pages/usuario/carrito')
-
-
-  }
+  // const IrCarrito = () => {
+  //   //--> Redireccionar
+  //   router.push('/pages/usuario/carrito')
+  // }
 
   const [tarjeta, setTarjeta] = useState(0)
   const [direccion, setDireccion] = useState(0)
@@ -31,17 +30,15 @@ const RealizarPago = () => {
   const [direcciones, setDirecciones] = useState([])
   const [per, setPedido] = useState([])
   const [productos, setProductos] = useState([])
-  const [costo,setcostoArticulos]=useState('')
-  const [envio,setEnvio]=useState('')
-  const [total,setTotal]=useState('')
-  const [nombre,setNombre]=useState('')
-  const [dia,setDia]=useState('')
+  const [costo, setcostoArticulos] = useState('')
+  const [envio, setEnvio] = useState('')
+  const [total, setTotal] = useState('')
+  const [nombre, setNombre] = useState('')
+  const [dia, setDia] = useState('')
   const [date, setDate] = useState(null);
-  
-
 
   const toast = useRef(null);
-  
+
   const consultarCard = async () => {
     const token = localStorage.getItem('token')
     const cabecera = {
@@ -67,7 +64,7 @@ const RealizarPago = () => {
     }
   }
 
- 
+
 
   const consultarPedido = async () => {
     const token = localStorage.getItem('token')
@@ -87,8 +84,8 @@ const RealizarPago = () => {
         setTotal(respuesta.data.pedido.costoTotal)
         setNombre(respuesta.data.pedido.nombrePedido)
         console.log(respuesta.data)
-        
-    
+
+
       }
     } catch (error) {
       if (toast.current) {
@@ -102,7 +99,7 @@ const RealizarPago = () => {
     }
   }
 
-  
+
   const eliminarPedido = async () => {
     const token = localStorage.getItem('token')
     const cabecera = {
@@ -111,13 +108,13 @@ const RealizarPago = () => {
       }
     }
     try {
-      
-      await axios.post(quitarPedido,{nombrePedido: per.pedido.nombrePedido},cabecera)
-      
+
+      await axios.post(quitarPedido, { nombrePedido: per.pedido.nombrePedido }, cabecera)
+
       setTimeout(() => {
         router.push('/pages/usuario/carrito')
       }, 10);
-     
+
     } catch (error) {
       if (toast.current) {
         toast.current.show({
@@ -189,7 +186,7 @@ const RealizarPago = () => {
 
 
 
-  const Pagar = async() => {
+  const Pagar = async () => {
     if (tarjeta === 0 || direccion === 0 || selectedDate === '') {
       // Al menos uno de los campos no está seleccionado
       // Puedes mostrar una notificación o realizar alguna acción
@@ -201,108 +198,84 @@ const RealizarPago = () => {
       });
       return;
     }
-    
-    const dirFinal=direcciones[buscarIndiceDireccion(direccion)] //Se obtiene objeto de la dirección seleccionada
-    const cardFinal=tarjetas[buscarIndiceTarjeta(tarjeta)] 
-    console.log(dia)
-  
+
+    const dirFinal = direcciones[buscarIndiceDireccion(direccion)] //Se obtiene objeto de la dirección seleccionada
+    const cardFinal = tarjetas[buscarIndiceTarjeta(tarjeta)]
+    // console.log(dia)
+
     const objetoEnviar = {
       nombrePedido: nombre,
       metodoPago: 'Tarjeta de débito o crédito',
       metodoEntrega: "En dirección indicada",
       fechaEntrega: date,
-      tarjetaPedido:{
-          numTarjeta_P: cardFinal.numTarjeta,
-          fechaVencimiento_P: cardFinal.fechaVencimiento,
-          cvv_P: cardFinal.cvv
-         
+      tarjetaPedido: {
+        numTarjeta_P: cardFinal.numTarjeta,
+        fechaVencimiento_P: cardFinal.fechaVencimiento,
+        cvv_P: cardFinal.cvv
+
       },
       destinoPedido: {
-          codigoPostal_P: dirFinal.codigoPostal,
-          colonia_P: dirFinal.colonia,
-          calle_P: dirFinal.calle,
-          numInt_P: dirFinal.numInt,
-          numExt_P: dirFinal.numExt
+        codigoPostal_P: dirFinal.codigoPostal,
+        colonia_P: dirFinal.colonia,
+        calle_P: dirFinal.calle,
+        numInt_P: dirFinal.numInt,
+        numExt_P: dirFinal.numExt
       }
-      
-    } 
-    console.log(tarjetas)
-    console.log(nombre)
-    console.log( 'Tarjeta de débito/crédito')
-    console.log(selectedDate)
-    console.log(cardFinal.numTarjeta)
-    console.log(cardFinal.fechaVencimiento)
-    console.log(cardFinal.cvv)
-    console.log(dirFinal.codigoPostal)
-    console.log(dirFinal.colonia)
-    console.log(dirFinal.calle)
-    console.log(dirFinal.numExt)
-    console.log(dirFinal.numInt)
-    
-  
-    
-    
+    }
+
+    //--> Aquí se envía el objeto a la base de datos
+    // console.log(tarjetas)
+    // console.log(nombre)
+    // console.log('Tarjeta de débito/crédito')
+    // console.log(selectedDate)
+    // console.log(cardFinal.numTarjeta)
+    // console.log(cardFinal.fechaVencimiento)
+    // console.log(cardFinal.cvv)
+    // console.log(dirFinal.codigoPostal)
+    // console.log(dirFinal.colonia)
+    // console.log(dirFinal.calle)
+    // console.log(dirFinal.numExt)
+    // console.log(dirFinal.numInt)
+
     const token = localStorage.getItem('token')
     const cabecera = {
       headers: {
         Authorization: `Bearer ${token}`
       }
     }
+    console.log("Pagando...")
     try {
       const respuesta = await axios.post(pagarPedido, objetoEnviar, cabecera)
       if (respuesta.status === 200) {
-        if (toast.current) {
-        toast.current.show({
-          severity: 'success',
-          summary: 'Mensaje de éxito',
-          detail: respuesta.data.msg,
-          life: 3000,
-        });}
+        // router.push('/pages/dashboard')
+        toast.current.show({ severity: 'success', summary: 'Mensaje de éxito', detail: respuesta.data.msg, life: 3000, });
+        setTimeout(() => {
+          router.push('/pages/usuario/carrito')
+        }, 3000);
+        // if (toast.current) {
+        //   router.push('/pages/usuario/carrito')
+        //   setTarjeta(0)
+        //   setDireccion(0)
+        //   setcostoArticulos('')
+        //   setEnvio('')
+        //   setTotal('')
+        //   setNombre('')
+        //   setDia('')
+        // }
       }
-    } catch (error) {
-      if (toast.current) {
-        toast.current.show({
-          severity: 'info',
-          summary: 'Información',
-          detail: error.response.data.msg,
-          life: 3000,
-        });
-      }
-
-
-    }
-
-  setTarjeta(0)
-  setDireccion(0)
-  setcostoArticulos('')
-  setEnvio('')
-  setTotal('')
-  setNombre('')
-  setDia('')
-  
-  setTimeout(() => {
-    //--> Redireccionar
-    router.push('/pages/usuario/carrito')
-  }, 1000);
-  
-   
+    } catch (error) { toast.current.show({ severity: 'info', summary: 'Información', detail: error.response.data.msg, life: 3000, }) }
   };
 
 
   useEffect(() => {
     consultarCard()
     consultarDireccion()
-    
-    
   }, [])
   useEffect(() => {
     // Función que se ejecuta al acceder a la página
-   
-   consultarPedido()
-  
-    
+    consultarPedido()
   }, []);
-  
+
 
 
 
@@ -310,11 +283,11 @@ const RealizarPago = () => {
   const [displaycard, setDisplaycard] = useState(false);
   const [displayadd, setDisplayadd] = useState(false);
 
-/*VARIABLES PARA DETERMINAR LA FECHA DE ENTREGA */
+  /*VARIABLES PARA DETERMINAR LA FECHA DE ENTREGA */
   const today = new Date(); // Obtener la fecha actual
-//-->DETERMINAR LA FECHA DE ENTREGA
+  //-->DETERMINAR LA FECHA DE ENTREGA
 
-  
+
   const maxDate = new Date();
   maxDate.setDate(today.getDate() + 3);
   const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -356,11 +329,11 @@ const RealizarPago = () => {
 
 
   /*CARRUSEL DEL APARTADO DE VER */
-  const responsiveOptions = [
-    { breakpoint: '1199px', numVisible: 1, numScroll: 1 },
-    { breakpoint: '991px', numVisible: 2, numScroll: 1 },
-    { breakpoint: '767px', numVisible: 1, numScroll: 1 }
-  ];
+  // const responsiveOptions = [
+  //   { breakpoint: '1199px', numVisible: 1, numScroll: 1 },
+  //   { breakpoint: '991px', numVisible: 2, numScroll: 1 },
+  //   { breakpoint: '767px', numVisible: 1, numScroll: 1 }
+  // ];
 
 
 
@@ -370,11 +343,11 @@ const RealizarPago = () => {
         <div className="">
           <h5>{temporada.producto_P}</h5>
           {
-             <Image
-             cloudName="dp6uo7fsz" publicId={temporada.img_P}
-             className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
-             style={{ width: '200px', height: '200px' }}
-           />
+            <Image
+              cloudName="dp6uo7fsz" publicId={temporada.img_P}
+              className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+              style={{ width: '200px', height: '200px' }}
+            />
           }
           <h6>Cantidad:{temporada.cantidad_P}</h6>
           <h6>Total Parcial: {temporada.totalParcial_P}</h6>
@@ -446,7 +419,7 @@ const RealizarPago = () => {
                   <label htmlFor="tamaño" className='flex align-items-center font-semibold'>Seleccione una tarjeta o añada una nueva</label>
                   <Dropdown
                     inputId="tamaño" value={tarjeta} onChange={(e) => setTarjeta(e.value)} placeholder='Tarjetas'
-                    options={tarjetas} optionValue={(option) =>`${option.numTarjeta},${option.fechaVencimiento}`} optionLabel={(option) =>`${option.numTarjeta},${option.fechaVencimiento}`} className="w-full md:w-14rem" />
+                    options={tarjetas} optionValue={(option) => `${option.numTarjeta},${option.fechaVencimiento}`} optionLabel={(option) => `${option.numTarjeta},${option.fechaVencimiento}`} className="w-full md:w-14rem" />
                   <Button label="" icon="pi pi-plus" onClick={() => onClick2('displaycard')} rounded severity="help" aria-label="Favorite" className="p-button-rounded" />
                   <Dialog header="Agregar tarjeta" visible={displaycard} style={{ width: 'auto' }} footer={renderFooter2('displaycard')} onHide={() => onHide2('displaycard')}>
                     <RegistrarTarjeta />
@@ -514,7 +487,7 @@ const RealizarPago = () => {
                 <p className='font-bold text-2xl'>Total a pagar: ${total.toLocaleString()}</p>
 
                 <div className='flex justify-content-around'>
-                  <Button label="Pagar" severity="success" onClick={() => {Pagar()}} rounded size="large" className='w-5' />
+                  <Button label="Pagar" severity="success" onClick={Pagar} rounded size="large" className='w-5' />
 
                   <Button label="Cancelar" onClick={eliminarPedido} severity="danger" rounded size="large" className='w-5' />
 
@@ -526,7 +499,7 @@ const RealizarPago = () => {
 
                 <Dialog visible={displayBasic} style={{ width: '50vw' }} footer={renderFooter('displayBasic')} onHide={() => onHide('displayBasic')}>
                   <h4 className='font-bold  text-center '>Productos</h4>
-                  <Carousel value={productos} numVisible={3} numScroll={3} itemTemplate={productTemplate} className="custom-carousel" circular/>
+                  <Carousel value={productos} numVisible={3} numScroll={3} itemTemplate={productTemplate} className="custom-carousel" circular />
                 </Dialog>
 
 
