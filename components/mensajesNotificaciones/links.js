@@ -78,3 +78,13 @@ export const agregarFavoritos = "http://localhost:4000/api/cliente/interaccionPr
 export const verFavoritos = "http://localhost:4000/api/cliente/interaccionPro/verFavoritos"
 export const eliminarFavoritos = "http://localhost:4000/api/cliente/interaccionPro/eliminarFavoritos"
 
+//-->ConsultarCompras
+// export const consultarPedidos = "http://localhost:4000/api/cliente/interaccionPed/visualizar"
+export const consultarHistorial = "http://localhost:4000/api/cliente/interaccionPed/visualizarEntregados"
+export const mandarDevolucion = "http://localhost:4000/api/pedidos/solicitarReembolso"
+
+
+//->Comentar Pedido
+export const consultarProducto = "http://localhost:4000/api/cliente/interaccionPro/verAValorar"
+export const valorar = "http://localhost:4000/api/cliente/interaccionPro/valorar"
+export const Com = "http://localhost:4000/api/cliente/interaccionPro/comentar"

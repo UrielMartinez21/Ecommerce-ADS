@@ -1,44 +1,53 @@
 import Layout from '@/layout/layout';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Button } from 'primereact/button';
 import { InputTextarea } from 'primereact/inputtextarea';
 import { Tag } from 'primereact/tag';
 import { Carousel } from 'primereact/carousel';
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-
-
+import { useRouter } from 'next/router';
+import { Toast } from 'primereact/toast';
+import axios from "axios";
+import { Image } from 'cloudinary-react'
+import { consultarProducto, Com, valorar } from "@/components/mensajesNotificaciones/links";
 const DetallesProducto = () => {
+  const router = useRouter();
+  const toast = useRef(null);
+  const datosOrdenString = localStorage.getItem('datosOrden');
+  const objeto = JSON.parse(datosOrdenString);
   const [valoracion, setValoracion] = useState(0);
   const [comentario, setComentario] = useState('');
   const [carrito, setCarrito] = useState([]);
-  const producto = {
-    nombre: 'Peluches BT21',
-    precio: 30.29, 
-    categoria: "Para ella", 
-    estatus: "pocos",
-    descripcion: "Estos peluches son fabricados con materiales de alta calidad, lo que les brinda una suavidad y textura agradable al tacto. Además, vienen en diferentes tamaños para adaptarse a tus preferencias, desde peluches pequeños y portátiles hasta peluches grandes y abrazables.", 
-    precio: 9.99,
-  };
+  const [product, setproduct] = useState([]);
+  const [name, setname] = useState(datosOrdenString);
+  const consultarPro = async () => {
 
-  const imagenes = {
-    ...producto,
-    imagen1: 'https://cf.shopee.com.mx/file/84a9d7f34a124c38aba7eb0fb64ad09b',
-    imagen2: 'https://down-mx.img.susercontent.com/file/a0473f8b79655b5ed35735f226a4a8a3',
-    imagen3: 'https://pbs.twimg.com/media/FEyAYZkWUAApa6q.jpg',
-  };
+    //--> Preparar objeto para enviar
+    const token = localStorage.getItem('token')
+    const cabecera = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
 
-  const imagenesProducto = [
-    { imageP: 'https://cf.shopee.com.mx/file/84a9d7f34a124c38aba7eb0fb64ad09b'  },
-    { imageP: 'https://down-mx.img.susercontent.com/file/a0473f8b79655b5ed35735f226a4a8a3' },
-    { imageP: 'https://pbs.twimg.com/media/FEyAYZkWUAApa6q.jpg' },
-  ]
+    try {
+      const respuesta = await axios.post(consultarProducto, { nombreProducto: objeto }, cabecera)
+      if (respuesta.status === 200) {
+        setproduct(respuesta.data.info)
+        setname(respuesta.data.info.imagenProducto[0])
+        console.log(respuesta.data.info)
+      }
+    } catch (error) {
 
-  const responsiveOptions = [
-    { breakpoint: '100px', numVisible: 1, numScroll: 1 },
-    { breakpoint: '100px', numVisible: 2, numScroll: 1 },
-    { breakpoint: '100px', numVisible: 3, numScroll: 1 }
-  ];
+    }
+  }
+
+
+  useEffect(() => {
+    consultarPro()
+    console.log(datosOrdenString)
+  }, []);
 
   const handleClick = (valor) => {
     setValoracion(valor);
@@ -49,170 +58,157 @@ const DetallesProducto = () => {
     setComentario(event.target.value);
   };
 
- 
-  
-  const handleAñadirCarrito = () => {
-    setCarrito([...carrito, producto]);
-  };
-
-  const cuadroCancelarValoracion = () => {
-    confirmDialog({
-      message: '¿Seguro que deseas cancelar la valoración?',
-      header: 'Cancelar valoración',
-      icon: 'pi pi-info-circle',
-      position: 'top',
-      accept: cancelarVerdadero,
-      reject: cancelarFalso
-    });
-  };
-
-  const cancelarVerdadero = () => {
-    console.log("Acepto")
-    router.push('/miscompras')
-  }
-
-  const cancelarFalso = () => {
-    console.log("Cancelación cancelada")
-  }
 
 
-  //--> Indicar estado del producto
-  const getSeverity = (producto) => {
-    switch (producto.estatus) {
-      case 'disponible':
-        return 'success';
 
-      case 'pocos':
-        return 'warning';
 
-      case 'agotado':
-        return 'danger';
-
-      default:
-        return null;
-    }
-  };
- 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-
-    if (valoracion === 0) {
-      Toast.show({
-        severity: 'warn',
-        summary: 'Valoración obligatoria',
-        detail: 'Por favor, selecciona una valoración de estrellas.',
-        life: 3000,
-      });
-      return;
+  const handleSubmit = async () => {
+    const token = localStorage.getItem('token')
+    const cabecera = {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
     }
 
-    // Aquí puedes enviar la valoración y el comentario al servidor o realizar otra lógica de procesamiento
-    console.log(`Valoración: ${valoracion}`);
-    console.log(`Comentario: ${comentario}`);
+    if (comentario.trim() === '' || valoracion === 0) {
+
+      if (toast.current) {
+        toast.current.show({
+          severity: 'error',
+          summary: "Error",
+          detail: "Campos vacíos",
+          life: 3000,
+        });
+        return;
+      }
+    } else {
+
+      try {
+        console.log(valoracion)
+        console.log(comentario)
+        const valor = await axios.post(valorar, { nombreProducto: objeto, valoracion: valoracion }, cabecera)
+        const coment = await axios.post(Com, { nombreProducto: objeto, comentario: comentario }, cabecera)
+        if (valor.status === 200 && coment.status === 200) {
+          if (toast.current) {
+            toast.current.show({
+              severity: 'success',
+              summary: 'Mensaje de éxito',
+              detail: "Solicitud éxitosa",
+              life: 3000,
+            });
+          }
+          setTimeout(() => {
+            //--> Redireccionar
+            router.push('/pages/usuario/perfil')
+          }, 1000);
+
+
+        }
+
+      } catch (error) {
+        if (toast.current) {
+          toast.current.show({
+            severity: 'error',
+            summary: "Error",
+            detail: "Error",
+            life: 3000,
+          });
+        }
+
+
+      }
+    }
     setValoracion(0);
     setComentario('');
   };
 
 
-  const plantillaImagenes = (imageP) => {
-    return (
-      <div className="border-1 surface-border border-round m-2 text-center py-5 px-3">
-        <div className="mb-3">
-        </div>
-        <div>
-        <img src={imageP.imageP} style={{ width: '470px', height: '490px' }} />
-        </div>
-      </div>
-    );
-  };
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-  };
-
 
   return (
-   <Layout  title="Detalles del Producto">
-    <div className="grid " >
+    <Layout title="Detalles del Producto">
+      <div className="grid " >
         <div className="col-12">
           <div className="card">
-         <div>
-        <h2>Detalles del Producto</h2>
-      <div style={{ display: 'flex' , alignItems: 'left'}}>
-        <div style={{ flex: '1' }}>
-          {/*           
+            <div>
+              <Toast ref={toast} />
+              <h2>Detalles del Producto</h2>
+              <div style={{ display: 'flex', alignItems: 'left' }}>
+                <div style={{ flex: '1' }}>
+                  {/*           
           <Carousel value={imagenesProducto} numVisible={3} numScroll={3}
               responsiveOptions={responsiveOptions} className="custom-carousel" circular
               autoplayInterval={3000} itemTemplate={plantillaImagenes} /> */}
-              
 
-        <img src={imagenes.imagen2} style={{ width: '470px', height: '490px' }} />
-           
-           
-        </div>
-        <div style={{ flex: '1', alignItems: 'rigth' }}>
-        
-        <h1> {producto.nombre}</h1>  
-        <h4 >Precio: $ {producto.precio}</h4>
-        <div className="mt-5">
-                <p className="my-2"><span className="font-semibold text-lg">Categoría: </span> {producto.categoria} <br/> <br/></p>
-                <p className="my-2"><span className="font-semibold text-lg">Descripción: </span> <br/> <br/>{producto.descripcion}</p>
-                <br/>
-                <Tag value={producto.estatus} severity={getSeverity(producto)}></Tag>
+
+                  <Image
+                    cloudName="dp6uo7fsz" publicId={name}
+                    className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
+                    style={{ width: '200px', height: '200px' }}
+                  />
+
+                </div>
+                <div style={{ flex: '1', alignItems: 'rigth' }}>
+
+                  <h1> {product.nombreProducto}</h1>
+                  <h4 >Precio: $ {product.precioProducto}</h4>
+                  <div className="mt-5">
+                    <p className="my-2"><span className="font-semibold text-lg">Categoría: </span> {product.categoriaProducto} <br /> <br /></p>
+                    <p className="my-2"><span className="font-semibold text-lg">Descripción: </span> <br /> <br />{product.descrProducto}</p>
+                    <br />
+                    <div className='flex justify-content-evenly my-8'>
+
+                      <div className="mt-3">
+                        <p className="font-semibold text-lg ">Valoración actual:</p>
+                        <div>
+                          {[1, 2, 3, 4, 5].map((valor) => (
+                            <span
+                              key={valor}
+                              onClick={() => handleClick(valor)}
+                              style={{
+                                cursor: 'pointer',
+                                color: valor <= valoracion ? 'gold' : 'gray',
+                                fontSize: '40px',
+                              }}
+                            >
+                              {valor <= valoracion ? '★' : '☆'}
+                            </span>
+                          ))} <span className="font-semibold text-5xl " >{valoracion}</span>
+                        </div>
+
+                        <label className="font-semibold text-lg">
+                          Comentario:
+                          <br />
+                          <div className='field col-20 md:col-18'>
+                            <InputTextarea
+                              value={comentario}
+                              onChange={handleComentarioChange}></InputTextarea>
+                          </div>
+                        </label>
+                        <br />
+                        <Button type="submit" onClick={handleSubmit} severity="success">Enviar</Button>
+
+                      </div>
+                    </div>
+
+
+                  </div>
+
+
+
+                </div>
+
+
+
+
               </div>
-              
-        
-        
-          <div className='flex justify-content-evenly my-8'>
-          <Button label = "Añadir al carrito" severity="success" size="large" onClick={handleAñadirCarrito} icon="pi pi-cart-plus"/>
+
+            </div>
+
+
           </div>
         </div>
-        
       </div>
-      <div className="mt-3">
-      <p className="font-semibold text-lg ">Valoración actual:</p>
-        <div>
-         {[1, 2, 3, 4, 5].map((valor) => (
-            <span
-              key={valor}
-              onClick={() => handleClick(valor)}
-              style={{
-                cursor: 'pointer',
-                color: valor <= valoracion ? 'gold' : 'gray',
-                fontSize: '40px',
-              }}
-            >
-              {valor <= valoracion ? '★' : '☆'}
-            </span> 
-          ))} <span className="font-semibold text-5xl " >{valoracion}</span>
-        </div>   
-
-        <form onSubmit={handleSubmit}>
-          <label  className="font-semibold text-lg">
-            Comentario:
-            <br />
-            <div className='field col-20 md:col-18'>
-            <InputTextarea 
-              value={comentario}
-              onChange={handleComentarioChange}></InputTextarea>
-            </div>
-          </label>
-          <br />
-          <Button type="submit" severity="success">Enviar</Button>
-        </form>
-        <Button onClick={cuadroCancelarValoracion} severity="danger">Cancelar</Button>
-      </div>
-    </div>
-    
-  </div>
- </div>
-    </div>
-   </Layout>
+    </Layout>
   );
 };
 
