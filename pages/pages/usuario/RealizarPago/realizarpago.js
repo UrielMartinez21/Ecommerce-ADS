@@ -197,7 +197,7 @@ const RealizarPago = () => {
       toast.current?.show({
         severity: 'info',
         summary: 'Información',
-        detail: "Todos los campos deben estar seleccionados",
+        detail: "Todos los campos son obligatorios",
         life: 3000,
       });
       return;
