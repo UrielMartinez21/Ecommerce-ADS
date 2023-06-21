@@ -182,7 +182,7 @@ const MisCompras = () => {
 
           <DataView value={datosOrden.detallesPedido} itemTemplate={productoTemplate} />
           <div className="flex justify-content-evenly pb-2">
-            <div className="col-1" ><Button className="p-button-warning" label="Seguir" onClick={() => { router.push('/pages/usuario/seguirCompras') }} /></div>
+            {/* <div className="col-1" ><Button className="p-button-warning" label="Seguir" onClick={() => { router.push('/pages/usuario/seguirCompras') }} /></div> */}
             <div className="col-1" ><Button
               className="p-button-help"
               label="Cancelar"

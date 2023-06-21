@@ -122,7 +122,7 @@ const CatalogoPeluches = () => {
         if (toast.current) {
           toast.current.show({
             severity: 'success',
-            summary: 'Producto agregado',
+            summary: 'Se añadió al carrito',
             detail: carritoadd,
             life: 3000,
           });
@@ -159,8 +159,8 @@ const CatalogoPeluches = () => {
       if (respuesta.status === 200) {
         toast.current.show({
           severity: 'success',
-          summary: 'Mensaje de exito',
-          detail: carritoadd,
+          summary: 'Se añadió a favoritos',
+          detail: "El producto se añadió a favoritos",
           life: 3000,
         });
         // if (toast.current) {

@@ -105,7 +105,7 @@ const CatalogoFlores = () => {
         if (toast.current) {
           toast.current.show({
             severity: 'success',
-            summary: 'Producto agregado',
+            summary: 'Se añadió al carrito',
             detail: carritoadd,
             life: 3000,
           });
@@ -136,8 +136,8 @@ const CatalogoFlores = () => {
       if (respuesta.status === 200) {
         toast.current.show({
           severity: 'success',
-          summary: 'Producto agregado',
-          detail: carritoadd,
+          summary: 'Se añadió a favioritos',
+          detail: "El producto se añadió a favoritos",
           life: 3000,
         });
       }

@@ -36,17 +36,14 @@ const Perfil = () => {
                 <i className="pi pi-home flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
                 <Button label="Inicio" text className="flex align-items-center justify-content-center m-2" onClick={() => { router.push('/pages/dashboard') }} />
               </div>
-              <div className="flex align-items-center flex-wrap my-2">
-                <i className="pi pi-truck flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
-                <Button label="Seguimiento de pedidos" text className="flex align-items-center justify-content-center m-2" onClick={() => { router.push('/pages/seguimientoPedidos/seguirPedido') }} />
-              </div>
+
               <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-shopping-bag flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
-                <Button label="Mis compras" text className="flex align-items-center justify-content-center m-2" />
+                <Button label="Mis compras" text className="flex align-items-center justify-content-center m-2" onClick={() => { router.push('/pages/usuario/miscompras ') }} />
               </div>
               <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-heart flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
-                <Button label="Favoritos" text className="flex align-items-center justify-content-center m-2" />
+                <Button label="Favoritos" text className="flex align-items-center justify-content-center m-2" onClick={() => { router.push('/pages/usuario/favoritos ') }} />
               </div>
               <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-clock flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
@@ -57,10 +54,10 @@ const Perfil = () => {
                 <Button label="Mi cuenta" text className="flex align-items-center justify-content-center m-2" onClick={() => { router.push('/pages/usuario/miCuenta') }} />
 
               </div>
-              <div className="flex align-items-center flex-wrap my-2">
+              {/* <div className="flex align-items-center flex-wrap my-2">
                 <i className="pi pi-list flex align-items-center justify-content-center m-2" style={{ fontSize: '2rem' }}></i>
                 <Button label="Temporadas" text className="flex align-items-center justify-content-center m-2" />
-              </div>
+              </div> */}
             </div>
 
           </div>
